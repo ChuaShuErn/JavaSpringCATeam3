@@ -15,7 +15,9 @@ public class LeaveEntitled {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer leaveEntitledId;
     private Integer totalLeave;
-    private LeaveType leaveType;
     @ManyToOne
     private User user;
+    @ManyToOne
+    private LeaveType leaveType;
+
 }
