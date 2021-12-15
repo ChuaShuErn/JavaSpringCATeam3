@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "OverseasLeave")
