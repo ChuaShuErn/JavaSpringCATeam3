@@ -22,4 +22,9 @@ public class LeaveApplied {
     private LocalTime leaveStartTime;
     private LocalTime leaveEndTime;
     private LeaveType leaveType;
+    private String LeaveReason;
+    private ApprovalStatus approvalStatus;
+    private String ManagerComments;
+    @ManyToOne
+    private User user;
 }

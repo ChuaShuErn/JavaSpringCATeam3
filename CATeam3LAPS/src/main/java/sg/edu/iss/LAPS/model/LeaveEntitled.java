@@ -16,4 +16,6 @@ public class LeaveEntitled {
     private Integer leaveEntitledId;
     private Integer totalLeave;
     private LeaveType leaveType;
+    @ManyToOne
+    private User user;
 }

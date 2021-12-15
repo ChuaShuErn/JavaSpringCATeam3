@@ -2,20 +2,9 @@ package sg.edu.iss.LAPS.model;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -63,7 +52,10 @@ public class User{
 	//have not figured out exactly how to do it properly
 	private Collection<Role> roles;
 
-	
+	@OneToMany(targetEntity = LeaveApplied.class,cascade = CascadeType.ALL,mappedBy = "user")
+	private List<LeaveApplied> leaveAppliedList;
+	@OneToMany(targetEntity = LeaveEntitled.class,cascade = CascadeType.ALL,mappedBy = "user")
+	private List<LeaveEntitled> leaveEntitledList;
 	
 	
 	public User(String username, 
@@ -81,11 +73,5 @@ public class User{
 		ReportsTo = reportsTo;
 		
 	}
-
-
-
-	
-
-
 	
 }
