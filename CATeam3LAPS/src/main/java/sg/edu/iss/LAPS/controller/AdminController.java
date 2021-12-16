@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.LAPS.model.User;
 import sg.edu.iss.LAPS.services.AdminService;
+import sg.edu.iss.LAPS.utility.Constants;
 
 @Controller
 @RequestMapping("/admin")
@@ -29,7 +30,7 @@ public class AdminController {
 	@GetMapping("/list/{pageNo}")
 	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model )
 	{
-		int pageSize=7;
+		int pageSize= Constants.ADMIN_STAFF_PAGE_SIZE;
 		Page<User> page=aservice.findPaginated(pageNo,pageSize);
 		List<User> userList=page.getContent();
 		
