@@ -25,13 +25,13 @@ public class AdminController {
 
 	/*Admin staff mappings start here*/
 	
-	@GetMapping("/staff")
+	@GetMapping("/admin/staff")
 	public String viewUserList(Model model)
 	{
 		return showUserList(1,model);
 	}
 	
-	@GetMapping("/staff/list/{pageNo}")
+	@GetMapping("/admin/staff/list/{pageNo}")
 
 	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model)
 	{

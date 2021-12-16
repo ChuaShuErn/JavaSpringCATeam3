@@ -27,12 +27,12 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
     }
 
     @Override
-    public LeaveType getLeaveTypeById(long id) {
+    public LeaveType getLeaveTypeById(Integer id) {
         return (LeaveType) leaveTypeRepository.findById(id).get();
     }
 
     @Override
-    public void deleteLeaveTypeById(long id) {
-        leaveTypeRepository.delete(leaveTypeRepository.findById(id));
+    public void deleteLeaveTypeById(Integer id) {
+        leaveTypeRepository.delete(leaveTypeRepository.findById(id).get());
     }
 }

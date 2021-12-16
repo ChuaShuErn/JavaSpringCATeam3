@@ -8,6 +8,6 @@ import java.util.List;
 public interface LeaveTypeService {
     List<LeaveType> getAllLeaveType();
     void saveLeaveType(LeaveType leaveType);
-    LeaveType getLeaveTypeById(long id);
-    void deleteLeaveTypeById(long id);
+    LeaveType getLeaveTypeById(Integer id);
+    void deleteLeaveTypeById(Integer id);
 }
