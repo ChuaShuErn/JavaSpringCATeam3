@@ -32,11 +32,8 @@ public class AdminController {
 	}
 	
 	@GetMapping("/staff/list/{pageNo}")
-<<<<<<< HEAD
+
 	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model)
-=======
-	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model )
->>>>>>> branch 'main' of https://github.com/ChuaShuErn/JavaSpringCATeam3.git
 	{
 		int pageSize= Constants.ADMIN_STAFF_PAGE_SIZE;
 		Page<User> page=aservice.findPaginated(pageNo,pageSize);
