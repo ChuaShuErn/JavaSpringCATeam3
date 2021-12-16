@@ -10,49 +10,33 @@
 </head>
 
 <body>
-	<table>
+	<table th:unless="${#lists.isEmpty(userList)}" border="1 pt">
 		<thead>
 			<tr>
 				<th>Staff Name</th>
 				<th>Staff ID</th>
 				<th>Roles</th>
 				<th>Email</th>
-				<th>Manager Hierarchy</th>
+				<th>Manager</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr th:each="user : ${adminUserList}">
-				<td th:text>"${user.FirstName+" "+user.LastName}""${user.id}"</td>
-				<td th:text>"${user.id}"</td>
-				<td th:text>"${user.roles_name}"</td>
-				<td th:text>"${user.email}"</td>
-				<td th:text>"${user.ReportsTo}"</td>
-				<td th:text>"${user.id}"</td>
+		<tbody>	
+			<tr th:each="user:${userList}">
+				<td th:text="${user.FirstName+' '+user.LastName}">Staff Name</td>
+				<td th:text="${user.id}">Staff ID</td>
+				<td>
+					<span th:each="role:${user.roles}">
+							<span th:text="${role.description}+' '">Role</span>
+					</span>
+				</td>
+				<td th:text="${user.email}">Staff Email</td>
+				<td th:text="${user.ReportsTo}">Manager</td>
+				<td ><a href="edit.html" th:href="@{/admin/edit}">Edit</a> <a href="edit.html" th:href="@{/admin/edit}">Delete</a></td>
 			</tr>
 		</tbody>
 	</table>
 	
-	<div th:if="${totalPages>1}">
-		<div class="row col-sm-10">
-			<div class="col-sm-2">
-				Total Rows: [[${totalItems}]]
-			</div>
-			<div class="col-sm-1">
-				<span th:each="i: ${#numbers.sequence(1,totalPages)}">
-					<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
-					<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-				</span>
-			</div>
-			<div class="col-sm-1">
-				<a th:if="${currentPage<totalPages}" th:href="@{'/page/' + ${currentPage +1}}">Next</a>
-				<span th:unless="${currentPage<totalPages}">Next</span>
-			</div>
-			<div class="col-sm-1">
-				<a th:if="${currentPage<totalPages}" th:href="@{'/page/' + ${totalPages}}">Last</a>
-				<span th:unless="${currentPage<totalPages}">Last</span>
-			</div>
-		</div>
 </body>
 
 </html>

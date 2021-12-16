@@ -15,7 +15,6 @@ import sg.edu.iss.LAPS.services.LeaveTypeService;
 import sg.edu.iss.LAPS.utility.Constants;
 
 @Controller
-@RequestMapping("/admin")
 public class AdminController {
 	
 	@Autowired
@@ -26,14 +25,15 @@ public class AdminController {
 
 	/*Admin staff mappings start here*/
 	
-	@GetMapping("/")
+	@GetMapping("/staff")
 	public String viewUserList(Model model)
 	{
 		return showUserList(1,model);
 	}
 	
 	@GetMapping("/staff/list/{pageNo}")
-	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model )
+
+	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model)
 	{
 		int pageSize= Constants.ADMIN_STAFF_PAGE_SIZE;
 		Page<User> page=aservice.findPaginated(pageNo,pageSize);
