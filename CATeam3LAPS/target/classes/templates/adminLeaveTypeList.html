@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
 
+<head>
+    <title>Admin-ViewLeaveType</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../css/table-style.css" th:href="@{/css/table-style.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../css/leave-type-style.css" th:href="@{/css/leave-type-style.css}"/>
+</head>
+
+<body>
+<!-- Add Hyperlink -->
+<a class = "button-add" href="AddLeaveType.html" th:href="@{/admin/leave-type/add}">Add</a>
+<table class="content-table" th:unless="${#lists.isEmpty(leaveTypes)}" border="1 pt">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="leaveType:${leaveTypes}">
+        <td th:text="${leaveType.leaveTypeId}">ID</td>
+        <td th:text="${leaveType.description}">Description</td>
+        <td ><a href="edit.html" th:href="@{/admin/leave-type/edit/} + ${leaveType.leaveTypeId}">Edit</a>
+            <a href="edit.html" th:href="@{/admin/leave-type/delete/} + ${leaveType.leaveTypeId}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

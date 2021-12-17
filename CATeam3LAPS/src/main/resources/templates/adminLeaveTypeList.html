@@ -3,18 +3,21 @@
 
 <head>
     <title>Admin-ViewLeaveType</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../css/table-style.css" th:href="@{/css/table-style.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../css/leave-type-style.css" th:href="@{/css/leave-type-style.css}"/>
 </head>
 
 <body>
-<table th:unless="${#lists.isEmpty(leaveTypes)}" border="1 pt">
+<!-- Add Hyperlink -->
+<a class = "button-add" href="AddLeaveType.html" th:href="@{/admin/leave-type/add}">Add</a>
+<table class="content-table" th:unless="${#lists.isEmpty(leaveTypes)}" border="1 pt">
     <thead>
     <tr>
         <th>ID</th>
         <th>Description</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>

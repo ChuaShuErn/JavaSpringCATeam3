@@ -17,7 +17,7 @@ public class LeaveEntitled {
     private Integer totalLeave;
     @ManyToOne
     private User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private LeaveType leaveType;
 
 }
