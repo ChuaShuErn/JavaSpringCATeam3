@@ -32,7 +32,6 @@ public class AdminController {
 	}
 	
 	@GetMapping("/admin/staff/list/{pageNo}")
-
 	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model)
 	{
 		int pageSize= Constants.ADMIN_STAFF_PAGE_SIZE;
