@@ -6,10 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.LAPS.model.LeaveType;
+import sg.edu.iss.LAPS.model.Role;
 import sg.edu.iss.LAPS.model.User;
+import sg.edu.iss.LAPS.repo.RoleRepository;
 import sg.edu.iss.LAPS.services.AdminService;
 import sg.edu.iss.LAPS.services.LeaveTypeService;
 import sg.edu.iss.LAPS.utility.Constants;
@@ -19,11 +25,31 @@ public class AdminController {
 	
 	@Autowired
 	AdminService aservice;
+	
+	@Autowired
+	RoleRepository rrepo;
 
 	@Autowired
 	LeaveTypeService leaveTypeService;
 
-	/*Admin staff mappings start here*/
+	/* staff mappings start here*/
+	
+	@GetMapping("/admin/staff/addStaff")
+	public String loadStaffForm(Model model)
+	{
+		List<Role> newRoles=rrepo.findAll();
+		model.addAttribute("newRoles",newRoles);
+		model.addAttribute("user",new User());
+		return "addStaffForm";
+	}
+	
+	@PostMapping("/admin/saveStaff")
+	public String saveStaff(User user, Model model)
+	{
+		System.out.println(user.getRoles());
+		//aservice.saveUser(user);
+		return "redirect:/admin/staff/list/1 ";
+	}
 	
 	@GetMapping("/admin/staff")
 	public String viewUserList(Model model)

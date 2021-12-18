@@ -10,6 +10,10 @@
 </head>
 
 <body>
+	<h>>Staff Listing</h2>
+	<a th:href="@{/admin/staff/addStaff}">Add New Staff</a>
+	</br>
+	<h2>My team</h2>
 	<table th:unless="${#lists.isEmpty(userList)}" border="1 pt">
 		<thead>
 			<tr>
@@ -27,7 +31,7 @@
 				<td th:text="${user.id}">Staff ID</td>
 				<td>
 					<span th:each="role:${user.roles}">
-							<span th:text="${role.description}+' '">Role</span>
+							<span th:text="${role.name}+' '">Role</span>
 					</span>
 				</td>
 				<td th:text="${user.email}">Staff Email</td>
