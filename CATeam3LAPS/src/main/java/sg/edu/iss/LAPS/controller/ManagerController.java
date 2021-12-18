@@ -16,50 +16,50 @@ import org.springframework.web.servlet.ModelAndView;
 
 import sg.edu.iss.LAPS.model.LeaveApplied;
 
-@Controller
-@RequestMapping(value = "/manager")
-public class ManagerController {
-
-	@Autowired
-	//LeaveService creation needed
-	private LeaveService lService;
-
-	@InitBinder
-	private void initBinder(WebDataBinder binder) {
-		
-	}
-	
-	@RequestMapping(value="/pending")
-	public ModelAndView pendingApproval(HttpSession session) {
-		
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		//UserSessionController needed
-		HashMap<Employee, ArrayList<LeaveApplied>> hm = new HashMap<Employee, ArrayList<LeaveApplied>>();
-		System.out.println(usession.toString());
-		ModelAndView mav = new ModelAndView("login");
-		if (usession.getUser() != null) {
-			for (Employee employee : usession.getSubordinates()) {
-				ArrayList<Course> clist = cService.findPendingCoursesByEID(employee.getEmployeeId());
-				hm.put(employee, clist);
-			}
-			mav = new ModelAndView("manager-pending-course-history");
-			mav.addObject("pendinghistory", hm);
-			return mav;
-		}
-		return mav;
-
-	}
-	@RequestMapping(value="/leave/display/{id}", method = RequestMethod.GET)
-	public ModelAndView viewLeaveDetails(@PathVariable int id) {
-		
-	}
-	
-	@RequestMapping(value = "/course/display/{id}", method = RequestMethod.GET)
-	public ModelAndView newDepartmentPage(@PathVariable int id) {
-		Course course = cService.findCourse(id);
-		ModelAndView mav = new ModelAndView("manager-course-detail", "course", course);
-		mav.addObject("approve", new Approve());
-		return mav;
-	}
-	
-}
+//@Controller
+//@RequestMapping(value = "/manager")
+//public class ManagerController {
+//
+//	@Autowired
+//	//LeaveService creation needed
+//	private LeaveService lService;
+//
+//	@InitBinder
+//	private void initBinder(WebDataBinder binder) {
+//
+//	}
+//
+//	@RequestMapping(value="/pending")
+//	public ModelAndView pendingApproval(HttpSession session) {
+//
+//		UserSession usession = (UserSession) session.getAttribute("usession");
+//		//UserSessionController needed
+//		HashMap<Employee, ArrayList<LeaveApplied>> hm = new HashMap<Employee, ArrayList<LeaveApplied>>();
+//		System.out.println(usession.toString());
+//		ModelAndView mav = new ModelAndView("login");
+//		if (usession.getUser() != null) {
+//			for (Employee employee : usession.getSubordinates()) {
+//				ArrayList<Course> clist = cService.findPendingCoursesByEID(employee.getEmployeeId());
+//				hm.put(employee, clist);
+//			}
+//			mav = new ModelAndView("manager-pending-course-history");
+//			mav.addObject("pendinghistory", hm);
+//			return mav;
+//		}
+//		return mav;
+//
+//	}
+//	@RequestMapping(value="/leave/display/{id}", method = RequestMethod.GET)
+//	public ModelAndView viewLeaveDetails(@PathVariable int id) {
+//
+//	}
+//
+//	@RequestMapping(value = "/course/display/{id}", method = RequestMethod.GET)
+//	public ModelAndView newDepartmentPage(@PathVariable int id) {
+//		Course course = cService.findCourse(id);
+//		ModelAndView mav = new ModelAndView("manager-course-detail", "course", course);
+//		mav.addObject("approve", new Approve());
+//		return mav;
+//	}
+//
+//}
