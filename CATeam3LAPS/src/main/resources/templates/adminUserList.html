@@ -7,6 +7,8 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 	crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" media="all"
+		  href="../../css/table-style.css" th:href="@{/css/table-style.css}"/>
 </head>
 
 <body>
@@ -14,7 +16,7 @@
 	<a th:href="@{/admin/staff/addStaff}">Add New Staff</a>
 	</br>
 	<h2>My team</h2>
-	<table th:unless="${#lists.isEmpty(userList)}" border="1 pt">
+	<table class="content-table" th:unless="${#lists.isEmpty(userList)}" border="1 pt">
 		<thead>
 			<tr>
 				<th>Staff Name</th>

@@ -35,10 +35,10 @@
 		<fieldset class="form-group-row">
 			<label class="col-form-label col-sm-4">Roles :</label> 
 			<div class="col-sm-8">
-				<th:block th:each="role:${newRoles}">
+				<th:block th:each="role:${user.roles}">
 					<div>
-	    				<input type="checkbox" th:field"*{roles}" 
-	    				th:text="${role.name}" th:value="${role.id}" class="m-2"/>
+	    				<input type="checkbox"
+	    				th:value="${role.id}" th:text="${role.description}" th:field="*{roles}" class="m-2"/>
 					</div>
 				</th:block>
 			</div>

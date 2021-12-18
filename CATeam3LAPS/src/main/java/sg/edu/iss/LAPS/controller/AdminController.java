@@ -38,13 +38,15 @@ public class AdminController {
 	public String loadStaffForm(Model model)
 	{
 		List<Role> newRoles=rrepo.findAll();
-		model.addAttribute("newRoles",newRoles);
-		model.addAttribute("user",new User());
+		User user = new User();
+		user.setRoles(newRoles);
+		//model.addAttribute("newRoles",newRoles);
+		model.addAttribute("user",user);
 		return "addStaffForm";
 	}
 	
 	@PostMapping("/admin/saveStaff")
-	public String saveStaff(User user, Model model)
+	public String saveStaff(@ModelAttribute("user") User user, Model model)
 	{
 		System.out.println(user.getRoles());
 		//aservice.saveUser(user);
