@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Admin-ViewLeaveType</title>
-    <link rel="stylesheet" type="text/css" media="all"
-          href="../../css/table-style.css" th:href="@{/css/table-style.css}"/>
-    <link rel="stylesheet" type="text/css" media="all"
-          href="../../css/leave-type-style.css" th:href="@{/css/leave-type-style.css}"/>
-</head>
-
+<head th:replace="fragments/adminGeneral.html :: headerfiles"/>
 <body>
+<div th:replace="fragments/adminGeneral.html :: menu"></div>
+<div class = "main-div">
 <!-- Add Hyperlink -->
 <a class = "button-add" href="AddLeaveType.html" th:href="@{/admin/leave-type/add}">Add</a>
 <table class="content-table" th:unless="${#lists.isEmpty(leaveTypes)}" border="1 pt">
@@ -29,5 +24,6 @@
     </tr>
     </tbody>
 </table>
+</div>
 </body>
 </html>
