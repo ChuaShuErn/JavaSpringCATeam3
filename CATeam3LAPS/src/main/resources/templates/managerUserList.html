@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Manager - Team Leave List</title>
+	<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<div th:replace="fragments/managerGeneral.html :: manager_head"/> 
+	
+	<h2> My Team - Leave List</h2>
+	<a th:href="@{/manager/teamleavelist}">Add New Staff</a>
+
+	
+	<table th:if="${ not #lists.isEmpty(teamLeaveList)}">
+		<thead>
+		
+			<tr>
+				<th>Staff Name</th>
+				<th>Staff ID</th>
+				<th>Leave Start Date</th>
+				<th>Leave End Date</th>
+				<th>Leave Type</th>
+				<th>Days Requested</th>
+				<th>Action</th> 
+			</tr>
+			
+		</thead>
+			
+		<tbody>
+
+				<tr th:each="leave : ${teamLeaveList}" class="listRecord">
+					<td th:text="${leave.user.firstName} ${leave.user.lastName}">Staff Name</td>
+					<td th:text="${leave.user.id}">Staff ID</td>
+					<td th:text="${leave.leaveStartDate}">Leave Start Date</td>
+					<td th:text="${leave.leaveEndDate}">Leave End Date</td>
+					<td th:text="${leave.leaveType}">Leave Type</td>
+					<td th:text="${...}">Days Requested</td> <!-- how do we calculate days and pass to view? -->
+
+					<td><a th:href="@{/manager/leave/view/}+${leave.leaveAppliedId}"
+						class="btn btn-default"><span th:text="#{caption.view}"></span></a></td>
+				</tr>
+		</tbody>
+			
+			
+		</table>
+	</div>
+</body>
+</html>

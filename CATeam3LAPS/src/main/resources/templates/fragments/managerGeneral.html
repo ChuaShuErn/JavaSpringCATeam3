@@ -1,0 +1,23 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="html_head" id="html_head">
+	<meta charset="ISO-8859-1">
+	<title>Manager's Team Leave View</title>
+	<link rel="stylesheet" th:href="@{/css/simple.css}" />
+</head>
+
+<body>
+
+	<div th:fragment="header" id="header">
+		<div th:if="${not #strings.isEmpty(usession)}">
+			<h2><em th:utext="'Hello '+ ${session.usession.user.name}"></em></h2>
+		</div>
+	</div>
+	
+	<div th:fragment= "manager_head" id = "manager_head">
+		<h2><em th:utext="My Team's Leave"></em></h2>
+	</div>
+
+</body>
+
+</html>
