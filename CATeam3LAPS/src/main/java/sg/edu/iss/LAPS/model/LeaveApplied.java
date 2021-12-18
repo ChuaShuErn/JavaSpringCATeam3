@@ -15,7 +15,6 @@ import java.util.Date;
 @Data // = adding @Getter @Setter @ToString @EqualsAndHashCode @RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class LeaveApplied {
     @Id //leaveId
     @GeneratedValue(strategy = GenerationType.IDENTITY)

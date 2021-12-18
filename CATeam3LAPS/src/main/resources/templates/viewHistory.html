@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ViewHistory</title>
+</head>
+<body>
+<p>This is an example of a simple HTML page with one paragraph.</p>
+<div class="container" style="float:left; margin-left:80px; width:750px">
+    <h1 align="center">Leave Pending Approval</h1>
+    <p th:if="${LeaveApplication.empty}" style="color:red"  align="center">No applied applications found.</p>
+    <table class="table table-bordered" align="center" th:if="${not #lists.isEmpty(LeaveApplication)}">
+        <thead style="background-color:lightgrey" margin-left:50px;>
+        <tr>
+            <td><b>Leave ID</b></td>
+<!--            <td><b>Leave Type</b></td>-->
+            <td><b>Start Date</b></td>
+            <td><b>End Date</b></td>
+            <td><b>Number of Days</b></td>
+            <td><b>Status</b></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="LeaveApplication:${LeaveApplication}">
+            <td th:text=${LeaveApplication.leaveAppliedId}>leave ID</td>
+<!--            <td th:text=${LeaveApplication.leaveType.description}>Leave Type</td>-->
+            <td th:text=${LeaveApplication.leaveStartDate}>Start Date</td>
+            <td th:text=${LeaveApplication.leaveEndDate}>End Date</td>
+            <td th:text=${LeaveApplication.noOfDays}>Number of Days</td>
+            <td th:text=${LeaveApplication.approvalStatus}>Status</td>
+<!--            <td><a class="button2" th:href="@{/leave/viewdetails/}+${LeaveApplication.id}">View Details</a></td>-->
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
