@@ -38,10 +38,15 @@
 				<th:block th:each="role:${user.roles}">
 					<div>
 	    				<input type="checkbox"
-	    				th:value="${role.id}" th:text="${role.description}" th:field="*{roles}" class="m-2"/>
+	    				th:value="${role.id}" th:text="${role.name}" th:field="*{roles}" class="m-2"/>
 					</div>
 				</th:block>
 			</div>
+		</fieldset>
+		<label>Leave Entitlement : </label> 
+		<fieldset th:each="leave:*{leaveEntitledList}">
+			<label th:text="${leave.leaveType.description}">Leave Type</label>
+			<input type="number" th:field="*{leave.totalLeave}"/>
 		</fieldset>
 		<fieldset>
 			<input type="submit" value="SAVE" />

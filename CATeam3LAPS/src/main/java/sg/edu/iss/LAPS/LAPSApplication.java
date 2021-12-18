@@ -19,7 +19,7 @@ public class LAPSApplication {
 	@Autowired
 	UserRepository urepo;
 	
-	@Bean
+	/*@Bean
 	CommandLineRunner runner() {
 		return args -> { 
 			User u1 = new User("Esther", "esther@nus.edu.sg", "password", "Esther", "Tan", 0);
@@ -29,6 +29,6 @@ public class LAPSApplication {
 			User u3 = new User("Cherwah", "tin@nus.edu.sg", "password", "CherWah", "Tan", 1);
 			urepo.save(u3);
 			};
-	}
+	}*/
 
 }
