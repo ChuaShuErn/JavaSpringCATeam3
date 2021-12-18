@@ -1,5 +1,6 @@
 package sg.edu.iss.LAPS.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sg.edu.iss.LAPS.model.LeaveEntitled;
 import sg.edu.iss.LAPS.model.LeaveType;
 import sg.edu.iss.LAPS.model.Role;
 import sg.edu.iss.LAPS.model.User;
+import sg.edu.iss.LAPS.repo.LeaveEntitledRepository;
 import sg.edu.iss.LAPS.repo.RoleRepository;
 import sg.edu.iss.LAPS.services.AdminService;
 import sg.edu.iss.LAPS.services.LeaveTypeService;
@@ -31,6 +34,9 @@ public class AdminController {
 
 	@Autowired
 	LeaveTypeService leaveTypeService;
+	
+	@Autowired
+	LeaveEntitledRepository lErepo;
 
 	/* staff mappings start here*/
 	
@@ -40,8 +46,18 @@ public class AdminController {
 		List<Role> newRoles=rrepo.findAll();
 		User user = new User();
 		user.setRoles(newRoles);
-		//model.addAttribute("newRoles",newRoles);
+		
+		List<LeaveType> allLeaveType=leaveTypeService.getAllLeaveType();
+		List<LeaveEntitled> allLeaveEntitled=new ArrayList<>();
+		for(int i=0;i<allLeaveType.size();i++)
+		{
+			LeaveEntitled newLeave=new LeaveEntitled();
+			newLeave.setLeaveType(allLeaveType.get(i));
+			allLeaveEntitled.add(i, newLeave);
+		}
+		user.setLeaveEntitledList(allLeaveEntitled);
 		model.addAttribute("user",user);
+		
 		return "addStaffForm";
 	}
 	
@@ -49,7 +65,7 @@ public class AdminController {
 	public String saveStaff(@ModelAttribute("user") User user, Model model)
 	{
 		System.out.println(user.getRoles());
-		//aservice.saveUser(user);
+		aservice.saveUser(user);
 		return "redirect:/admin/staff/list/1 ";
 	}
 	

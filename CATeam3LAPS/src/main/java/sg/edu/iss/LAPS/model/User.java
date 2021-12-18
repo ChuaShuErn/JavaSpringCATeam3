@@ -61,7 +61,7 @@ public class User{
 	@OneToMany(targetEntity = LeaveApplied.class,cascade = CascadeType.ALL,mappedBy = "user")
 	private List<LeaveApplied> leaveAppliedList;
 	@OneToMany(targetEntity = LeaveEntitled.class,cascade = CascadeType.ALL,mappedBy = "user")
-	private List<LeaveEntitled> leaveEntitledList;
+	private List<LeaveEntitled> leaveEntitledList=new ArrayList<>();
 	
 	
 	public User(String username, 
