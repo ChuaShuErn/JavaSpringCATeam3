@@ -2,14 +2,21 @@
 .button-add{
     background-color: #199319;
     color: white;
+<<<<<<< HEAD
     padding: 40px 25px;
+=======
+    padding: 15px 25px;
+>>>>>>> c4b340ddc590b75ed51238015357950e24c13a52
     text-decoration: none;
 }
 
 .button-add:hover{
     background-color: #223094;
 }
+<<<<<<< HEAD
 
 .main-div{
     padding-top: 100px;
 }
+=======
+>>>>>>> c4b340ddc590b75ed51238015357950e24c13a52

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Admin-addStaffForm</title>
+	<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<form th:object="${user}" th:action="@{/admin/saveStaff}" method="POST">
+		<fieldset>
+			<input type="hidden" th:field="*{id}"/>
+		</fieldset>
+		<fieldset>
+			First Name : <input type="text" th:field="*{FirstName}" placeholder="First Name"/>
+		</fieldset>
+		<fieldset>
+			Last Name : <input type="text" th:field="*{LastName}" placeholder="Last Name"/>
+		</fieldset>
+		<fieldset>
+			Username : <input type="text" th:field="*{Username}" placeholder="Username"/>
+		</fieldset>
+		<fieldset>
+			Password : <input type="text" th:field="*{Password}" placeholder="Password"/>
+		</fieldset>
+		<fieldset>
+			Email : <input type="text" th:field="*{email}" placeholder="Email"/>
+		</fieldset>
+		<fieldset>
+			Report To : <input type="text" th:field="*{ReportsTo}" placeholder="Manager Id"/>
+		</fieldset>
+		<fieldset class="form-group-row">
+			<label class="col-form-label col-sm-4">Roles :</label> 
+			<div class="col-sm-8">
+				<th:block th:each="role:${newRoles}">
+					<div>
+	    				<input type="checkbox" th:field"*{roles}" 
+	    				th:text="${role.name}" th:value="${role.id}" class="m-2"/>
+					</div>
+				</th:block>
+			</div>
+		</fieldset>
+		<fieldset>
+			<input type="submit" value="SAVE" />
+			&nbsp;
+			<input type="reset" value="RESET" />
+		</fieldset>
+	</form>
+</body>
+
+</html>

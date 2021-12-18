@@ -20,14 +20,12 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Override
 	public List<User> getAllUser() {
-		// TODO Auto-generated method stub
-		return null;
+		return urepo.findAll();
 	}
 
 	@Override
 	public void saveUser(User user) {
-		// TODO Auto-generated method stub
-		
+		urepo.saveAndFlush(user);
 	}
 
 	@Override

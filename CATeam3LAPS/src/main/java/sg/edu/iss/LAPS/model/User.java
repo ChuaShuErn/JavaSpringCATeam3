@@ -1,15 +1,21 @@
 package sg.edu.iss.LAPS.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Length;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -50,7 +56,7 @@ public class User{
 		            name = "user_id", referencedColumnName = "user_id"),
 			inverseJoinColumns = @JoinColumn(
 				            name = "role_id", referencedColumnName = "role_id"))
-	private Collection<Role> roles;
+	private List<Role> roles=new ArrayList<>();
 
 	@OneToMany(targetEntity = LeaveApplied.class,cascade = CascadeType.ALL,mappedBy = "user")
 	private List<LeaveApplied> leaveAppliedList;
@@ -71,7 +77,6 @@ public class User{
 		FirstName = firstName;
 		LastName = lastName;
 		ReportsTo = reportsTo;
-		
 	}
 	
 }
