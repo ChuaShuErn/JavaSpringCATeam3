@@ -10,8 +10,7 @@
 </head>
 
 <body>
-	<div th:replace="fragments/managerGeneral.html :: menu"/>
-	<div th:replace="fragments/managerGeneral.html :: header"/> 
+	<div th:replace="fragments/managerGeneral.html :: manager_head"/> 
 	
 	<h2> My Team - Leave List</h2>
 	<a th:href="@{/manager/teamleavelist}">Add New Staff</a>
@@ -27,23 +26,25 @@
 				<th>Leave End Date</th>
 				<th>Leave Type</th>
 				<th>Days Requested</th>
+				<th>Action</th> 
 			</tr>
-			</thead>
 			
-			<tbody>
+		</thead>
+			
+		<tbody>
 
 				<tr th:each="leave : ${teamLeaveList}" class="listRecord">
 					<td th:text="${leave.user.firstName} ${leave.user.lastName}">Staff Name</td>
 					<td th:text="${leave.user.id}">Staff ID</td>
 					<td th:text="${leave.leaveStartDate}">Leave Start Date</td>
 					<td th:text="${leave.leaveEndDate}">Leave End Date</td>
-					<td th:text="${leave.leaveStartDate}">Leave Start Date</td>
-					<td th:text="${leave.leaveEndDate}">Leave End Date</td>
+					<td th:text="${leave.leaveType}">Leave Type</td>
+					<td th:text="${...}">Days Requested</td> <!-- how do we calculate days and pass to view? -->
 
 					<td><a th:href="@{/manager/leave/view/}+${leave.leaveAppliedId}"
 						class="btn btn-default"><span th:text="#{caption.view}"></span></a></td>
 				</tr>
-			</tbody>
+		</tbody>
 			
 			
 		</table>
