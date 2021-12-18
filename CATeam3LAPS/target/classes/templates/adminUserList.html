@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-	<title>Admin-ViewUser</title>
-	<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
-</head>
+<head th:replace="fragments/adminGeneral.html :: headerfiles"/>
 
 <body>
-	<h>>Staff Listing</h2>
-	<a th:href="@{/admin/staff/addStaff}">Add New Staff</a>
-	</br>
-	<h2>My team</h2>
-	<table th:unless="${#lists.isEmpty(userList)}" border="1 pt">
+<div th:replace="fragments/adminGeneral.html :: menu"></div>
+<div class="main-div">
+	<a class = "button-add" th:href="@{/admin/staff/addStaff}">Add New Staff</a>
+	<table class="content-table" th:unless="${#lists.isEmpty(userList)}" border="1 pt">
 		<thead>
 			<tr>
 				<th>Staff Name</th>
@@ -61,6 +54,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </body>
 
 </html>

@@ -2,7 +2,7 @@
 .button-add{
     background-color: #199319;
     color: white;
-    padding: 40px 25px;
+    padding: 10px 25px;
     text-decoration: none;
 }
 
@@ -11,5 +11,5 @@
 }
 
 .main-div{
-    padding-top: 100px;
+    padding-top: 30px;
 }
