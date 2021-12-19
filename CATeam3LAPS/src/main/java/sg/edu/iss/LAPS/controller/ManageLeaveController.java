@@ -61,7 +61,7 @@ public class ManageLeaveController {
         List<LeaveType> leaveTypeList = leaveTypeService.getAllLeaveType();
         model.addAttribute("leaveTypeList", leaveTypeList);
 
-        return "editLeave_v2";
+        return "editLeave";
     }
 
     @RequestMapping(value = "updateLeaveApplied")

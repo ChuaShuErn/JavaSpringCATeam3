@@ -38,7 +38,6 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
         Optional<LeaveApplied> optLeaveApplied = this.findById(leaveApplied.getLeaveAppliedId());
         LeaveApplied savedLeaveApplied = leaveApplied;
         if (optLeaveApplied.isPresent()) {
-            // TODO: over sea detail and count number of days
             savedLeaveApplied = optLeaveApplied.get();
             savedLeaveApplied.setLeaveType(leaveApplied.getLeaveType());
             savedLeaveApplied.setLeaveStartDate(leaveApplied.getLeaveStartDate());
@@ -46,6 +45,9 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
             savedLeaveApplied.setIsOverseas(leaveApplied.getIsOverseas());
             savedLeaveApplied.setLeaveReason(leaveApplied.getLeaveReason());
             savedLeaveApplied.setWorkDissemination(leaveApplied.getWorkDissemination());
+            // FIXME: over sea detail and count number of days
+            savedLeaveApplied.setNoOfDays(0);
+            savedLeaveApplied.setOverseasTrip(null);
         }
         repository.save(savedLeaveApplied);
     }
