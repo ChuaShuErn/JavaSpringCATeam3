@@ -6,13 +6,16 @@
 <div th:replace="fragments/adminGeneral.html :: menu"></div>
 <div class = "main-div">
     <h1>Facility Form</h1>
-    <form action="#" th:object="${leaveType}" th:action="@{/admin/leave-type/save}"
+    <form action="#" th:object="${role}" th:action="@{/admin/role/save}"
           method="post">
         <fieldset>
-            <input type="hidden" th:field="*{leaveTypeId}">
+            <input type="hidden" th:field="*{id}">
         </fieldset>
         <fieldset>
-            Leave Type Description <input type="text" th:field="*{description}">
+            Role Name <input type="text" th:field="*{name}">
+        </fieldset>
+        <fieldset>
+            Role Description <input type="text" th:field="*{description}">
         </fieldset>
         <fieldset>
             <input type="submit" value="Save"/>

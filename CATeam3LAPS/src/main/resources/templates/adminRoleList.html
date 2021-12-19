@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/adminGeneral.html :: headerfiles"/>
+<body>
+<div th:replace="fragments/adminGeneral.html :: menu"></div>
+<div class = "main-div">
+    <!-- Add Hyperlink -->
+    <a class = "button-add" href="AddRole.html" th:href="@{/admin/role/add}">Add</a>
+    <table class="content-table" th:unless="${#lists.isEmpty(roles)}" border="1 pt">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="role:${roles}">
+            <td th:text="${role.id}">ID</td>
+            <td th:text="${role.name}">Name</td>
+            <td th:text="${role.description}">Description</td>
+            <td ><a href="edit.html" th:href="@{/admin/role/edit/} + ${role.id}">Edit</a>
+                <a href="edit.html" th:href="@{/admin/role/delete/} + ${role.id}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

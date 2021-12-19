@@ -21,6 +21,7 @@ import sg.edu.iss.LAPS.repo.LeaveEntitledRepository;
 import sg.edu.iss.LAPS.repo.RoleRepository;
 import sg.edu.iss.LAPS.services.AdminService;
 import sg.edu.iss.LAPS.services.LeaveTypeService;
+import sg.edu.iss.LAPS.services.RoleService;
 import sg.edu.iss.LAPS.utility.Constants;
 
 @Controller
@@ -34,6 +35,9 @@ public class AdminController {
 
 	@Autowired
 	LeaveTypeService leaveTypeService;
+
+	@Autowired
+	RoleService roleService;
 	
 	@Autowired
 	LeaveEntitledRepository lErepo;
@@ -100,13 +104,13 @@ public class AdminController {
 	@RequestMapping("/admin/leave-type/add")
 	public String addLeaveType(Model model){
 		model.addAttribute("leaveType",new LeaveType());
-		return "addLeaveTypeForm";
+		return "adminLeaveTypeForm";
 	}
 
 	@RequestMapping("/admin/leave-type/edit/{id}")
 	public String editLeaveType(@PathVariable("id") Integer id, Model model){
 		model.addAttribute("leaveType",leaveTypeService.getLeaveTypeById(id));
-		return "addLeaveTypeForm";
+		return "adminLeaveTypeForm";
 	}
 
 	@PostMapping("/admin/leave-type/save")
@@ -119,5 +123,37 @@ public class AdminController {
 	public String deleteLeaveType(@PathVariable("id") Integer id){
 		leaveTypeService.deleteLeaveTypeById(id);
 		return "forward:/admin/leave-type/list";
+	}
+
+	/*Admin role mappings start here*/
+
+	@RequestMapping("/admin/role/list")
+	public String showRoleList(Model model){
+		model.addAttribute("roles",roleService.getAllRole());
+		return "adminRoleList";
+	}
+
+	@RequestMapping("/admin/role/add")
+	public String addRole(Model model){
+		model.addAttribute("role",new Role());
+		return "adminRoleForm";
+	}
+
+	@RequestMapping("/admin/role/edit/{id}")
+	public String editRole(@PathVariable("id") Integer id, Model model){
+		model.addAttribute("role",roleService.getRoleById(id));
+		return "adminRoleForm";
+	}
+
+	@PostMapping("/admin/role/save")
+	public String saveLeaveType(@ModelAttribute("role") Role role,Model model){
+		roleService.saveRole(role);
+		return "forward:/admin/role/list";
+	}
+
+	@RequestMapping("/admin/role/delete/{id}")
+	public String deleteRole(@PathVariable("id") Integer id){
+		roleService.deleteRoleById(id);
+		return "forward:/admin/role/list";
 	}
 }
