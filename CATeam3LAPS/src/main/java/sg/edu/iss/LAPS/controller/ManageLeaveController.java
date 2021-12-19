@@ -63,7 +63,7 @@ public class ManageLeaveController {
     @RequestMapping(value = "/delete/{id}")
     public String delete(@PathVariable("id") Integer id) {
         service.delete(id);
-        return "forward:/leave/viewHistory";
+        return "redirect:/leave/currentLeaves";
     }
 
 }
