@@ -30,6 +30,12 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
+	public List<LeaveApplied> getSubordinateLeavesByLeaveStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public List<LeaveApplied> getSubordinateLeavesByLeaveType() {
 		// TODO Auto-generated method stub
 		return null;

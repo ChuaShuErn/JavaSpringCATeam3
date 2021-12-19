@@ -9,4 +9,5 @@ public interface ManagerService {
 	List<User> getSubordinates();
 	List<LeaveApplied> getSubordinateLeaves();
 	List<LeaveApplied> getSubordinateLeavesByLeaveType();
+	List<LeaveApplied> getSubordinateLeavesByLeaveStatus();
 }
