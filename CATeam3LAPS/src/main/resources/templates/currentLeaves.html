@@ -17,7 +17,8 @@
             <td><b>Start Date</b></td>
             <td><b>End Date</b></td>
             <td><b>Number of Days</b></td>
-            <td><b>Status</b></td>
+            <td><b>Edit</b></td>
+            <td><b>Delete</b></td>
         </tr>
         </thead>
         <tbody>
@@ -27,8 +28,12 @@
             <td th:text=${leaveApplied.leaveStartDate}>Start Date</td>
             <td th:text=${leaveApplied.leaveEndDate}>End Date</td>
             <td th:text=${leaveApplied.noOfDays}>Number of Days</td>
-            <td th:text=${leaveApplied.approvalStatus}>Status</td>
-            <!--            <td><a class="button2" th:href="@{/leave/viewdetails/}+${leaveApplied.id}">View Details</a></td>-->
+            <td><a th:href="@{/leave/edit/}+${leaveApplied.leaveAppliedId}">
+                <button type="button" class="btn btn-danger" style="background-color:orange">Edit</button>
+            </a></td>
+            <td><a th:href="@{/leave/delete/}+${leaveApplied.leaveAppliedId}">
+                <button type="button" class="btn btn-danger">Delete</button>
+            </a></td>
         </tr>
         </tbody>
     </table>

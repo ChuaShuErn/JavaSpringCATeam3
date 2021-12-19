@@ -5,9 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sg.edu.iss.LAPS.model.ApprovalStatus;
+import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.services.LeaveAppliedService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/leave")
@@ -38,6 +40,23 @@ public class ManageLeaveController {
         Long userId = 1L;
         model.addAttribute("leaveAppliedList", service.findByUserId(userId, ApprovalStatus.valueOf(status)));
         return "currentLeaves";
+    }
+
+    @RequestMapping(value = "/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model) {
+        Optional<LeaveApplied> optLeaveApplied = service.findById(id);
+        if (optLeaveApplied.isEmpty()) {
+            // Not found
+            return "";
+        }
+        LeaveApplied leaveApplied = optLeaveApplied.get();
+        model.addAttribute("leaveApplied", leaveApplied);
+        return "editLeave";
+    }
+
+    @RequestMapping(value = "updateLeaveApplied")
+    public void update(@ModelAttribute("leaveApplied") LeaveApplied leaveApplied) {
+
     }
 
 }
