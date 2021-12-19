@@ -1,5 +1,7 @@
 package sg.edu.iss.LAPS.controller;
 
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import sg.edu.iss.LAPS.services.ApplyLeaveService;
 import sg.edu.iss.LAPS.services.LeaveTypeService;
 import sg.edu.iss.LAPS.services.PublicHolidayService;
 import sg.edu.iss.LAPS.services.UserService;
+import sg.edu.iss.LAPS.utility.DateTools;
 
 @Controller
 @RequestMapping("/applyleave")
@@ -55,17 +58,40 @@ public class ApplyLeaveController {
 		LeaveType leaveType = leaveTypeService.findLeaveTypeByleaveTypeId(application.getLeaveType().getLeaveTypeId());
 		application.setUser(currUser);
 		application.setLeaveType(leaveType);
-		Date leaveStartDate = application.getLeaveStartDate();
-		Date leaveEndDate = application.getLeaveEndDate();
+		Calendar appliedStartDate = DateTools.dateToCalendar(application.getLeaveStartDate());
+		Calendar appliedEndDate = DateTools.dateToCalendar(application.getLeaveEndDate());
 	    
 		
 		// Get a list of public holidays
 		List<PublicHoliday> publicHolidaysList = publicHolidayService.findAll();
 		
+		// use forecah to traverse the public holiday collection
+		
+		float WeekdaysPublicHoliday = 0;
+		for(PublicHoliday holiday : publicHolidaysList) {
+			
+			Calendar calPublicHolidayStart = DateTools.dateToCalendar(holiday.getHolidayStartDate());
+			Calendar calPublicHolidayEnd = DateTools.dateToCalendar(holiday.getHolidayEndDate());
+			
+			
+			// applied start day = public holiday start day
+			if(application.getLeaveStartDate().equals(holiday.getHolidayStartDate()) || application.getLeaveEndDate().equals(holiday.getHolidayEndDate())) {
+				WeekdaysPublicHoliday = DateTools.countWeekdaysPublicHoliday(calPublicHolidayStart, calPublicHolidayEnd);	
+			}
+			
+			if(application.getLeaveStartDate().before(holiday.getHolidayStartDate()) && application.getLeaveEndDate().after(holiday.getHolidayEndDate())) {
+				WeekdaysPublicHoliday = WeekdaysPublicHoliday + DateTools.countWeekdaysPublicHoliday(calPublicHolidayStart, calPublicHolidayEnd);
+			}
+
+		}
 		
 		
+		float daysPeriod = ChronoUnit.DAYS.between(appliedStartDate.toInstant(), appliedEndDate.toInstant()) + 1;
 		
-		
+		if(daysPeriod <= 14) {
+			daysPeriod = DateTools.removeWeekends(appliedStartDate, appliedEndDate);
+		}
+		daysPeriod = daysPeriod - WeekdaysPublicHoliday;
 	}
 	
 	

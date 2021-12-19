@@ -57,8 +57,9 @@
 			   <input type="text" class="form-control" th:field="*{workDissemination}" >
 			 </div>
 		</div> 
-
-			<form action="storeOverseasTrip" th:object="${overseasTrip}">
+		
+		<div>
+			<form action="storeOverseasTrip" th:object="${overseasTrip}">  // here I'm not sure
 				<div class="row mb-3">
 					<label class="col-sm-2 col-form-label">Overseas Trip</label>
 					<div class="col-sm-5">
@@ -95,6 +96,7 @@
 				</div>
 					<button class="btn btn-secondary" type="submit">OK</button>
 			</form>>
+		</div>
 		
 		</form>
 		
