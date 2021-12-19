@@ -8,8 +8,8 @@
 <p>This is an example of a simple HTML page with one paragraph.</p>
 <div class="container" style="float:left; margin-left:80px; width:750px">
     <h1 align="center">Leave Pending Approval</h1>
-    <p th:if="${LeaveApplication.empty}" style="color:red"  align="center">No applied applications found.</p>
-    <table class="table table-bordered" align="center" th:if="${not #lists.isEmpty(LeaveApplication)}">
+    <p th:if="${LeaveApplied.empty}" style="color:red"  align="center">No applied applications found.</p>
+    <table class="table table-bordered" align="center" th:if="${not #lists.isEmpty(LeaveApplied)}">
         <thead style="background-color:lightgrey" margin-left:50px;>
         <tr>
             <td><b>Leave ID</b></td>
@@ -21,14 +21,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="LeaveApplication:${LeaveApplication}">
-            <td th:text=${LeaveApplication.leaveAppliedId}>leave ID</td>
-<!--            <td th:text=${LeaveApplication.leaveType.description}>Leave Type</td>-->
-            <td th:text=${LeaveApplication.leaveStartDate}>Start Date</td>
-            <td th:text=${LeaveApplication.leaveEndDate}>End Date</td>
-            <td th:text=${LeaveApplication.noOfDays}>Number of Days</td>
-            <td th:text=${LeaveApplication.approvalStatus}>Status</td>
-<!--            <td><a class="button2" th:href="@{/leave/viewdetails/}+${LeaveApplication.id}">View Details</a></td>-->
+        <tr th:each="LeaveApplied:${LeaveApplied}">
+            <td th:text=${LeaveApplied.leaveAppliedId}>leave ID</td>
+<!--            <td th:text=${LeaveApplied.leaveType.description}>Leave Type</td>-->
+            <td th:text=${LeaveApplied.leaveStartDate}>Start Date</td>
+            <td th:text=${LeaveApplied.leaveEndDate}>End Date</td>
+            <td th:text=${LeaveApplied.noOfDays}>Number of Days</td>
+            <td th:text=${LeaveApplied.approvalStatus}>Status</td>
+<!--            <td><a class="button2" th:href="@{/leave/viewdetails/}+${LeaveApplied.id}">View Details</a></td>-->
         </tr>
         </tbody>
     </table>
