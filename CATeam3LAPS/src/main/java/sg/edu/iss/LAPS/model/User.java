@@ -58,9 +58,9 @@ public class User{
 				            name = "role_id", referencedColumnName = "role_id"))
 	private List<Role> roles=new ArrayList<>();
 
-	@OneToMany(targetEntity = LeaveApplied.class,cascade = CascadeType.ALL,mappedBy = "user")
+	@OneToMany(targetEntity = LeaveApplied.class,cascade = CascadeType.ALL, orphanRemoval=true,mappedBy = "user")
 	private List<LeaveApplied> leaveAppliedList;
-	@OneToMany(targetEntity = LeaveEntitled.class,cascade = CascadeType.ALL,mappedBy = "user")
+	@OneToMany(targetEntity = LeaveEntitled.class,cascade = CascadeType.ALL, orphanRemoval=true,mappedBy = "user")
 	private List<LeaveEntitled> leaveEntitledList=new ArrayList<>();
 	
 	
