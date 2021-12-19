@@ -14,5 +14,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	//check if Staff is Manager
 	@Query("SELECT u FROM User u Join u.roles r WHERE u.email = :email AND r.id = 2")
 	public User checkIfStaffIsManagerbyEmail(String email);
+	
+	//for admin login
+	@Query("SELECT u FROM User u Join u.roles r WHERE u.email = :email AND r.id = 1")
+	public User checkIfUserIsAdminbyEmail(@Param("email")String email);
 
 }
