@@ -13,7 +13,7 @@
         <thead style="background-color:lightgrey" margin-left:50px;>
         <tr>
             <td><b>Leave ID</b></td>
-            <!--            <td><b>Leave Type</b></td>-->
+            <td><b>Leave Type</b></td>
             <td><b>Start Date</b></td>
             <td><b>End Date</b></td>
             <td><b>Number of Days</b></td>
@@ -24,7 +24,7 @@
         <tbody>
         <tr th:each="leaveApplied:${leaveAppliedList}">
             <td th:text=${leaveApplied.leaveAppliedId}>leave ID</td>
-            <!--            <td th:text=${leaveApplied.leaveType.description}>Leave Type</td>-->
+            <td th:text=${leaveApplied.leaveType.description}>Leave Type</td>
             <td th:text=${leaveApplied.leaveStartDate}>Start Date</td>
             <td th:text=${leaveApplied.leaveEndDate}>End Date</td>
             <td th:text=${leaveApplied.noOfDays}>Number of Days</td>
