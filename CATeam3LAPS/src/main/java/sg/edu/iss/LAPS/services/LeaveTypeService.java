@@ -10,4 +10,6 @@ public interface LeaveTypeService {
     void saveLeaveType(LeaveType leaveType);
     LeaveType getLeaveTypeById(Integer id);
     void deleteLeaveTypeById(Integer id);
+    
+    LeaveType findLeaveTypeByleaveTypeId(Integer leaveTypeId);
 }
