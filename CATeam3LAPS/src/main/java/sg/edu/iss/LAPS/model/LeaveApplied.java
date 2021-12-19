@@ -23,17 +23,17 @@ public class LeaveApplied {
 
     @NotNull //leave applied date
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date appliedDate;
 
     @NotNull //leave start date
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date leaveStartDate;
 
     @NotNull //leave end date
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date leaveEndDate;
 
     private float noOfDays;

@@ -38,12 +38,13 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
         Optional<LeaveApplied> optLeaveApplied = this.findById(leaveApplied.getLeaveAppliedId());
         LeaveApplied savedLeaveApplied = leaveApplied;
         if (optLeaveApplied.isPresent()) {
-            // TODO: override leave type
+            // TODO: override leave type and over sea detail
             savedLeaveApplied = optLeaveApplied.get();
             savedLeaveApplied.setLeaveStartDate(leaveApplied.getLeaveStartDate());
             savedLeaveApplied.setLeaveEndDate(leaveApplied.getLeaveEndDate());
             savedLeaveApplied.setIsOverseas(leaveApplied.getIsOverseas());
             savedLeaveApplied.setLeaveReason(leaveApplied.getLeaveReason());
+            savedLeaveApplied.setWorkDissemination(leaveApplied.getWorkDissemination());
         }
         repository.save(savedLeaveApplied);
     }

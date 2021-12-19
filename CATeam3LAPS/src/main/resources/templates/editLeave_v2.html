@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <title>Apply Leave</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<form action="editLeave" th:object="${leaveApplied}" th:action="@{/leave/updateLeaveApplied}" method="get">
+    <input type="hidden" th:field="*{leaveAppliedId}">
+    <input type="hidden" th:value="${session.id}" th:attr="name='user.id'">
+    <div class="row mb-3" th:each="type : ${leavetypes}">
+        <label for="leaveType" class="col-sm-2 col-form-label">Leave Type</label>
+        <div class="col-sm-5">
+            <select class="form-select" aria-label="Default select example" th:field="*{leaveType}">
+                <option th:each="type : ${leavetypes}" value="${type}" th:text="${type}">type</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="start" class="col-sm-2 col-form-label">Start date</label>
+        <div class="col-sm-5">
+            <input type="date" th:field="*{leaveStartDate}"
+                   placeholder="yyyy-MM-dd"
+                   min="2021-12-01" max="2022-12-31"
+                   required pattern="\d{2}-\d{2}-\d{4}">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label for="start" class="col-sm-2 col-form-label">End date</label>
+        <div class="col-sm-5">
+            <input type="date" th:field="*{leaveEndDate}"
+                   placeholder="yyyy-MM-dd"
+                   min="2021-12-01" max="2022-12-31"
+                   required pattern="\d{2}-\d{2}-\d{4}">
+        </div>
+    </div>
+
+
+    <div class="row mb-3">
+        <label for="ReasonLeave" class="col-sm-2 col-form-label">Reason of Leave</label>
+        <div class="col-sm-5">
+            <textarea class="form-control" th:field="*{leaveReason}" rows="4"></textarea>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label>Work Dissemination:</label>
+        <div>
+            <input type="text" class="form-control" th:field="*{workDissemination}">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Overseas Trip</label>
+        <div class="col-sm-5">
+            <div class="form-check">
+                <label class="form-check-label"><input class="form-check-input" type="radio" value="true" checked
+                                                       th:field="*{isOverseas}"> Yes</label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label"><input class="form-check-input" type="radio" value="false"
+                                                       th:field="*{isOverseas}">No</label>
+            </div>
+        </div>
+    </div>
+
+    <!--    <div>-->
+    <!--        <form action="storeOverseasTrip" th:object="${overseasTrip}"> // here I'm not sure-->
+    <!--            <div class="row mb-3">-->
+    <!--                <label class="col-sm-2 col-form-label">Country</label>-->
+    <!--                <div class="col-sm-5">-->
+    <!--                    <input type="text" class="form-control" th:field="*{country}"/>-->
+    <!--                </div>-->
+    <!--            </div>-->
+
+    <!--            <div class="row mb-3">-->
+    <!--                <label class="col-sm-2 col-form-label">City</label>-->
+    <!--                <div class="col-sm-5">-->
+    <!--                    <input type="text" class="form-control" th:field="*{city}"/>-->
+    <!--                </div>-->
+    <!--            </div>-->
+
+    <!--            <div class="row mb-3">-->
+    <!--                <label class="col-sm-2 col-form-label">Phone</label>-->
+    <!--                <div class="col-sm-5">-->
+    <!--                    <input type="text" class="form-control" th:field="*{phone}"/>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <button class="btn btn-secondary" type="submit">OK</button>-->
+    <!--        </form>-->
+    <!--    </div>-->
+    <button class="btn btn-secondary" type="submit">Submit form</button>
+    <button class="btn btn-secondary" type="reset">Reset</button>
+</form>
+
+
+<br>
+<br>
+<table class="table table-dark table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Type of Leave</th>
+        <th scope="col">Initial Balance</th>
+        <th scope="col">Taken</th>
+        <th scope="col">Availiable</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">Medical Leave</th>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <th scope="row">Annual Leave</th>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <th scope="row">Compensation</th>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>

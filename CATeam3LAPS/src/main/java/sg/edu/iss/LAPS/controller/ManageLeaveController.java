@@ -51,7 +51,7 @@ public class ManageLeaveController {
         }
         LeaveApplied leaveApplied = optLeaveApplied.get();
         model.addAttribute("leaveApplied", leaveApplied);
-        return "editLeave";
+        return "editLeave_v2";
     }
 
     @RequestMapping(value = "updateLeaveApplied")
