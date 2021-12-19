@@ -35,6 +35,16 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
 
     @Override
     public void update(LeaveApplied leaveApplied) {
-        repository.save(leaveApplied);
+        Optional<LeaveApplied> optLeaveApplied = this.findById(leaveApplied.getLeaveAppliedId());
+        LeaveApplied savedLeaveApplied = leaveApplied;
+        if (optLeaveApplied.isPresent()) {
+            // TODO: override leave type
+            savedLeaveApplied = optLeaveApplied.get();
+            savedLeaveApplied.setLeaveStartDate(leaveApplied.getLeaveStartDate());
+            savedLeaveApplied.setLeaveEndDate(leaveApplied.getLeaveEndDate());
+            savedLeaveApplied.setIsOverseas(leaveApplied.getIsOverseas());
+            savedLeaveApplied.setLeaveReason(leaveApplied.getLeaveReason());
+        }
+        repository.save(savedLeaveApplied);
     }
 }

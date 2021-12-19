@@ -36,9 +36,9 @@ public class ManageLeaveController {
     }
 
     @RequestMapping(value = "/currentLeaves")
-    public String viewCurrentLeaves(@RequestParam(name = "status") String status, Model model, HttpSession session) {
+    public String viewCurrentLeaves(Model model, HttpSession session) {
         Long userId = 1L;
-        model.addAttribute("leaveAppliedList", service.findByUserId(userId, ApprovalStatus.valueOf(status)));
+        model.addAttribute("leaveAppliedList", service.findByUserId(userId, ApprovalStatus.Applied));
         return "currentLeaves";
     }
 
@@ -55,8 +55,9 @@ public class ManageLeaveController {
     }
 
     @RequestMapping(value = "updateLeaveApplied")
-    public void update(@ModelAttribute("leaveApplied") LeaveApplied leaveApplied) {
-
+    public String update(@ModelAttribute("leaveApplied") LeaveApplied leaveApplied) {
+        service.update(leaveApplied);
+        return "redirect:/leave/currentLeaves";
     }
 
 }
