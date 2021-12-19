@@ -14,4 +14,6 @@ public interface LeaveAppliedService {
     List<LeaveApplied> findByUserId(Long userID, ApprovalStatus status);
 
     void update(LeaveApplied leaveApplied);
+
+    void delete(int id);
 }

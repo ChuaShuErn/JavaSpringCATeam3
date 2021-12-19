@@ -47,4 +47,9 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
         }
         repository.save(savedLeaveApplied);
     }
+
+    @Override
+    public void delete(int id) {
+        repository.deleteById(id);
+    }
 }
