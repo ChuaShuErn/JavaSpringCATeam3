@@ -52,10 +52,10 @@ public class AdminController {
 	@Autowired
 	AdminLoginValidator adminloginvalidator;
 
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.addValidators(adminloginvalidator);
-	}
+//	@InitBinder
+//	protected void initBinder(WebDataBinder binder) {
+//		binder.addValidators(adminloginvalidator);
+//	}
 
 
 
@@ -115,6 +115,22 @@ public class AdminController {
 	public String saveStaff(@ModelAttribute("user") User user, Model model)
 	{
 		System.out.println(user.getRoles());
+
+		//Take out the leave entitled list which has the user id as null
+		ArrayList<LeaveEntitled> leaveEntitleds = (ArrayList<LeaveEntitled>) user.getLeaveEntitledList();
+		user.setLeaveEntitledList(null);
+
+		//Save the user without leave entitled list to get the user id first
+		aservice.saveUser(user);
+
+		//For each leave entitled make the record point to the user which is saved in database
+		for(LeaveEntitled leaveEntitled : leaveEntitleds){
+			leaveEntitled.setUser(user);
+		}
+		//Put back the leave entitled list
+		user.setLeaveEntitledList(leaveEntitleds);
+
+		//save the user again
 		aservice.saveUser(user);
 		return "redirect:/admin/staff/list/1 ";
 	}

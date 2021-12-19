@@ -45,6 +45,12 @@
 		</fieldset>
 		<label>Leave Entitlement : </label> 
 		<fieldset th:each="leave:*{leaveEntitledList}" >
+			<fieldset>
+				<input type="hidden" th:field="*{leaveEntitledList[__${leaveStat.index}__].user}"/>
+			</fieldset>
+			<fieldset>
+				<input type="hidden" th:field="*{leaveEntitledList[__${leaveStat.index}__].leaveType}"/>
+			</fieldset>
 			<label th:text="${leave.leaveType.description}">Leave Type</label>
 			<input type="number" th:field="*{leaveEntitledList[__${leaveStat.index}__].totalLeave}"/>
 		</fieldset>
