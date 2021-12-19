@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -92,6 +93,8 @@ public class ApplyLeaveController {
 			daysPeriod = DateTools.removeWeekends(appliedStartDate, appliedEndDate);
 		}
 		daysPeriod = daysPeriod - WeekdaysPublicHoliday;
+
+		return "";
 	}
 	
 	
