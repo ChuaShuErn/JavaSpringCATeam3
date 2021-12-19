@@ -43,7 +43,7 @@ public class ManageLeaveController {
     }
 
     @RequestMapping(value = "/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String editLeave(@PathVariable("id") Integer id, Model model) {
         Optional<LeaveApplied> optLeaveApplied = service.findById(id);
         if (optLeaveApplied.isEmpty()) {
             // Not found
