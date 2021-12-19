@@ -140,7 +140,7 @@ public class AdminController {
 	}
 
 	@RequestMapping("/admin/role/edit/{id}")
-	public String editRole(@PathVariable("id") Integer id, Model model){
+	public String editRole(@PathVariable("id") Long id, Model model){
 		model.addAttribute("role",roleService.getRoleById(id));
 		return "adminRoleForm";
 	}
@@ -152,7 +152,7 @@ public class AdminController {
 	}
 
 	@RequestMapping("/admin/role/delete/{id}")
-	public String deleteRole(@PathVariable("id") Integer id){
+	public String deleteRole(@PathVariable("id") Long id){
 		roleService.deleteRoleById(id);
 		return "forward:/admin/role/list";
 	}

@@ -24,12 +24,12 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public Role getRoleById(Integer id) {
+    public Role getRoleById(Long id) {
         return roleRepository.findById(id).get();
     }
 
     @Override
-    public void deleteRoleById(Integer id) {
+    public void deleteRoleById(Long id) {
     roleRepository.delete(roleRepository.findById(id).get());
     }
 }
