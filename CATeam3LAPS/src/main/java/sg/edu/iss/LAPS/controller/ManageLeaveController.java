@@ -6,9 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sg.edu.iss.LAPS.model.ApprovalStatus;
 import sg.edu.iss.LAPS.model.LeaveApplied;
+import sg.edu.iss.LAPS.model.LeaveType;
 import sg.edu.iss.LAPS.services.LeaveAppliedService;
+import sg.edu.iss.LAPS.services.LeaveTypeService;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -16,6 +19,9 @@ import java.util.Optional;
 public class ManageLeaveController {
     @Autowired
     LeaveAppliedService service;
+
+    @Autowired
+    LeaveTypeService leaveTypeService;
 
     @RequestMapping(value = "/viewHistory")
     public String viewMyLeaveHistory(Model model, HttpSession session) {
@@ -51,6 +57,10 @@ public class ManageLeaveController {
         }
         LeaveApplied leaveApplied = optLeaveApplied.get();
         model.addAttribute("leaveApplied", leaveApplied);
+
+        List<LeaveType> leaveTypeList = leaveTypeService.getAllLeaveType();
+        model.addAttribute("leaveTypeList", leaveTypeList);
+
         return "editLeave_v2";
     }
 

@@ -14,11 +14,11 @@
 <form action="editLeave" th:object="${leaveApplied}" th:action="@{/leave/updateLeaveApplied}" method="get">
     <input type="hidden" th:field="*{leaveAppliedId}">
     <input type="hidden" th:value="${session.id}" th:attr="name='user.id'">
-    <div class="row mb-3" th:each="type : ${leavetypes}">
+    <div class="row mb-3">
         <label for="leaveType" class="col-sm-2 col-form-label">Leave Type</label>
         <div class="col-sm-5">
             <select class="form-select" aria-label="Default select example" th:field="*{leaveType}">
-                <option th:each="type : ${leavetypes}" value="${type}" th:text="${type}">type</option>
+                <option th:each="type : ${leaveTypeList}" th:value="${type.leaveTypeId}" th:text="${type.description}">type</option>
             </select>
         </div>
     </div>

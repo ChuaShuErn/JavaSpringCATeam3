@@ -38,8 +38,9 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
         Optional<LeaveApplied> optLeaveApplied = this.findById(leaveApplied.getLeaveAppliedId());
         LeaveApplied savedLeaveApplied = leaveApplied;
         if (optLeaveApplied.isPresent()) {
-            // TODO: override leave type and over sea detail
+            // TODO: over sea detail and count number of days
             savedLeaveApplied = optLeaveApplied.get();
+            savedLeaveApplied.setLeaveType(leaveApplied.getLeaveType());
             savedLeaveApplied.setLeaveStartDate(leaveApplied.getLeaveStartDate());
             savedLeaveApplied.setLeaveEndDate(leaveApplied.getLeaveEndDate());
             savedLeaveApplied.setIsOverseas(leaveApplied.getIsOverseas());
