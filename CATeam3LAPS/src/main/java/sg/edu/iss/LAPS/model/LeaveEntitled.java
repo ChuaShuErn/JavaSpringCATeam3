@@ -20,4 +20,8 @@ public class LeaveEntitled {
     @ManyToOne(fetch = FetchType.EAGER)
     private LeaveType leaveType;
 
+    @Override
+    public String toString(){
+        return leaveEntitledId + "  " + totalLeave;
+    }
 }

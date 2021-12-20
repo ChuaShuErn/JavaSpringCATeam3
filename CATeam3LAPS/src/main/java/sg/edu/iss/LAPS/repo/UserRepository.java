@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import sg.edu.iss.LAPS.model.LeaveEntitled;
 import sg.edu.iss.LAPS.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {

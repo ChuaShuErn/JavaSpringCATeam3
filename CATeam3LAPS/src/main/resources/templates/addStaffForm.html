@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-	<title>Admin-addStaffForm</title>
-	<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
-</head>
+<head th:replace="fragments/adminGeneral.html :: headerfiles"/>
 
 <body>
+<div th:replace="fragments/adminGeneral.html :: menu"></div>
+<div class = "main-div">
 	<form th:object="${user}" th:action="@{/admin/saveStaff}" method="POST">
 		<fieldset>
 			<input type="hidden" th:field="*{id}"/>
@@ -46,6 +42,9 @@
 		<label>Leave Entitlement : </label> 
 		<fieldset th:each="leave:*{leaveEntitledList}" >
 			<fieldset>
+				<input type="hidden" th:field="*{leaveEntitledList[__${leaveStat.index}__].leaveEntitledId}"/>
+			</fieldset>
+			<fieldset>
 				<input type="hidden" th:field="*{leaveEntitledList[__${leaveStat.index}__].user}"/>
 			</fieldset>
 			<fieldset>
@@ -60,6 +59,7 @@
 			<input type="reset" value="RESET" />
 		</fieldset>
 	</form>
+</div>
 </body>
 
 </html>

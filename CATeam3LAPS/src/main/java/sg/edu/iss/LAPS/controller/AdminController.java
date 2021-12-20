@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
-
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -77,24 +77,37 @@ public class AdminController {
 	@PostMapping("/admin/saveStaff")
 	public String saveStaff(@ModelAttribute("user") User user, Model model)
 	{
-		System.out.println(user.getRoles());
-
-		//Take out the leave entitled list which has the user id as null
 		ArrayList<LeaveEntitled> leaveEntitleds = (ArrayList<LeaveEntitled>) user.getLeaveEntitledList();
-		user.setLeaveEntitledList(null);
+		if(user.getId()==null) {
 
-		//Save the user without leave entitled list to get the user id first
-		aservice.saveUser(user);
+			//Take out the leave entitled list which has the user id as null
+			//ArrayList<LeaveEntitled> leaveEntitleds = (ArrayList<LeaveEntitled>) user.getLeaveEntitledList();
+			user.setLeaveEntitledList(null);
 
-		//For each leave entitled make the record point to the user which is saved in database
-		for(LeaveEntitled leaveEntitled : leaveEntitleds){
-			leaveEntitled.setUser(user);
+			//Save the user without leave entitled list to get the user id first
+			aservice.saveUser(user);
+
+			//For each leave entitled make the record point to the user which is saved in database
+			for (LeaveEntitled leaveEntitled : leaveEntitleds) {
+				leaveEntitled.setUser(user);
+			}
+			//Put back the leave entitled list
+			user.setLeaveEntitledList(leaveEntitleds);
+			aservice.saveUser(user);
 		}
-		//Put back the leave entitled list
-		user.setLeaveEntitledList(leaveEntitleds);
+		else{
+			User oldUser = aservice.getUserById(user.getId());
+			oldUser.getLeaveEntitledList().clear();
+			oldUser.getLeaveEntitledList().addAll(leaveEntitleds);
+			oldUser.setFirstName(user.getFirstName());
+			oldUser.setLastName(user.getLastName());
+			oldUser.setUsername(user.getUsername());
+			oldUser.setPassword(user.getPassword());
+			oldUser.setEmail(user.getEmail());
+			oldUser.setReportsTo(user.getReportsTo());
+			aservice.saveUser(oldUser);
 
-		//save the user again
-		aservice.saveUser(user);
+		}
 		return "redirect:/admin/staff/list/1 ";
 	}
 	
