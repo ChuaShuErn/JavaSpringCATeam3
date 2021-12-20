@@ -15,7 +15,7 @@
     <div class="row mb-3">
         <label class="col-sm-2 col-form-label">Leave ID</label>
         <div class="col-sm-5">
-            <input class="form-control" th:field="*{leaveAppliedId}" rows="4" readonly></input>
+            <input class="form-control" th:field="*{leaveAppliedId}" rows="4" readonly/>
         </div>
     </div>
     <input type="hidden" th:value="${session.id}" th:attr="name='user.id'">
@@ -57,7 +57,7 @@
     <div class="row mb-3">
         <label>Work Dissemination:</label>
         <div>
-            <input type="text" class="form-control" th:field="*{workDissemination}" readonly>
+            <textarea class="form-control" th:field="*{workDissemination}" rows="4" readonly></textarea>
         </div>
     </div>
 
@@ -75,38 +75,37 @@
         </div>
     </div>
 
-    <!--    <div>-->
-    <!--        <form action="storeOverseasTrip" th:object="${overseasTrip}"> // here I'm not sure-->
-    <!--            <div class="row mb-3">-->
-    <!--                <label class="col-sm-2 col-form-label">Country</label>-->
-    <!--                <div class="col-sm-5">-->
-    <!--                    <input type="text" class="form-control" th:field="*{country}"/>-->
-    <!--                </div>-->
-    <!--            </div>-->
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Country</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" th:field="*{overseasTrip.country}" readonly/>
+        </div>
+    </div>
 
-    <!--            <div class="row mb-3">-->
-    <!--                <label class="col-sm-2 col-form-label">City</label>-->
-    <!--                <div class="col-sm-5">-->
-    <!--                    <input type="text" class="form-control" th:field="*{city}"/>-->
-    <!--                </div>-->
-    <!--            </div>-->
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">City</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" th:field="*{overseasTrip.city}" readonly/>
+        </div>
+    </div>
 
-    <!--            <div class="row mb-3">-->
-    <!--                <label class="col-sm-2 col-form-label">Phone</label>-->
-    <!--                <div class="col-sm-5">-->
-    <!--                    <input type="text" class="form-control" th:field="*{phone}"/>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--            <button class="btn btn-secondary" type="submit">OK</button>-->
-    <!--        </form>-->
-    <!--    </div>-->
-    <a th:href="@{/leave/edit/}+${leaveApplied.leaveAppliedId}">
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Phone</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" th:field="*{overseasTrip.phone}" readonly/>
+        </div>
+    </div>
+    <a th:href="@{/leave/edit/}+${leaveApplied.leaveAppliedId}"
+       th:if="${leaveApplied.approvalStatus == T(sg.edu.iss.LAPS.utility.LeaveStatus).APPLIED}">
         <button type="button" class="btn btn-danger" style="background-color:orange">Edit</button>
     </a>
-    <a th:href="@{/leave/delete/}+${leaveApplied.leaveAppliedId}">
+    <a th:href="@{/leave/delete/}+${leaveApplied.leaveAppliedId}"
+       th:if="${leaveApplied.approvalStatus == T(sg.edu.iss.LAPS.utility.LeaveStatus).APPLIED}">
         <button type="button" class="btn btn-danger">Delete</button>
     </a>
-    <button class="btn btn-secondary" type="button">Cancel</button>
+    <a th:href="@{/leave/viewHistory}">
+        <button type="button" class="btn btn-secondary">Cancel</button>
+    </a>
 </form>
 
 
