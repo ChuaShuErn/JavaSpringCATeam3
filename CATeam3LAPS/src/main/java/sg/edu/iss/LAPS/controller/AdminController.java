@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.LAPS.model.LeaveEntitled;
 import sg.edu.iss.LAPS.model.LeaveType;
+import sg.edu.iss.LAPS.model.PublicHoliday;
 import sg.edu.iss.LAPS.model.Role;
 import sg.edu.iss.LAPS.model.User;
 import sg.edu.iss.LAPS.repo.LeaveEntitledRepository;
 import sg.edu.iss.LAPS.repo.RoleRepository;
 import sg.edu.iss.LAPS.services.AdminService;
 import sg.edu.iss.LAPS.services.LeaveTypeService;
+import sg.edu.iss.LAPS.services.PublicHolidayService;
 import sg.edu.iss.LAPS.services.RoleService;
 import sg.edu.iss.LAPS.utility.Constants;
 
@@ -43,6 +45,9 @@ public class AdminController {
 	
 	@Autowired
 	LeaveEntitledRepository lErepo;
+	
+	@Autowired
+	PublicHolidayService publicHolidayService;
 
 	/* staff mappings start here*/
 	
@@ -206,9 +211,41 @@ public class AdminController {
 	}
 	/* Manage Holiday */
 	
-	@RequestMapping("/admin/holiday/list")
-	public String manageHoliday(Model model){
-		
-		return "forward:/admin/role/list";
+	@RequestMapping("/admin/holiday/list/{pageNo}")
+	public String manageHoliday(@PathVariable(value="pageNo") int pageNo, Model model){
+		int pageSize= Constants.ADMIN_PUBLICHOLIDAY_PAGE_SIZE; 
+		Page<PublicHoliday> page=publicHolidayService.findPaginated(pageNo,pageSize);
+		List<PublicHoliday> publicHolidaysList=page.getContent();
+		model.addAttribute("currentPage",pageNo);
+		model.addAttribute("totalPages",page.getTotalPages());
+		model.addAttribute("totalItems",page.getTotalElements());
+		model.addAttribute("publicHoliday",publicHolidaysList);
+		 
+		return "adminManageHoliday";
+	}
+	@GetMapping("/admin/holiday/addHoliday")
+	public String addHoliday(Model model){
+		  PublicHoliday pH=new PublicHoliday();
+		  model.addAttribute("publicHoliday",pH);
+		  return "adminHolidayForm";
+	}
+	
+	@GetMapping("/admin/holiday/editHoliday/{holidayId}")
+	public String editHoliday(@PathVariable("holidayId") int holidayId, Model model){
+		  PublicHoliday pH=publicHolidayService.getById(holidayId);
+		  model.addAttribute("publicHoliday",pH);
+		  return "adminHolidayForm";
+	}
+	@PostMapping("/admin/holiday/saveHoliday")
+	public String saveHoliday(@ModelAttribute("publicHoliday") PublicHoliday publicHoliday){  
+		publicHolidayService.savePublicHoliday(publicHoliday);
+		return "redirect:/admin/holiday/list/1";
+	}
+	@GetMapping("/admin/holiday/deleteHoliday/{holidayId}/{currPage}")
+	public String deleteHoliday(@PathVariable(value="holidayId") Integer holidayId, 
+			@PathVariable(value="currPage") Integer currPage)
+	{
+		publicHolidayService.deleteHolidayById(holidayId);
+		return "redirect:/admin/holiday/list/"+currPage;
 	}
 }

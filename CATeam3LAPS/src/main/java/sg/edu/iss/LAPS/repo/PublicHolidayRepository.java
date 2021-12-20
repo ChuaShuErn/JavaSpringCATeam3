@@ -8,5 +8,4 @@ import sg.edu.iss.LAPS.model.PublicHoliday;
 
 @Repository
 public interface PublicHolidayRepository extends JpaRepository<PublicHoliday, Integer> {
-
 }
