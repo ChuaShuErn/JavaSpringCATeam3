@@ -100,13 +100,17 @@
     <!--            <button class="btn btn-secondary" type="submit">OK</button>-->
     <!--        </form>-->
     <!--    </div>-->
-    <a th:href="@{/leave/edit/}+${leaveApplied.leaveAppliedId}">
+    <a th:href="@{/leave/edit/}+${leaveApplied.leaveAppliedId}"
+       th:if="${leaveApplied.approvalStatus == T(sg.edu.iss.LAPS.utility.LeaveStatus).APPLIED}">
         <button type="button" class="btn btn-danger" style="background-color:orange">Edit</button>
     </a>
-    <a th:href="@{/leave/delete/}+${leaveApplied.leaveAppliedId}">
+    <a th:href="@{/leave/delete/}+${leaveApplied.leaveAppliedId}"
+       th:if="${leaveApplied.approvalStatus == T(sg.edu.iss.LAPS.utility.LeaveStatus).APPLIED}">
         <button type="button" class="btn btn-danger">Delete</button>
     </a>
-    <button class="btn btn-secondary" type="button">Cancel</button>
+    <a th:href="@{/leave/viewHistory}">
+        <button type="button" class="btn btn-secondary">Cancel</button>
+    </a>
 </form>
 
 
