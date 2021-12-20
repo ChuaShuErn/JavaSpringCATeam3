@@ -121,7 +121,7 @@ public class ApplyLeaveController {
 		application.setApprovalStatus(LeaveStatus.APPLIED);
 		applyLeaveService.createLeaveApplication(application);
 		
-		return "redirect:/"; // lalaa
+		return "redirect:/"; // lalaaa
 		
 	}
 	
