@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import sg.edu.iss.LAPS.model.ApprovalStatus;
 import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.User;
 import sg.edu.iss.LAPS.repo.UserRepository;
 import sg.edu.iss.LAPS.services.ManagerService;
 import sg.edu.iss.LAPS.utility.Approve;
+import sg.edu.iss.LAPS.utility.LeaveStatus;
 
 @Controller
 @RequestMapping(value = "/manager")
@@ -92,11 +92,11 @@ public class ManagerController {
 			return new ModelAndView("managerLeaveDetail");
 		//LeaveApplied leave = laService.findleaveApplied(id);
 		LeaveApplied leave=null;
-		if (approve.getDecision().trim().equalsIgnoreCase(ApprovalStatus.APPROVED.toString())) {
+		if (approve.getDecision().trim().equalsIgnoreCase(LeaveStatus.APPROVED.toString())) {
 				
-			leave.setApprovalStatus(ApprovalStatus.APPROVED);
+			leave.setApprovalStatus(LeaveStatus.APPROVED);
 		} else {
-			leave.setApprovalStatus(ApprovalStatus.REJECTED);
+			leave.setApprovalStatus(LeaveStatus.REJECTED);
 		}
 
 		ModelAndView mav = new ModelAndView("forward:/manager/pending");

@@ -11,7 +11,7 @@
 
 <body>
 
-<form action="editLeave" th:object="${leaveApplied}" th:action="@{/leave/updateLeaveApplied}" method="get">
+<form th:object="${leaveApplied}">
     <div class="row mb-3">
         <label class="col-sm-2 col-form-label">Leave ID</label>
         <div class="col-sm-5">
@@ -20,48 +20,44 @@
     </div>
     <input type="hidden" th:value="${session.id}" th:attr="name='user.id'">
     <div class="row mb-3">
-        <label for="leaveType" class="col-sm-2 col-form-label">Leave Type</label>
+        <label class="col-sm-2 col-form-label">Leave Type</label>
         <div class="col-sm-5">
-            <select class="form-select" aria-label="Default select example" th:field="*{leaveType}">
-                <option th:each="type : ${leaveTypeList}" th:value="${type.leaveTypeId}" th:text="${type.description}">
-                    type
-                </option>
-            </select>
+            <textarea class="form-control" th:field="*{leaveType.description}" rows="4" readonly></textarea>
         </div>
     </div>
 
     <div class="row mb-3">
-        <label for="start" class="col-sm-2 col-form-label">Start date</label>
+        <label class="col-sm-2 col-form-label">Start date</label>
         <div class="col-sm-5">
             <input type="date" th:field="*{leaveStartDate}"
                    placeholder="yyyy-MM-dd"
                    min="2021-12-01" max="2022-12-31"
-                   required pattern="\d{2}-\d{2}-\d{4}">
+                   required pattern="\d{2}-\d{2}-\d{4}" readonly>
         </div>
     </div>
 
     <div class="row mb-3">
-        <label for="start" class="col-sm-2 col-form-label">End date</label>
+        <label class="col-sm-2 col-form-label">End date</label>
         <div class="col-sm-5">
             <input type="date" th:field="*{leaveEndDate}"
                    placeholder="yyyy-MM-dd"
                    min="2021-12-01" max="2022-12-31"
-                   required pattern="\d{2}-\d{2}-\d{4}">
+                   required pattern="\d{2}-\d{2}-\d{4}" readonly>
         </div>
     </div>
 
 
     <div class="row mb-3">
-        <label for="ReasonLeave" class="col-sm-2 col-form-label">Reason of Leave</label>
+        <label class="col-sm-2 col-form-label">Reason of Leave</label>
         <div class="col-sm-5">
-            <textarea class="form-control" th:field="*{leaveReason}" rows="4"></textarea>
+            <textarea class="form-control" th:field="*{leaveReason}" rows="4" readonly></textarea>
         </div>
     </div>
 
     <div class="row mb-3">
-        <label class="col-sm-2 col-form-label">Work Dissemination:</label>
-        <div class="col-sm-5">
-            <input type="text" class="form-control" th:field="*{workDissemination}">
+        <label>Work Dissemination:</label>
+        <div>
+            <textarea class="form-control" th:field="*{workDissemination}" rows="4" readonly></textarea>
         </div>
     </div>
 
@@ -70,38 +66,46 @@
         <div class="col-sm-5">
             <div class="form-check">
                 <label class="form-check-label"><input class="form-check-input" type="radio" value="true" checked
-                                                       th:field="*{isOverseas}"> Yes</label>
+                                                       th:field="*{isOverseas}" disabled> Yes</label>
             </div>
             <div class="form-check">
                 <label class="form-check-label"><input class="form-check-input" type="radio" value="false"
-                                                       th:field="*{isOverseas}">No</label>
+                                                       th:field="*{isOverseas}" disabled>No</label>
             </div>
         </div>
     </div>
 
-    <input type="hidden" class="form-control" th:field="*{overseasTrip.overseasLeaveId}"/>
     <div class="row mb-3">
         <label class="col-sm-2 col-form-label">Country</label>
         <div class="col-sm-5">
-            <input type="text" class="form-control" th:field="*{overseasTrip.country}"/>
+            <input type="text" class="form-control" th:field="*{overseasTrip.country}" readonly/>
         </div>
     </div>
 
     <div class="row mb-3">
         <label class="col-sm-2 col-form-label">City</label>
         <div class="col-sm-5">
-            <input type="text" class="form-control" th:field="*{overseasTrip.city}"/>
+            <input type="text" class="form-control" th:field="*{overseasTrip.city}" readonly/>
         </div>
     </div>
 
     <div class="row mb-3">
         <label class="col-sm-2 col-form-label">Phone</label>
         <div class="col-sm-5">
-            <input type="text" class="form-control" th:field="*{overseasTrip.phone}"/>
+            <input type="text" class="form-control" th:field="*{overseasTrip.phone}" readonly/>
         </div>
     </div>
-    <button class="btn btn-secondary" type="submit">Submit form</button>
-    <button class="btn btn-secondary" type="reset">Reset</button>
+    <a th:href="@{/leave/edit/}+${leaveApplied.leaveAppliedId}"
+       th:if="${leaveApplied.approvalStatus == T(sg.edu.iss.LAPS.utility.LeaveStatus).APPLIED}">
+        <button type="button" class="btn btn-danger" style="background-color:orange">Edit</button>
+    </a>
+    <a th:href="@{/leave/delete/}+${leaveApplied.leaveAppliedId}"
+       th:if="${leaveApplied.approvalStatus == T(sg.edu.iss.LAPS.utility.LeaveStatus).APPLIED}">
+        <button type="button" class="btn btn-danger">Delete</button>
+    </a>
+    <a th:href="@{/leave/viewHistory}">
+        <button type="button" class="btn btn-secondary">Cancel</button>
+    </a>
 </form>
 
 

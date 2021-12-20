@@ -1,8 +1,10 @@
 package sg.edu.iss.LAPS.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import sg.edu.iss.LAPS.model.LeaveType;
 import sg.edu.iss.LAPS.model.Role;
 import sg.edu.iss.LAPS.repo.RoleRepository;
 
@@ -32,4 +34,9 @@ public class RoleServiceImpl implements RoleService{
     public void deleteRoleById(Long id) {
     roleRepository.delete(roleRepository.findById(id).get());
     }
+    @Override
+	public Page<Role> findPaginated(int pageNo, int pageSize) {
+		Pageable pageable=PageRequest.of(pageNo-1, pageSize);
+		return roleRepository.findAll(pageable);
+	}
 }

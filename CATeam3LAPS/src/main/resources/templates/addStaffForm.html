@@ -12,21 +12,27 @@
 		</fieldset>
 		<fieldset>
 			First Name : <input type="text" th:field="*{FirstName}" placeholder="First Name"/>
+			<p style="color:red" th:if"${#fields.hasErrors('FirstName')}" th:errors="*{FirstName}"></p>
 		</fieldset>
 		<fieldset>
 			Last Name : <input type="text" th:field="*{LastName}" placeholder="Last Name"/>
+			<p style="color:red" th:if"${#fields.hasErrors('LastName')}" th:errors="*{LastName}"></p>
 		</fieldset>
 		<fieldset>
 			Username : <input type="text" th:field="*{Username}" placeholder="Username"/>
+			<p style="color:red" th:if"${#fields.hasErrors('Username')}" th:errors="*{Username}"></p>
 		</fieldset>
 		<fieldset>
 			Password : <input type="text" th:field="*{Password}" placeholder="Password"/>
+			<p style="color:red" th:if"${#fields.hasErrors('Password')}" th:errors="*{Password}"></p>
 		</fieldset>
 		<fieldset>
 			Email : <input type="text" th:field="*{email}" placeholder="Email"/>
+			<p style="color:red" th:if"${#fields.hasErrors('Email')}" th:errors="*{Email}"></p>
 		</fieldset>
 		<fieldset>
 			Report To : <input type="text" th:field="*{ReportsTo}" placeholder="Manager Id"/>
+			<p style="color:red" th:if"${#fields.hasErrors('ReportsTo')}" th:errors="*{ReportsTo}"></p>
 		</fieldset>
 		<fieldset class="form-group-row">
 			<label class="col-form-label col-sm-4">Roles :</label> 

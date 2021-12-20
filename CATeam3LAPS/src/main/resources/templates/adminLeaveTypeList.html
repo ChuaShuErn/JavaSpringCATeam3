@@ -7,23 +7,43 @@
 <div class = "main-div">
 <!-- Add Hyperlink -->
 <a class = "button-add" href="AddLeaveType.html" th:href="@{/admin/leave-type/add}">Add</a>
-<table class="content-table" th:unless="${#lists.isEmpty(leaveTypes)}" border="1 pt">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Description</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="leaveType:${leaveTypes}">
-        <td th:text="${leaveType.leaveTypeId}">ID</td>
-        <td th:text="${leaveType.description}">Description</td>
-        <td ><a href="edit.html" th:href="@{/admin/leave-type/edit/} + ${leaveType.leaveTypeId}">Edit</a>
-            <a href="edit.html" th:href="@{/admin/leave-type/delete/} + ${leaveType.leaveTypeId}">Delete</a></td>
-    </tr>
-    </tbody>
-</table>
+	<table class="content-table" th:unless="${#lists.isEmpty(leaveTypes)}" border="1 pt">
+	    <thead>
+	    <tr>
+	        <th>ID</th>
+	        <th>Description</th>
+	        <th>Actions</th>
+	    </tr>
+	    </thead>
+	    <tbody>
+	    <tr th:each="leaveType:${leaveTypes}">
+	        <td th:text="${leaveType.leaveTypeId}">ID</td>
+	        <td th:text="${leaveType.description}">Description</td>
+	        <td ><a href="edit.html" th:href="@{/admin/leave-type/edit/} + ${leaveType.leaveTypeId}">Edit</a>
+	            <a href="edit.html" th:href="@{/admin/leave-type/delete/} + ${leaveType.leaveTypeId}">Delete</a></td>
+	    </tr>
+	    </tbody>
+	</table>
+	<div class="row col-sm-10">
+			<div class="col-sm-2">
+				Total Rows: [[${totalItems}]]
+			</div>
+			<div class="col-sm-1">
+				<span th:each="i: ${#numbers.sequence(1,totalPages)}">
+					<a th:if="${currentPage != i}" th:href="@{'/admin/leave-type/list/' + ${i}}">[[${i}]]</a>
+					<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+				</span>
+			</div>
+			<div class="col-sm-1">
+				<a th:if="${currentPage<totalPages}" th:href="@{'/admin/leave-type/list/' + ${currentPage +1}}">Next</a>
+				<span th:unless="${currentPage<totalPages}">Next</span>
+			</div>
+			<div class="col-sm-1">
+				<a th:if="${currentPage<totalPages}" th:href="@{'/admin/leave-type/list/' + ${totalPages}}">Last</a>
+				<span th:unless="${currentPage<totalPages}">Last</span>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
 </html>
