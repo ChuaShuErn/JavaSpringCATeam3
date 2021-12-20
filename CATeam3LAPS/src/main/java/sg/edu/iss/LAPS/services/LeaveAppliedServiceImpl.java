@@ -64,6 +64,11 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
 
     @Override
     public void delete(int id) {
-        repository.deleteById(id);
+        Optional<LeaveApplied> optional = this.findById(id);
+        if (optional.isPresent()) {
+            LeaveApplied leaveApplied = optional.get();
+            leaveApplied.setApprovalStatus(LeaveStatus.DELETED);
+            repository.save(leaveApplied);
+        }
     }
 }
