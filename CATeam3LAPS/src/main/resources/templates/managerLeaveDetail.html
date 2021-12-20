@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/managerGeneral.html :: html_head"/>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu"/>
+	
+	
+	<div th:replace="fragments/managerGeneral.html :: header"/>
+	<div th:replace="fragments/managerGeneral.html :: manager_head"/> 
+	<h3>Leave Details</h3>
+<!--Detailed table of the leave-->
+<table>
+		<tr>
+			<th align="right"><span th:text="#{fieldLabel.LeaveId}">LeaveID</span></th>
+			<td colspan="3" th:text="${leaveApplied.leaveAppliedId}">Id</td>
+		</tr>
+		<tr>
+			<th align="right"><span th:text="fieldLabel.Username">Name</span></th>
+			<td colspan="3" th:text="${leaveApplied.user.Username}">Name</td>
+		</tr>
+		<tr>
+			<th align="right"><span th:text="#{fieldLabel.leaveAppliedDate}">Leave Applied Date</span></th>
+			<td colspan="3" th:text="${leaveApplied.appliedDate}">applied Date</td>
+		</tr>
+		<tr>
+			<th align="right"><span th:text="#{fieldLabel.leaveStartDate}">Leave Start Date</span></th>
+			<td th:text="${#dates.format(leaveApplied.leaveStartDate, 'dd-MMM-yyyy')}">From Date</td>
+			<th align="right"><span th:text="#{fieldLabel.leaveEndDate}">Leave End Date</span></th>
+			<td th:text="${#dates.format(leaveApplied.leaveEndDate, 'dd-MMM-yyyy')}">To Date</td>
+		</tr>
+		<tr>
+			<th align="right"><span th:text="#{fieldLabel.leaveType}">Leave Type</span></th>
+			<td th:text="${leaveApplied.leaveType}">Leave Type</td>
+		</tr>
+		<tr>
+			<th align="right"><span th:text="#{fieldLabel.leaveReason}">Leave Reason</span></th>
+			<td colspan="3" th:text="${leaveApplied.leaveReason}">Leave Reason</td>
+		</tr>
+		<tr>
+			<th align="right"><span th:text="#{fieldLabel.status}">Status</span></th>
+			<td colspan="3" th:text="${leaveApplied.status}">Status</td>
+		</tr>
+	</table>
+
+
+<!--Radio button and comments-->
+<form action="#" th:action="@{/manager/leave/edit/}+${leaveApplied.leaveAppliedId}" th:object="${approve}" method="post">
+		<table>
+			<tr>
+				<td>
+					<fieldset>
+						<input type="radio" th:field="*{decision}" th:value="APPROVED" />
+						<label th:text="#{caption.approve}"></label> &nbsp;&nbsp;
+						<input type="radio" th:field="*{decision}" th:value="REJECTED" /> 
+						<label th:text="#{caption.reject}"></label>
+					</fieldset>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<fieldset>
+						<span th:text="#{fieldLabel.managerComment}">Manager Comment</span> <br>
+						<textarea rows="4" cols="60" th:field="*{comment}">Text Area</textarea>
+					</fieldset>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<fieldset>
+						<input th:type="submit" th:value="Update" class="blcass" />
+					</fieldset>
+				</td>
+
+			</tr>
+		</table>
+
+	</form>
+</body>
+</html>
