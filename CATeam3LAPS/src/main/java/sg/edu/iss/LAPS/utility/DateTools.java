@@ -36,21 +36,31 @@ public class DateTools {
 	  }
 	  
 	//Count the weekdays that is a public Holiday
-	  // TODO: Add for loop like removeWeekends
 	  public static float countWeekdaysPublicHoliday(Calendar start, Calendar end) {
-		  float WeekdaysPublicHoliday = 0;
-
-		  if (start.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY 
-				  && start.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-					WeekdaysPublicHoliday++;
+		  float WeekdaysPublicHoliday = 0;  		  
+		  // situation1: the start day and the end day are both in weekdays;
+		  // situation2: the start day is in weekdays;
+		  // situation3: the end day is in weekdays;
+		  
+		  if((start.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && start.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) 
+				  && (end.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && end.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)  ) {
+			  WeekdaysPublicHoliday = end.get(Calendar.DATE) - start.get(Calendar.DATE)+1;
 		  }
-		  if(!(end.equals(start))) {
-				if (end.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
-					&& end.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-						WeekdaysPublicHoliday++;
-					}
-		   }
-		  return WeekdaysPublicHoliday;  
+		  else if((start.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && start.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) 
+				  && (end.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || end.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
+			  while(start.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+				  start.add(Calendar.DATE, 1);
+				  WeekdaysPublicHoliday++;
+			  }
+		  }
+		  else if((start.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || start.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) 
+				  && (end.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY || end.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)) {
+			  while(end.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+				  end.add(Calendar.DATE, -1);
+				  WeekdaysPublicHoliday++;
+			  }
+		  } 
+		  return WeekdaysPublicHoliday;
 	  }
 
 }
