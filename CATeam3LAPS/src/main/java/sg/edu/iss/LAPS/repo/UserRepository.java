@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import sg.edu.iss.LAPS.model.LeaveEntitled;
 import sg.edu.iss.LAPS.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	
 	@Query("SELECT u FROM User u JOIN u.roles r WHERE u.email = :email AND r.id = 3")
-	public User checkIfStaffExistsbyEmail(@Param("u1email") String email);
+	public User checkIfStaffExistsbyEmail(@Param("email") String email);
 	
 	//check if Staff is Manager
 	@Query("SELECT u FROM User u Join u.roles r WHERE u.email = :email AND r.id = 2")
@@ -19,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	//for admin login
 	@Query("SELECT u FROM User u Join u.roles r WHERE u.email = :email AND r.id = 1")
-	public User checkIfUserIsAdminbyEmail(@Param("u1email")String email);
+	public User checkIfUserIsAdminbyEmail(@Param("email")String email);
 	
 	@Query("SELECT DISTINCT u2 FROM User u1, User u2 WHERE u1.id = u2.ReportsTo AND u1.email = :u1email")
 	public ArrayList<User> findSubordinates(@Param("u1email") String u1email);
