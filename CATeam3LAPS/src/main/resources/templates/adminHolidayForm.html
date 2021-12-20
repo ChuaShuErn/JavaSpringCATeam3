@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/adminGeneral.html :: headerfiles"/>
+
+<body>
+	<form th:object="${publicHoliday}" th:action="@{/admin/holiday/saveHoliday}" method="POST">
+		<fieldset>
+			<input type="hidden" th:field="*{holidayId}"/>
+		</fieldset>
+		<fieldset>
+			Holiday Name : <input type="text" th:field="*{holidayName}" placeholder="Holiday Name"/>
+		</fieldset>
+		
+		<fieldset class="row mb-3">
+			<label class="col-sm-2 col-form-label">Start date</label>
+			<div class="col-sm-3">
+				<input type="date" th:field="*{holidayStartDate}" 
+						placeholder="mm-dd-yyyy"    
+						min="2021-12-01" max="2022-12-31" 
+						required pattern="\d{2}-\d{2}-\d{4}">
+			</div>
+		</fieldset>
+		
+		<fieldset class="row mb-3">
+			<label class="col-sm-2 col-form-label">End date</label>
+			<div class="col-sm-5">
+				<input type="date" th:field="*{holidayEndDate}" 
+						placeholder="mm-dd-yyyy"    
+						min="2021-12-01" max="2022-12-31" 
+						required pattern="\d{2}-\d{2}-\d{4}">
+			</div>
+		</fieldset>
+	
+		<fieldset>
+			<input type="submit" value="SAVE" />
+			&nbsp;
+			<input type="reset" value="RESET" />
+		</fieldset>
+	</form>
+</body>
+
+</html>

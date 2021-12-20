@@ -19,16 +19,17 @@
 		</thead>
 		<tbody>	
 			<tr th:each="holiday:${publicHoliday}">
-				<td th:text="${holiday.Id}">Holiday ID</td>
-				<td th:text="${holiday.Name}">Holiday Name</td>	
-				<td th:text="${holiday.holidayStartDate}">Holiday Start Date</td>
-				<td th:text="${holiday.holidayEndDate}">Holiday End Date</td>	
-				<td ><a href="edit.html" th:href="@{/admin/publicHoliday/edit/}+${user.id}">Edit</a> 
-				<a href="delete.html" th:href="@{/admin/publicHoliday/delete/}+${user.id}+'/'+${currentPage}">Delete</a></td>
+				<td th:text="${holiday.holidayId}">Holiday ID</td>
+				<td th:text="${holiday.holidayName}">Holiday Name</td>	
+				<td th:text="${#dates.format(holiday.holidayStartDate, 'dd-MM-yyyy')}">Holiday Start Date</td>
+				<td th:text="${#dates.format(holiday.holidayEndDate, 'dd-MM-yyyy')}">Holiday End Date</td>
+					
+				<td><a href="edit.html" th:href="@{/admin/holiday/editHoliday/}+${holiday.holidayId}">Edit</a> 
+				<a href="delete.html" th:href="@{/admin/holiday/deleteHoliday/}+${holiday.holidayId}+'/'+${currentPage}">Delete</a></td>
 			</tr>
 		</tbody>
 	</table>
-	<div th:if="${totalPages>1}">
+	<div th:if="${totalPages>0}">
 		<div class="row col-sm-10">
 			<div class="col-sm-2">
 				Total Rows: [[${totalItems}]]

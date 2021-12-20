@@ -10,4 +10,8 @@ public interface PublicHolidayService {
 	
 	List<PublicHoliday> findAll();
 	Page<PublicHoliday> findPaginated(int pageNo,int pageSize);
+	
+	PublicHoliday getById(Integer Id);
+	public void deleteHolidayById(Integer Id);
+	public void savePublicHoliday(PublicHoliday publicHoliday);
 }
