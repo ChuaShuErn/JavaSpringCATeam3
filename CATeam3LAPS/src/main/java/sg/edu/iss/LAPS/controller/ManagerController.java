@@ -1,24 +1,50 @@
 package sg.edu.iss.LAPS.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import sg.edu.iss.LAPS.model.LeaveApplied;
+import sg.edu.iss.LAPS.model.User;
+import sg.edu.iss.LAPS.repo.UserRepository;
+import sg.edu.iss.LAPS.services.ManagerService;
+import sg.edu.iss.LAPS.utility.LeaveStatus;
 
-//@Controller
-//@RequestMapping(value = "/manager")
-//public class ManagerController {
+@Controller
+@RequestMapping(value = "/manager")
+public class ManagerController {
+	
+	@Autowired
+	ManagerService mservice;
+	
+	@Autowired
+	UserRepository urepo;
+	
+	@RequestMapping(value="/leave/pending")
+    public ModelAndView pendingApproval(HttpSession session) {
+		User manager = urepo.getById((long) session.getAttribute("id"));
+		if (manager == null){
+			return new ModelAndView("login");
+		}
+		ModelAndView mav = new ModelAndView("managerLeavePending");
+		List<LeaveApplied> subApplied = (ArrayList) mservice.getSubordinateLeavesByLeaveStatus(
+				manager.getEmail(), LeaveStatus.APPLIED.toString());
+		List<LeaveApplied> subUpdated = (ArrayList) mservice.getSubordinateLeavesByLeaveStatus(
+				manager.getEmail(), LeaveStatus.UPDATED.toString());
+		subApplied.addAll(subUpdated);
+		mav.addObject("pendingLeaves", subApplied);
+		return mav;
+	}
+	
+	
+	
+	
 //
 //	@Autowired
 //	//LeaveService creation needed
@@ -60,6 +86,5 @@ import sg.edu.iss.LAPS.model.LeaveApplied;
 //		ModelAndView mav = new ModelAndView("manager-course-detail", "course", course);
 //		mav.addObject("approve", new Approve());
 //		return mav;
-//	}
-//
-//}
+
+}
