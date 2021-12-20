@@ -10,6 +10,7 @@
 		</fieldset>
 		<fieldset>
 			Holiday Name : <input type="text" th:field="*{holidayName}" placeholder="Holiday Name"/>
+			<p style="color:red" th:if"${#fields.hasErrors('holidayName')}" th:errors="*{holidayName}"></p>
 		</fieldset>
 		
 		<fieldset class="row mb-3">
@@ -21,7 +22,6 @@
 						required pattern="\d{2}-\d{2}-\d{4}">
 			</div>
 		</fieldset>
-		
 		<fieldset class="row mb-3">
 			<label class="col-sm-2 col-form-label">End date</label>
 			<div class="col-sm-5">

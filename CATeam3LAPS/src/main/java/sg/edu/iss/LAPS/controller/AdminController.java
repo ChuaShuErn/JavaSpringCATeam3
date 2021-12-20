@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -223,7 +226,12 @@ public class AdminController {
 		  return "adminHolidayForm";
 	}
 	@PostMapping("/admin/holiday/saveHoliday")
-	public String saveHoliday(@ModelAttribute("publicHoliday") PublicHoliday publicHoliday){  
+	public String saveHoliday(@Valid PublicHoliday publicHoliday, 
+			BindingResult bindingResult){ 
+		if (bindingResult.hasErrors())
+		{
+			return "adminHolidayForm";
+		}
 		publicHolidayService.savePublicHoliday(publicHoliday);
 		return "redirect:/admin/holiday/list/1";
 	}
