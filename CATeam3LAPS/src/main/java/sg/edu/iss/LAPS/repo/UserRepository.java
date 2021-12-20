@@ -1,5 +1,7 @@
 package sg.edu.iss.LAPS.repo;
 
+import java.util.ArrayList;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,5 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	//for admin login
 	@Query("SELECT u FROM User u Join u.roles r WHERE u.email = :email AND r.id = 1")
 	public User checkIfUserIsAdminbyEmail(@Param("email")String email);
+	
+	@Query("SELECT DISTINCT u2 FROM User u1, User u2 WHERE u1.id = u2.ReportsTo AND u1.email = :u1email")
+	public ArrayList<User> findSubordinates(@Param("email") String u1email);
 
 }

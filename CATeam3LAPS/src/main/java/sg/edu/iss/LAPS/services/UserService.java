@@ -1,5 +1,10 @@
 package sg.edu.iss.LAPS.services;
 
-public interface UserService {
 
+import sg.edu.iss.LAPS.model.User;
+
+
+public interface UserService {
+	
+	public User findUserById(Long id);
 }

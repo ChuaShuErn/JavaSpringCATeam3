@@ -2,14 +2,17 @@ package sg.edu.iss.LAPS.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.LAPS.model.LeaveEntitled;
 import sg.edu.iss.LAPS.model.LeaveType;
@@ -17,16 +20,10 @@ import sg.edu.iss.LAPS.model.Role;
 import sg.edu.iss.LAPS.model.User;
 import sg.edu.iss.LAPS.repo.LeaveEntitledRepository;
 import sg.edu.iss.LAPS.repo.RoleRepository;
-import sg.edu.iss.LAPS.repo.UserRepository;
 import sg.edu.iss.LAPS.services.AdminService;
 import sg.edu.iss.LAPS.services.LeaveTypeService;
 import sg.edu.iss.LAPS.services.RoleService;
-import sg.edu.iss.LAPS.utility.AdminLogin;
 import sg.edu.iss.LAPS.utility.Constants;
-import sg.edu.iss.LAPS.validators.AdminLoginValidator;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 @Controller
 public class AdminController {
@@ -112,6 +109,23 @@ public class AdminController {
 		model.addAttribute("userList",userList);
 		return "adminUserList";
 	}
+	//Edit and delete staff
+	@GetMapping("/admin/staff/edit/{id}")
+	public String editStaff(@PathVariable(value="id") Long id, Model model)
+	{
+		User user=aservice.getUserById(id);
+		model.addAttribute("user",user);
+		return "addStaffForm";
+	}
+	
+	@GetMapping("/admin/staff/delete/{id}/{currPage}")
+	public String deleteStaff(@PathVariable(value="id") Long id, 
+			@PathVariable(value="currPage") Integer currPage)
+	{
+		aservice.deleteUserById(id);
+		return "forward:/admin/staff/list/"+currPage;
+	}
+	
 
 	/*Admin leave type mappings start here*/
 

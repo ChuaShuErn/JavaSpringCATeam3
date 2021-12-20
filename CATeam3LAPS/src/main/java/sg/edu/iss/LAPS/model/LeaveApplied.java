@@ -12,7 +12,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "LeaveApplied")
-@Data // = adding @Getter @Setter @ToString @EqualsAndHashCode @RequiredArgsConstructor
+@Data
+// = adding @Getter @Setter @ToString @EqualsAndHashCode @RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeaveApplied {
@@ -22,17 +23,17 @@ public class LeaveApplied {
 
     @NotNull //leave applied date
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date appliedDate;
 
     @NotNull //leave start date
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date leaveStartDate;
 
     @NotNull //leave end date
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date leaveEndDate;
 
     private float noOfDays;
@@ -55,8 +56,18 @@ public class LeaveApplied {
 
     private String workDissemination;
 
+    private boolean isOverseas;
+
     @OneToOne
     @JoinColumn(name = "overseas_trip_overseas_leave_id")
     private OverseasLeaveDetails overseasTrip;
 
+
+    public boolean getIsOverseas() {
+        return isOverseas;
+    }
+
+    public void setIsOverseas(boolean overseas) {
+        isOverseas = overseas;
+    }
 }

@@ -1,11 +1,13 @@
 package sg.edu.iss.LAPS.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,15 +31,19 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public User getUserById(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getUserById(long id)
+	{
+		return urepo.findById(id).get();
 	}
 
 	@Override
+	@Modifying
 	public void deleteUserById(long id) {
-		// TODO Auto-generated method stub
-		
+		User user=getUserById(id);
+		user.getRoles().clear();
+		user.getLeaveAppliedList().clear();
+		user.getLeaveEntitledList().clear();
+		urepo.deleteById(id);
 	}
 
 	@Override
