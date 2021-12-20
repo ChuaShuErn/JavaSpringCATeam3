@@ -44,7 +44,7 @@ public class ManageLeaveController {
     @RequestMapping(value = "/currentLeaves")
     public String viewCurrentLeaves(Model model, HttpSession session) {
         Long userId = 1L;
-        model.addAttribute("leaveAppliedList", service.findByUserId(userId, ApprovalStatus.Applied));
+        model.addAttribute("leaveAppliedList", service.findByUserId(userId, ApprovalStatus.APPLIED));
         return "currentLeaves";
     }
 
