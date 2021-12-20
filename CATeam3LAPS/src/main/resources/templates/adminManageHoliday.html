@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/adminGeneral.html :: headerfiles"/>
+
+<body>
+<div th:replace="fragments/adminGeneral.html :: menu"></div>
+<div class="main-div">
+	<a class = "button-add" th:href="@{/admin/holiday/addHoliday}">Add New Public Holiday</a>
+	<table class="content-table" th:unless="${#lists.isEmpty(publicHoliday)}" border="1 pt">
+		<thead>
+			<tr>
+				<th>Holiday ID</th>
+				<th>Holiday Name</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>	
+			<tr th:each="holiday:${publicHoliday}">
+				<td th:text="${holiday.Id}">Holiday ID</td>
+				<td th:text="${holiday.Name}">Holiday Name</td>	
+				<td th:text="${holiday.holidayStartDate}">Holiday Start Date</td>
+				<td th:text="${holiday.holidayEndDate}">Holiday End Date</td>	
+				<td ><a href="edit.html" th:href="@{/admin/publicHoliday/edit/}+${user.id}">Edit</a> 
+				<a href="delete.html" th:href="@{/admin/publicHoliday/delete/}+${user.id}+'/'+${currentPage}">Delete</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<div th:if="${totalPages>1}">
+		<div class="row col-sm-10">
+			<div class="col-sm-2">
+				Total Rows: [[${totalItems}]]
+			</div>
+			<div class="col-sm-1">
+				<span th:each="i: ${#numbers.sequence(1,totalPages)}">
+					<a th:if="${currentPage != i}" th:href="@{'/admin/holiday/list/' + ${i}}">[[${i}]]</a>
+					<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+				</span>
+			</div>
+			<div class="col-sm-1">
+				<a th:if="${currentPage<totalPages}" th:href="@{'/admin/holiday/list/' + ${currentPage +1}}">Next</a>
+				<span th:unless="${currentPage<totalPages}">Next</span>
+			</div>
+			<div class="col-sm-1">
+				<a th:if="${currentPage<totalPages}" th:href="@{'/admin/holiday/list/' + ${totalPages}}">Last</a>
+				<span th:unless="${currentPage<totalPages}">Last</span>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>

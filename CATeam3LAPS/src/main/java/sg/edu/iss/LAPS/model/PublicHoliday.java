@@ -1,6 +1,5 @@
 package sg.edu.iss.LAPS.model;
 
-import java.time.LocalTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
