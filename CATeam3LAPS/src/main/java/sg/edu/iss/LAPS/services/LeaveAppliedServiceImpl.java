@@ -2,9 +2,9 @@ package sg.edu.iss.LAPS.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sg.edu.iss.LAPS.model.ApprovalStatus;
 import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.repo.LeaveAppliedRepository;
+import sg.edu.iss.LAPS.utility.LeaveStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +26,7 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
     }
 
     @Override
-    public List<LeaveApplied> findByUserId(Long userID, ApprovalStatus status) {
+    public List<LeaveApplied> findByUserId(Long userID, LeaveStatus status) {
         List<LeaveApplied> list = this.findByUserId(userID);
         return list.stream()
                 .filter(item -> item.getApprovalStatus().equals(status))

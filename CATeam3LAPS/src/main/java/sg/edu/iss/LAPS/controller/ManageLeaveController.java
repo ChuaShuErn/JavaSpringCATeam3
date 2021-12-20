@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import sg.edu.iss.LAPS.model.ApprovalStatus;
 import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.LeaveType;
 import sg.edu.iss.LAPS.services.LeaveAppliedService;
 import sg.edu.iss.LAPS.services.LeaveTypeService;
+import sg.edu.iss.LAPS.utility.LeaveStatus;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -44,8 +44,21 @@ public class ManageLeaveController {
     @RequestMapping(value = "/currentLeaves")
     public String viewCurrentLeaves(Model model, HttpSession session) {
         Long userId = 1L;
-        model.addAttribute("leaveAppliedList", service.findByUserId(userId, ApprovalStatus.APPROVED));
+        model.addAttribute("leaveAppliedList", service.findByUserId(userId, LeaveStatus.APPROVED));
         return "currentLeaves";
+    }
+
+    @RequestMapping(value = "/detail/{id}")
+    public String viewLeaveDetail(@PathVariable("id") Integer id, Model model) {
+        Optional<LeaveApplied> optLeaveApplied = service.findById(id);
+        if (optLeaveApplied.isEmpty()) {
+            // Not found
+            return "";
+        }
+        LeaveApplied leaveApplied = optLeaveApplied.get();
+        model.addAttribute("leaveApplied", leaveApplied);
+
+        return "detailLeave";
     }
 
     @RequestMapping(value = "/edit/{id}")

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import sg.edu.iss.LAPS.utility.LeaveStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -44,7 +45,7 @@ public class LeaveApplied {
     private String leaveReason;
 
     @Enumerated(EnumType.STRING) // leave status
-    private ApprovalStatus approvalStatus;
+    private LeaveStatus approvalStatus;
 
     private String managerComments;
 
