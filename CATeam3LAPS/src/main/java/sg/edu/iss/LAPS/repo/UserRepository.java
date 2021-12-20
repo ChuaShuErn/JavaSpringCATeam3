@@ -22,6 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	public User checkIfUserIsAdminbyEmail(@Param("email")String email);
 	
 	@Query("SELECT DISTINCT u2 FROM User u1, User u2 WHERE u1.id = u2.ReportsTo AND u1.email = :u1email")
-	public ArrayList<User> findSubordinates(@Param("email") String u1email);
+	public ArrayList<User> findSubordinates(@Param("u1email") String u1email);
 
 }

@@ -190,4 +190,11 @@ public class AdminController {
 		roleService.deleteRoleById(id);
 		return "forward:/admin/role/list";
 	}
+	/* Manage Holiday */
+	
+	@RequestMapping("/admin/holiday/list")
+	public String manageHoliday(Model model){
+		
+		return "forward:/admin/role/list";
+	}
 }
