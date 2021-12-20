@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.LeaveType;
+import sg.edu.iss.LAPS.model.OverseasLeaveDetails;
 import sg.edu.iss.LAPS.model.PublicHoliday;
 import sg.edu.iss.LAPS.model.User;
 import sg.edu.iss.LAPS.services.*;
@@ -42,13 +43,14 @@ public class ApplyLeaveController {
     PublicHolidayService publicHolidayService;
 
 
-    @GetMapping("/applyleave")
-    public String applyForm(Model model) {
-        model.addAttribute("leaveapplication", new LeaveApplied());
-        List<LeaveType> leaveTypeList = leaveTypeService.getAllLeaveType();
-        model.addAttribute("leaveTypeList", leaveTypeList);
-        return "applyLeave";
-    }
+    @RequestMapping(value="/applyleave")
+	public String applyForm(Model model) {
+		model.addAttribute("leaveapplication", new LeaveApplied());
+		List<LeaveType> leaveTypeList = leaveTypeService.getAllLeaveType();
+		model.addAttribute("LeaveTypeList", leaveTypeList);
+		model.addAttribute("overseasTrip", new OverseasLeaveDetails());
+		return "applyleave";
+	}
 
 
     @RequestMapping(value = "/applyleave/submit")
