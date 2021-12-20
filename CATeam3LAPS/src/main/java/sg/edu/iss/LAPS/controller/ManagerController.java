@@ -32,7 +32,8 @@ public class ManagerController {
 	@Autowired
 	UserRepository urepo;
 	
-	@RequestMapping(value="/leave/pending")
+	//List down all pending leaves (on landing page, or on main use case page)
+	@RequestMapping(value="/pending")
     public ModelAndView pendingApproval(HttpSession session) {
 		User manager = urepo.getById((long) session.getAttribute("id"));
 		if (manager == null){
@@ -45,6 +46,33 @@ public class ManagerController {
 		return mav;
 	}
 	
+	//List down all the team members, so can navigate to their employee leave histories
+	@RequestMapping(value="/team")
+    public ModelAndView teamList(HttpSession session) {
+		User manager = urepo.getById((long) session.getAttribute("id"));
+		if (manager == null){
+			return new ModelAndView("login");
+		}
+		ModelAndView mav = new ModelAndView("managerTeam");
+		List<User> myTeamList = (ArrayList) mservice.getAllSubordinates(manager.getEmail());
+		mav.addObject("teamList", myTeamList);
+		return mav;
+	}
+	
+	//List down the employee leave history of the selected team member, by id
+	@RequestMapping(value="/team/{id}")
+    public ModelAndView teamList(@PathVariable(value="id") Long subid, HttpSession session) {
+		User manager = urepo.getById((long) session.getAttribute("id"));
+		if (manager == null){
+			return new ModelAndView("login");
+		}
+		ModelAndView mav = new ModelAndView("managerTeam");
+		ArrayList<LeaveApplied> thisSubLeave = (ArrayList) mservice.getThisSubordinateLeaves(manager.getEmail(), subid);
+		mav.addObject("teamList", thisSubLeave);
+		return mav;
+	}
+	
+	//Show specific team member's individual leave application details, pending approval
 	@RequestMapping(value = "/leave/display/{id}", method = RequestMethod.GET)
 	public ModelAndView leaveDetailToApprove(@PathVariable int id) {
 		//LeaveApplied leave = laService.findLeaveApplied(id);
@@ -55,6 +83,7 @@ public class ManagerController {
 		return mav;
 	}
 	
+	//Approve/reject the leave application
 	@RequestMapping(value = "/leave/edit/{id}", method = RequestMethod.POST)
 	public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
 			@PathVariable Integer id, HttpSession session) {
