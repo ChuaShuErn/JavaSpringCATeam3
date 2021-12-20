@@ -5,7 +5,6 @@
 <body>
 <div th:replace="fragments/adminGeneral.html :: menu"></div>
 <div class = "main-div">
-    <h1>Facility Form</h1>
     <form action="#" th:object="${role}" th:action="@{/admin/role/save}"
           method="post">
         <fieldset>
