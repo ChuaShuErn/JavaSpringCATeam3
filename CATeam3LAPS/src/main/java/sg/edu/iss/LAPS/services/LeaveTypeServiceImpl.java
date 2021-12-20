@@ -1,9 +1,11 @@
 package sg.edu.iss.LAPS.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sg.edu.iss.LAPS.model.LeaveType;
-import sg.edu.iss.LAPS.model.User;
 import sg.edu.iss.LAPS.repo.LeaveTypeRepository;
 
 import javax.transaction.Transactional;
@@ -41,6 +43,10 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
 		return leaveTypeRepository.findById(leaveTypeId).get();
 	}
 
-    
+	@Override
+	public Page<LeaveType> findPaginated(int pageNo, int pageSize) {
+		Pageable pageable=PageRequest.of(pageNo-1, pageSize);
+		return leaveTypeRepository.findAll(pageable);
+	}
     
 }
