@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,11 @@ public class Role {
 	private Long id;
 	
 	@Column(name="role_name", unique=true, nullable=false)
+	@NotEmpty
 	private String name;
 	
 	@Column(name="role_desc")
+	@NotEmpty
 	private String description;
 
 	public Role(String name, String description) {

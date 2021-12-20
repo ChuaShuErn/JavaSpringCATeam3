@@ -2,17 +2,15 @@ package sg.edu.iss.LAPS.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.validation.Valid;
-import org.springframework.beans.BeanUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +20,6 @@ import sg.edu.iss.LAPS.model.LeaveType;
 import sg.edu.iss.LAPS.model.PublicHoliday;
 import sg.edu.iss.LAPS.model.Role;
 import sg.edu.iss.LAPS.model.User;
-import sg.edu.iss.LAPS.repo.LeaveEntitledRepository;
-import sg.edu.iss.LAPS.repo.RoleRepository;
 import sg.edu.iss.LAPS.services.AdminService;
 import sg.edu.iss.LAPS.services.LeaveTypeService;
 import sg.edu.iss.LAPS.services.PublicHolidayService;
@@ -34,10 +30,7 @@ import sg.edu.iss.LAPS.utility.Constants;
 public class AdminController {
 	
 	@Autowired
-	AdminService aservice;
-	
-	@Autowired
-	RoleRepository rrepo;
+	AdminService adminService;
 
 	@Autowired
 	LeaveTypeService leaveTypeService;
@@ -46,17 +39,14 @@ public class AdminController {
 	RoleService roleService;
 	
 	@Autowired
-	LeaveEntitledRepository lErepo;
-	
-	@Autowired
 	PublicHolidayService publicHolidayService;
 
-	/* staff mappings start here*/
+	/* Staff mappings start here*/
 	
 	@GetMapping("/admin/staff/addStaff")
 	public String loadStaffForm(Model model)
 	{
-		List<Role> newRoles=rrepo.findAll();
+		List<Role> newRoles=roleService.getAllRole();
 		User user = new User();
 		user.setRoles(newRoles);
 		
@@ -75,8 +65,12 @@ public class AdminController {
 	}
 	
 	@PostMapping("/admin/saveStaff")
-	public String saveStaff(@ModelAttribute("user") User user, Model model)
+	public String saveStaff(@Valid User user, BindingResult bindingResult)
 	{
+		if (bindingResult.hasErrors())
+		{
+			return "addStaffForm";
+		}
 		ArrayList<LeaveEntitled> leaveEntitleds = (ArrayList<LeaveEntitled>) user.getLeaveEntitledList();
 		if(user.getId()==null) {
 
@@ -85,7 +79,7 @@ public class AdminController {
 			user.setLeaveEntitledList(null);
 
 			//Save the user without leave entitled list to get the user id first
-			aservice.saveUser(user);
+			adminService.saveUser(user);
 
 			//For each leave entitled make the record point to the user which is saved in database
 			for (LeaveEntitled leaveEntitled : leaveEntitleds) {
@@ -93,10 +87,10 @@ public class AdminController {
 			}
 			//Put back the leave entitled list
 			user.setLeaveEntitledList(leaveEntitleds);
-			aservice.saveUser(user);
+			adminService.saveUser(user);
 		}
 		else{
-			User oldUser = aservice.getUserById(user.getId());
+			User oldUser = adminService.getUserById(user.getId());
 			oldUser.getLeaveEntitledList().clear();
 			oldUser.getLeaveEntitledList().addAll(leaveEntitleds);
 			oldUser.setFirstName(user.getFirstName());
@@ -105,7 +99,7 @@ public class AdminController {
 			oldUser.setPassword(user.getPassword());
 			oldUser.setEmail(user.getEmail());
 			oldUser.setReportsTo(user.getReportsTo());
-			aservice.saveUser(oldUser);
+			adminService.saveUser(oldUser);
 
 		}
 		return "redirect:/admin/staff/list/1 ";
@@ -120,21 +114,20 @@ public class AdminController {
 	@GetMapping("/admin/staff/list/{pageNo}")
 	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model)
 	{
-		int pageSize= Constants.ADMIN_STAFF_PAGE_SIZE;
-		Page<User> page=aservice.findPaginated(pageNo,pageSize);
-		List<User> userList=page.getContent();
-		
+		int pageSize= Constants.ADMIN_PAGE_SIZE;
+		Page<User> page=adminService.findPaginated(pageNo,pageSize);
+		List<User> userList=page.getContent();	
 		model.addAttribute("currentPage",pageNo);
 		model.addAttribute("totalPages",page.getTotalPages());
 		model.addAttribute("totalItems",page.getTotalElements());
 		model.addAttribute("userList",userList);
 		return "adminUserList";
 	}
-	//Edit and delete staff
+
 	@GetMapping("/admin/staff/edit/{id}")
 	public String editStaff(@PathVariable(value="id") Long id, Model model)
 	{
-		User user=aservice.getUserById(id);
+		User user=adminService.getUserById(id);
 		model.addAttribute("user",user);
 		return "addStaffForm";
 	}
@@ -143,16 +136,22 @@ public class AdminController {
 	public String deleteStaff(@PathVariable(value="id") Long id, 
 			@PathVariable(value="currPage") Integer currPage)
 	{
-		aservice.deleteUserById(id);
+		adminService.deleteUserById(id);
 		return "forward:/admin/staff/list/"+currPage;
 	}
 	
 
-	/*Admin leave type mappings start here*/
+	/*Admin's leave type mappings start here*/
 
-	@RequestMapping("/admin/leave-type/list")
-	public String showLeaveTypeList(Model model){
-		model.addAttribute("leaveTypes",leaveTypeService.getAllLeaveType());
+	@RequestMapping("/admin/leave-type/list/{pageNo}")
+	public String showLeaveTypeList(@PathVariable(value="pageNo") int pageNo, Model model){
+		int pageSize= Constants.ADMIN_PAGE_SIZE;
+		Page<LeaveType> page=leaveTypeService.findPaginated(pageNo,pageSize);
+		List<LeaveType> leaveTypeList=page.getContent();
+		model.addAttribute("currentPage",pageNo);
+		model.addAttribute("totalPages",page.getTotalPages());
+		model.addAttribute("totalItems",page.getTotalElements());
+		model.addAttribute("leaveTypes",leaveTypeList);
 		return "adminLeaveTypeList";
 	}
 
@@ -169,10 +168,15 @@ public class AdminController {
 	}
 
 	@PostMapping("/admin/leave-type/save")
-	public String saveLeaveType(@ModelAttribute("leaveType") LeaveType leaveType,Model model){
+	public String saveLeaveType(@Valid LeaveType leaveType, BindingResult bindingResult){
+		if (bindingResult.hasErrors())
+		{
+			return "adminLeaveTypeForm";
+		}
 		leaveTypeService.saveLeaveType(leaveType);
 		return "forward:/admin/leave-type/list";
 	}
+		
 
 	@RequestMapping("/admin/leave-type/delete/{id}")
 	public String deleteLeaveType(@PathVariable("id") Integer id){
@@ -180,11 +184,17 @@ public class AdminController {
 		return "forward:/admin/leave-type/list";
 	}
 
-	/*Admin role mappings start here*/
+	/*Admin's role mappings start here*/
 
-	@RequestMapping("/admin/role/list")
-	public String showRoleList(Model model){
-		model.addAttribute("roles",roleService.getAllRole());
+	@RequestMapping("/admin/role/list/{pageNo}")
+	public String showRoleList(@PathVariable(value="pageNo") int pageNo, Model model){
+		int pageSize= Constants.ADMIN_PAGE_SIZE;
+		Page<Role> page=roleService.findPaginated(pageNo,pageSize);
+		List<Role> roleList=page.getContent();
+		model.addAttribute("currentPage",pageNo);
+		model.addAttribute("totalPages",page.getTotalPages());
+		model.addAttribute("totalItems",page.getTotalElements());
+		model.addAttribute("roles",roleList);
 		return "adminRoleList";
 	}
 
@@ -201,7 +211,11 @@ public class AdminController {
 	}
 
 	@PostMapping("/admin/role/save")
-	public String saveLeaveType(@ModelAttribute("role") Role role,Model model){
+	public String saveLeaveType(@Valid Role role, BindingResult bindingResult){
+		if (bindingResult.hasErrors())
+		{
+			return "adminRoleForm";
+		}
 		roleService.saveRole(role);
 		return "forward:/admin/role/list";
 	}
@@ -211,11 +225,11 @@ public class AdminController {
 		roleService.deleteRoleById(id);
 		return "forward:/admin/role/list";
 	}
-	/* Manage Holiday */
+	/*Admin's Manage Holiday starts here*/
 	
 	@RequestMapping("/admin/holiday/list/{pageNo}")
 	public String manageHoliday(@PathVariable(value="pageNo") int pageNo, Model model){
-		int pageSize= Constants.ADMIN_PUBLICHOLIDAY_PAGE_SIZE; 
+		int pageSize= Constants.ADMIN_PAGE_SIZE; 
 		Page<PublicHoliday> page=publicHolidayService.findPaginated(pageNo,pageSize);
 		List<PublicHoliday> publicHolidaysList=page.getContent();
 		model.addAttribute("currentPage",pageNo);
