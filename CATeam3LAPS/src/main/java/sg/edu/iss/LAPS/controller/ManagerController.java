@@ -53,7 +53,7 @@ public class ManagerController {
 		if (manager == null){
 			return new ModelAndView("login");
 		}
-		ModelAndView mav = new ModelAndView("managerTeam");
+		ModelAndView mav = new ModelAndView("managerTeamMemList");
 		List<User> myTeamList = (ArrayList) mservice.getAllSubordinates(manager.getEmail());
 		mav.addObject("teamList", myTeamList);
 		return mav;
@@ -66,9 +66,9 @@ public class ManagerController {
 		if (manager == null){
 			return new ModelAndView("login");
 		}
-		ModelAndView mav = new ModelAndView("managerTeam");
+		ModelAndView mav = new ModelAndView("managerTeamMemLeaveList");
 		ArrayList<LeaveApplied> thisSubLeave = (ArrayList) mservice.getThisSubordinateLeaves(manager.getEmail(), subid);
-		mav.addObject("teamList", thisSubLeave);
+		mav.addObject("thisSubLeave", thisSubLeave);
 		return mav;
 	}
 	

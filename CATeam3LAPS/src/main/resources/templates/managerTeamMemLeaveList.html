@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/managerGeneral.html :: html_head"/>
+
+<body>
+	<div th:replace="fragments/layout.html :: menu"/>
+	
+	
+	<div th:replace="fragments/managerGeneral.html :: header"/>
+	<div th:replace="fragments/managerGeneral.html :: manager_head"/> 
+	<h3>Employee's Leave History</h3>
+	
+	<div th:if="${not #lists.isEmpty(pendingapproval)}">
+		<table>
+			<tr class="listRecord" th:each="entry, stat : ${pendingapproval} ">
+			<!--entry, stat iterated inside pendingapproval object-->
+				<td>
+					<div th:if="${not #lists.isEmpty(entry.value)}">
+						<span th:text="${entry.key.Username}">Name</span> <br />
+						<table style="border: 1;">
+							<tr class="listHeading">
+								<th th:utext="#{fieldLabel.leaveID}">LeaveID</th>
+								<th th:utext="#{fieldLabel.name}">Name</th>
+								<th th:utext="#{fieldLabel.appliedDate}">AppliedDate</th>
+								<th th:utext="#{fieldLabel.startDate}">LeaveStartDate</th>
+								<th th:utext="#{fieldLabel.startTime}">LeaveStartTime</th>
+								<th th:utext="#{fieldLabel.endDate}">LeaveEndDate</th>
+								<th th:utext="#{fieldLabel.endTime}">LeaveEndTime</th>
+								<th th:utext="#{fieldLabel.leaveType}">LeaveType</th>
+								<th th:utext="#{fieldLabel.status}">Status</th>
+								<th th:utext="#{title.leaveDetails}">Leave Details</th>
+							</tr>
+							<tr class="listRecord" th:each="leaveApplied : ${entry.value}">
+								<td th:text="${leaveApplied.leaveAppliedId}">Id</td>
+								<td th:text="${entry.key.Username}">Name</td>
+								<td th:text="${leaveApplied.appliedDate}">Applied Date</td>
+								<td th:text="${leaveApplied.leaveStartDate}">LeaveStartDate</td>
+								<td th:text="${leaveApplied.leaveStartTime}">LeaveStartTime</td>
+								<td th:text="${leaveApplied.leaveEndDate}">LeaveEndDate</td>
+								<td th:text="${leaveApplied.leaveEndTime}">LeaveEndTime</td>
+								<td th:text="${leaveApplied.leaveType}">LeaveType</td>
+								<td th:text="${leaveApplied.approvalStatus}">Status</td>
+								<td><a th:href="@{/manager/leave/display/}+${leaveApplied.leaveAppliedId}"
+										class="btn btn-default"><span th:text="#{caption.detail}"></span></a></td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+</html>
