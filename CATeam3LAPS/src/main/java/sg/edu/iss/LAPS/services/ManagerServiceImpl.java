@@ -12,6 +12,7 @@ import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.User;
 import sg.edu.iss.LAPS.repo.LeaveAppliedRepository;
 import sg.edu.iss.LAPS.repo.UserRepository;
+import sg.edu.iss.LAPS.utility.LeaveStatus;
 
 @Service
 @Transactional
@@ -28,6 +29,17 @@ public class ManagerServiceImpl implements ManagerService {
 		return urepo.findSubordinates(mgrEmail);
 	}
 	
+	@Override
+	public List<LeaveApplied> getSubordinateLeavesByPending(String mgrEmail) {
+		List<LeaveApplied> subPending = (ArrayList) this.getSubordinateLeavesByLeaveStatus(
+				mgrEmail, LeaveStatus.APPLIED.toString());
+		List<LeaveApplied> subUpdated = (ArrayList) this.getSubordinateLeavesByLeaveStatus(
+				mgrEmail, LeaveStatus.UPDATED.toString());
+		subPending.addAll(subUpdated);
+		subPending.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
+		return subPending;
+	}
+
 	@Override
 	public User getThisSubordinate(String mgrEmail, Long subid) {
 		List<User> sublist = this.getAllSubordinates(mgrEmail);

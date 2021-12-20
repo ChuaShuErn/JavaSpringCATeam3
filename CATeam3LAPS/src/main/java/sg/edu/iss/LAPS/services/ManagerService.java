@@ -12,4 +12,5 @@ public interface ManagerService {
 	List<LeaveApplied> getSubordinateLeavesByLeaveType(String mgrEmail, String status);
 	List<LeaveApplied> getSubordinateLeavesByLeaveStatus(String mgrEmail, String leavetype);
 	List<LeaveApplied> getThisSubordinateLeaves(String mgrEmail, Long subid);
+	List<LeaveApplied> getSubordinateLeavesByPending(String mgrEmail);
 }

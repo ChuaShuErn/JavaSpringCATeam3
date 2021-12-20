@@ -1,6 +1,7 @@
 package sg.edu.iss.LAPS.controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -33,11 +34,8 @@ public class ManagerController {
 			return new ModelAndView("login");
 		}
 		ModelAndView mav = new ModelAndView("managerLeavePending");
-		List<LeaveApplied> subApplied = (ArrayList) mservice.getSubordinateLeavesByLeaveStatus(
-				manager.getEmail(), LeaveStatus.APPLIED.toString());
-		List<LeaveApplied> subUpdated = (ArrayList) mservice.getSubordinateLeavesByLeaveStatus(
-				manager.getEmail(), LeaveStatus.UPDATED.toString());
-		subApplied.addAll(subUpdated);
+		List<LeaveApplied> subApplied = (ArrayList) mservice.getSubordinateLeavesByPending(
+				manager.getEmail());
 		mav.addObject("pendingLeaves", subApplied);
 		return mav;
 	}
