@@ -35,7 +35,7 @@
 				<td th:text="${user.ReportsTo}">Manager</td>
 				
 				<td ><a href="edit.html" th:href="@{/admin/staff/edit/}+${user.id}">Edit</a> 
-				<a href="delete.html" th:href="@{/admin/staff/delete/}+${user.id}+'/'+${currentPage}">Delete</a></td>
+				<a href="delete.html" th:href="@{/admin/staff/delete/}+${user.id}+'/'+${currentPage}+'?keyword='+${keyword}">Delete</a></td>
 			</tr>
 		</tbody>
 	</table>
