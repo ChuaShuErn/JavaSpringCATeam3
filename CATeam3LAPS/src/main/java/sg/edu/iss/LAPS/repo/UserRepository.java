@@ -11,7 +11,7 @@ import sg.edu.iss.LAPS.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	
-	@Query("SELECT u FROM User u JOIN u.roles r WHERE u.email = :email AND r.id = 3")
+	@Query("SELECT u FROM User u JOIN u.roles r WHERE u.email = :email AND r.id = 3 OR u.email = :email AND r.id = 2")
 	public User checkIfStaffExistsbyEmail(@Param("email") String email);
 	
 	//check if Staff is Manager
