@@ -19,7 +19,7 @@ public class DateTools {
         } else return false;
     }
     
-    // check if the start day or the end day are in weekdays
+    // To check if the start day or the end day are in weekdays
     public static boolean isWeekdays(Calendar start, Calendar end) {
     	if (start.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && start.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
     		return true;
