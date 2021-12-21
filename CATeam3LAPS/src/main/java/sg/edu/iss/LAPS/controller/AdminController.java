@@ -176,14 +176,14 @@ public class AdminController {
 			return "adminLeaveTypeForm";
 		}
 		leaveTypeService.saveLeaveType(leaveType);
-		return "forward:/admin/leave-type/list";
+		return "forward:/admin/leave-type/list/1";
 	}
 		
 
 	@RequestMapping("/admin/leave-type/delete/{id}")
 	public String deleteLeaveType(@PathVariable("id") Integer id){
 		leaveTypeService.deleteLeaveTypeById(id);
-		return "forward:/admin/leave-type/list";
+		return "forward:/admin/leave-type/list/1";
 	}
 
 	/*Admin's role mappings start here*/
@@ -219,13 +219,13 @@ public class AdminController {
 			return "adminRoleForm";
 		}
 		roleService.saveRole(role);
-		return "forward:/admin/role/list";
+		return "forward:/admin/role/list/1";
 	}
 
 	@RequestMapping("/admin/role/delete/{id}")
 	public String deleteRole(@PathVariable("id") Long id){
 		roleService.deleteRoleById(id);
-		return "forward:/admin/role/list";
+		return "forward:/admin/role/list/1";
 	}
 	/*Admin's Manage Holiday starts here*/
 	
