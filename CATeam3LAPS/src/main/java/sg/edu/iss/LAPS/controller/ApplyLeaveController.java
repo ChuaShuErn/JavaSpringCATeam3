@@ -31,28 +31,32 @@ import sg.edu.iss.LAPS.validators.OverseasLeaveDetailValidator;
 @Controller
 public class ApplyLeaveController {
     @Autowired
-    LeaveAppliedService leaveAppliedService;
+    private LeaveAppliedService leaveAppliedService;
 
     @Autowired
-    ApplyLeaveService applyLeaveService;
+    private ApplyLeaveService applyLeaveService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    LeaveTypeService leaveTypeService;
+    private LeaveTypeService leaveTypeService;
 
     @Autowired
-    PublicHolidayService publicHolidayService;
+    private PublicHolidayService publicHolidayService;
     
     @Autowired
-    OverseasLeaveService overseasLeaveService;
+    private OverseasLeaveService overseasLeaveService;
     
     @Autowired
-    LeaveAppliedValidator leaveAppliedValidator;
+    private LeaveAppliedValidator leaveAppliedValidator;
     
     @Autowired
-    OverseasLeaveDetailValidator overseasLeaveDetailsValidator;
+    private OverseasLeaveDetailValidator overseasLeaveDetailsValidator;
+    
+    @Autowired
+    private EmailNotificationService emailservice;
+    
     
     @InitBinder("LeaveApplied")
 	protected void initBinder(WebDataBinder binder) {
@@ -157,13 +161,14 @@ public class ApplyLeaveController {
         application.setApprovalStatus(LeaveStatus.APPLIED);
         
         if(application.getIsOverseas()) {
-        	application.setIsOverseas(true);
         	
         	OverseasLeaveDetails overseaTrip = overseasLeaveService.findOverseasLeaveDetailsByoverseasLeaveId(application.getOverseasTrip().getOverseasLeaveId());
         	application.setOverseasTrip(overseaTrip);
         }
 
         applyLeaveService.createLeaveApplication(application);
+        
+        emailservice.sendLeaveCreationSucessful(currUser, application);
 
         return "redirect:/leave/viewHistory";
     }
