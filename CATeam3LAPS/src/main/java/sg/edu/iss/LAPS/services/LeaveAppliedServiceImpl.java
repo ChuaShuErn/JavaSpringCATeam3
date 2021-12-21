@@ -21,6 +21,9 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
     @Autowired
     OverseasLeaveRepository overseasLeaveRepository;
 
+    @Autowired
+    ApplyLeaveService applyLeaveService;
+
     @Override
     public Optional<LeaveApplied> findById(int id) {
         return repository.findById(id);
@@ -55,8 +58,7 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
             savedLeaveApplied.setLeaveReason(leaveApplied.getLeaveReason());
             savedLeaveApplied.setWorkDissemination(leaveApplied.getWorkDissemination());
             savedLeaveApplied.setOverseasTrip(overseasLeaveDetails);
-            // FIXME: count number of days
-            savedLeaveApplied.setNoOfDays(0);
+            savedLeaveApplied.setNoOfDays(applyLeaveService.countNumberOfDays(leaveApplied.getLeaveStartDate(), leaveApplied.getLeaveEndDate()));
         }
 
         repository.save(savedLeaveApplied);
