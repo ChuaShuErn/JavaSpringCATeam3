@@ -47,4 +47,10 @@ public class PublicHolidayServiceImpl implements PublicHolidayService {
 	public void savePublicHoliday(PublicHoliday publicHoliday) {
 		publicHolidayRepository.saveAndFlush(publicHoliday);
 	}
+
+	@Override
+	public PublicHoliday savePH(PublicHoliday publicHoliday) {
+		publicHolidayRepository.save(publicHoliday);
+		return publicHoliday;
+	}
 }

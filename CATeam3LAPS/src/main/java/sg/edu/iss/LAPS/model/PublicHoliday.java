@@ -29,7 +29,9 @@ public class PublicHoliday {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer holidayId;
     
-    @NotEmpty
+    
+
+	@NotEmpty
     private String holidayName;
     
     @Temporal(TemporalType.DATE)
@@ -40,4 +42,10 @@ public class PublicHoliday {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date holidayEndDate;
 
+	/*
+	 * public PublicHoliday(Integer holidayId, String holidayName, Date
+	 * holidayStartDate, Date holidayEndDate) { this.holidayId = holidayId;
+	 * this.holidayName = holidayName; this.holidayStartDate = holidayStartDate;
+	 * this.holidayEndDate = holidayEndDate; }
+	 */
 }

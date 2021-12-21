@@ -11,5 +11,5 @@ public interface AdminService {
 	void saveUser(User user);
 	User getUserById(long id);
 	void deleteUserById(long id);
-	Page<User> findPaginated(int pageNo,int pageSize);
+	Page<User> findPaginated(int pageNo,int pageSize, String keyword);
 }

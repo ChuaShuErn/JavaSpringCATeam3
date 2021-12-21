@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import sg.edu.iss.LAPS.model.LeaveEntitled;
 import sg.edu.iss.LAPS.model.LeaveType;
@@ -108,19 +109,20 @@ public class AdminController {
 	@GetMapping("/admin/staff")
 	public String viewUserList(Model model)
 	{
-		return showUserList(1,model);
+		return showUserList(1,model,"");
 	}
 	
 	@GetMapping("/admin/staff/list/{pageNo}")
-	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model)
+	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model,@RequestParam(value = "keyword", required = false) String keyword)
 	{
 		int pageSize= Constants.ADMIN_PAGE_SIZE;
-		Page<User> page=adminService.findPaginated(pageNo,pageSize);
+		Page<User> page=adminService.findPaginated(pageNo,pageSize,keyword);
 		List<User> userList=page.getContent();	
 		model.addAttribute("currentPage",pageNo);
 		model.addAttribute("totalPages",page.getTotalPages());
 		model.addAttribute("totalItems",page.getTotalElements());
 		model.addAttribute("userList",userList);
+		model.addAttribute("keyword",keyword);
 		return "adminUserList";
 	}
 
