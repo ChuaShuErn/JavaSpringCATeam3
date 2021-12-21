@@ -83,6 +83,12 @@ public class MainController {
 		session.invalidate();
 		return "logout";
 	}
+
+    @RequestMapping("/stafflogout")
+    public String staffLogout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/stafflogin";
+    }
 //
 //	@RequestMapping(value = "/login/authenticate")
 //	public String authenticate(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model,
