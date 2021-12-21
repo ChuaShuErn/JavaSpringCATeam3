@@ -43,7 +43,7 @@ public class ManageLeaveController {
     @RequestMapping("/viewHistory/{pageNo}")
     public String viewMyLeaveHistory(@PathVariable(value = "pageNo") int pageNo, Model model, HttpSession session) {
         long userId = (long) session.getAttribute("id");
-        int pageSize = Constants.History_PAGE_SIZE;
+        int pageSize = Constants.HISTORY_PAGE_SIZE;
         Page<LeaveApplied> page = service.findByUserId(userId, pageNo, pageSize);
         List<LeaveApplied> leaveAppliedList = page.getContent();
         model.addAttribute("currentPage", pageNo);
