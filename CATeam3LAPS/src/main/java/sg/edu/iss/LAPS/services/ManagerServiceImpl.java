@@ -32,9 +32,9 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public List<LeaveApplied> getSubordinateLeavesByPending(String mgrEmail) {
 		List<LeaveApplied> subPending = (ArrayList) this.getSubordinateLeavesByLeaveStatus(
-				mgrEmail, LeaveStatus.APPLIED.toString());
+				mgrEmail, LeaveStatus.APPLIED);
 		List<LeaveApplied> subUpdated = (ArrayList) this.getSubordinateLeavesByLeaveStatus(
-				mgrEmail, LeaveStatus.UPDATED.toString());
+				mgrEmail, LeaveStatus.UPDATED);
 		subPending.addAll(subUpdated);
 		subPending.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
 		return subPending;
@@ -67,17 +67,18 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public List<LeaveApplied> getSubordinateLeavesByLeaveStatus(String mgrEmail, String status) {
+	public List<LeaveApplied> getSubordinateLeavesByLeaveStatus(String mgrEmail, LeaveStatus status) {
 		ArrayList<LeaveApplied> subleaves = (ArrayList) this.getAllSubordinatesLeaves(mgrEmail);
-		subleaves.stream().filter(x -> x.getApprovalStatus().toString().equalsIgnoreCase(status)).
+		String statusStr = status.toString();
+		subleaves.stream().filter(x -> x.getApprovalStatus().toString().equalsIgnoreCase(statusStr)).
 			sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
 		return subleaves;
 	}
 
 	@Override
-	public List<LeaveApplied> getSubordinateLeavesByLeaveType(String mgrEmail, String leavetype) {
+	public List<LeaveApplied> getSubordinateLeavesByLeaveType(String mgrEmail, Integer leavetypeid) {
 		ArrayList<LeaveApplied> subleaves = (ArrayList) this.getAllSubordinatesLeaves(mgrEmail);
-		subleaves.stream().filter(x -> x.getLeaveType().toString().equalsIgnoreCase(leavetype)).
+		subleaves.stream().filter(x -> x.getLeaveType().getLeaveTypeId() == leavetypeid).
 			sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
 		return subleaves;
 	}

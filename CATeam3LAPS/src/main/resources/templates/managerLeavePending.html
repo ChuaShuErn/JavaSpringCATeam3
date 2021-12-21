@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/managerGeneral.html :: html_head"/>
-
+<!--<head th:replace="fragments/managerGeneral.html :: html_head"/>-->
+<head/>
 <body>
-	<div th:replace="fragments/layout.html :: menu"/>
-	
-	
+<!--	
 	<div th:replace="fragments/managerGeneral.html :: header"/>
-	<div th:replace="fragments/managerGeneral.html :: manager_head"/> 
+	<div th:replace="fragments/managerGeneral.html :: manager_head"/> -->
 	<h3>Employee Leave History</h3>
 	
 	<div th:if="${not #lists.isEmpty(pendingLeaves)}">

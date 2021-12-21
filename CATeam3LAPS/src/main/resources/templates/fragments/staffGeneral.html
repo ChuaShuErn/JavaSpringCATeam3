@@ -3,7 +3,7 @@
 <head th:fragment="headerfiles">
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" media="all"
-          href="../../../css/admin-common-style.css" th:href="@{/css/manager-common-style.css}"/>
+          href="../../../css/admin-common-style.css" th:href="@{/css/admin-common-style.css}"/>
     <link rel="stylesheet" type="text/css" media="all"
           href="../../css/leave-type-style.css" th:href="@{/css/leave-type-style.css}"/>
     <link rel="stylesheet" type="text/css" media="all"
@@ -21,24 +21,13 @@
 <body>
 </div>
 <div th:fragment="menu" id="menu">
-    <ul class="manager-nav-bar">
+    <ul class="admin-nav-bar">
         <li class="menu-item"><a th:href="@{/leave/viewHistory}" >Home</a></li>
-        <ul>
-	        <li class="menu-item"><a th:href="@{/applyleave}" >Apply Leave</a></li>
-	        <li class="menu-item"><a th:href="@{/leave/viewHistory}" >Claim Compensation</a></li>
-	        <li class="menu-item"><a th:href="@{/leave/viewHistory}" >View History</a></li>
-        </ul>
-        
-        <ul>
-        	<li class="menu-item"> <span> Manager: </span> </li>
-	        <li class="menu-item"><a th:href="@{/manager/pending}"> Pending Approvals </a></li>
-	        <li class="menu-item"><a th:href="@{/manager/team}"> View Team Leaves </a></li>
-	        <li class="menu-item"><a th:href="@{/manager/compensation}"> Manage Compensations </a></li>
-        </ul>
-        
+        <li class="menu-item"><a th:href="@{/applyleave}" >Apply Leave</a></li>
+        <li class="menu-item"><a th:href="@{/leave/viewHistory}" >Claim Compensation</a></li>
+        <li class="menu-item"><a th:href="@{/leave/viewHistory}" >View History</a></li>
         <li class="menu-item"><a th:href="@{/stafflogout}" >Logout</a></li>
-        
-    <//ul>
+    </ul>
 </div>
 </body>
 </html>

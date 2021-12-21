@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ViewHistory</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:margin-left="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/staffGeneral.html :: headerfiles"/>
+
 <body>
-<p>This is an example of a simple HTML page with one paragraph.</p>
-<div class="container" style="float:left; margin-left:80px; width:750px">
-    <h1 align="center">Leave Pending Approval</h1>
-    <p th:if="${leaveAppliedList.empty}" style="color:red" align="center">No applied applications found.</p>
-    <table class="table table-bordered" align="center" th:if="${not #lists.isEmpty(leaveAppliedList)}">
-        <thead style="background-color:lightgrey" margin-left:50px;>
+<div th:replace="fragments/staffGeneral.html :: menu"></div>
+<div class="main-div">
+    <p th:if="${leaveAppliedList.empty}" style="color:red" align="center">No applied leaves found.</p>
+    <table class="content-table" th:if="${not #lists.isEmpty(leaveAppliedList)}">
+        <thead>
         <tr>
             <td><b>Leave ID</b></td>
             <td><b>Leave Type</b></td>
@@ -35,6 +32,27 @@
         </tr>
         </tbody>
     </table>
+    <div th:if="${totalPages>0}">
+        <div class="row col-sm-10">
+            <div class="col-sm-2">
+                Total Rows: [[${totalItems}]]
+            </div>
+            <div class="col-sm-1">
+				<span th:each="i: ${#numbers.sequence(1,totalPages)}">
+					<a th:if="${currentPage != i}" th:href="@{'/leave/viewHistory/' + ${i}}">[[${i}]]</a>
+					<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+				</span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage<totalPages}" th:href="@{'/leave/viewHistory/' + ${currentPage +1}}">Next</a>
+                <span th:unless="${currentPage<totalPages}">Next</span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage<totalPages}" th:href="@{'/leave/viewHistory/' + ${totalPages}}">Last</a>
+                <span th:unless="${currentPage<totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

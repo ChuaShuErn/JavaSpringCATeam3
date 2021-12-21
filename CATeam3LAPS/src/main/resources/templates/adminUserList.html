@@ -7,6 +7,10 @@
 <div th:replace="fragments/adminGeneral.html :: menu"></div>
 <div class="main-div">
 	<a class = "button-add" th:href="@{/admin/staff/addStaff}">Add New Staff</a>
+	<form th:action="@{/admin/staff/list/1}" method="GET">
+		Search: <input type="text" name="keyword" th:value="${keyword==''}?'':${keyword}" /> <input type="submit" value="Search" />
+	</form>
+	
 	<table class="content-table" th:unless="${#lists.isEmpty(userList)}" border="1 pt">
 		<thead>
 			<tr>
@@ -31,7 +35,7 @@
 				<td th:text="${user.ReportsTo}">Manager</td>
 				
 				<td ><a href="edit.html" th:href="@{/admin/staff/edit/}+${user.id}">Edit</a> 
-				<a href="delete.html" th:href="@{/admin/staff/delete/}+${user.id}+'/'+${currentPage}">Delete</a></td>
+				<a href="delete.html" th:href="@{/admin/staff/delete/}+${user.id}+'/'+${currentPage}+'?keyword='+${keyword}">Delete</a></td>
 			</tr>
 		</tbody>
 	</table>
@@ -42,16 +46,16 @@
 			</div>
 			<div class="col-sm-1">
 				<span th:each="i: ${#numbers.sequence(1,totalPages)}">
-					<a th:if="${currentPage != i}" th:href="@{'/admin/staff/list/' + ${i}}">[[${i}]]</a>
+					<a th:if="${currentPage != i}" th:href="@{'/admin/staff/list/' + ${i}+'?keyword='+${keyword}}">[[${i}]]</a>
 					<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
 				</span>
 			</div>
 			<div class="col-sm-1">
-				<a th:if="${currentPage<totalPages}" th:href="@{'/admin/staff/list/' + ${currentPage +1}}">Next</a>
+				<a th:if="${currentPage<totalPages}" th:href="@{'/admin/staff/list/' + ${currentPage +1}+'?keyword='+${keyword}}">Next</a>
 				<span th:unless="${currentPage<totalPages}">Next</span>
 			</div>
 			<div class="col-sm-1">
-				<a th:if="${currentPage<totalPages}" th:href="@{'/admin/staff/list/' + ${totalPages}}">Last</a>
+				<a th:if="${currentPage<totalPages}" th:href="@{'/admin/staff/list/' + ${totalPages}'?keyword='+${keyword}}">Last</a>
 				<span th:unless="${currentPage<totalPages}">Last</span>
 			</div>
 		</div>

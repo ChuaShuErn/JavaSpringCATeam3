@@ -14,4 +14,5 @@ public interface PublicHolidayService {
 	PublicHoliday getById(Integer Id);
 	public void deleteHolidayById(Integer Id);
 	public void savePublicHoliday(PublicHoliday publicHoliday);
+	public PublicHoliday savePH(PublicHoliday publicHoliday);
 }
