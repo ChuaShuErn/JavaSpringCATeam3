@@ -50,11 +50,4 @@ public class testUserRepository {
 		assertEquals(myTeamList.size(), 4);
 	}
 	
-	@Test
-	@Order(3)
-	public void testgetAllSubordinatesLeaves() {
-		ArrayList<LeaveApplied> myTeamLeaves = (ArrayList) mservice.getAllSubordinatesLeaves("Gab@u.nus.edu");
-		assertEquals(myTeamLeaves.size(), 3);
-	}
-	
 }
