@@ -47,9 +47,9 @@ public class ApplyLeaveController {
 	public String applyForm(Model model) {
 		model.addAttribute("leaveapplication", new LeaveApplied());
 		List<LeaveType> leaveTypeList = leaveTypeService.getAllLeaveType();
-		model.addAttribute("LeaveTypeList", leaveTypeList);
+		model.addAttribute("leaveTypeList", leaveTypeList);
 		model.addAttribute("overseasTrip", new OverseasLeaveDetails());
-		return "applyleave";
+		return "applyLeave";
 	}
 
 
