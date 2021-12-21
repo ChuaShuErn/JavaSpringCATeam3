@@ -3,6 +3,7 @@ package sg.edu.iss.LAPS.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,14 +107,14 @@ public class AdminController {
 		return "redirect:/admin/staff";
 	}
 	
-	@GetMapping("/admin/staff")
+	@RequestMapping("/admin/staff")
 	public String viewUserList(Model model)
 	{
 		return showUserList(1,model,"");
 	}
 	
-	@GetMapping("/admin/staff/list/{pageNo}")
-	public String showUserList(@PathVariable(value="pageNo") int pageNo,Model model,@RequestParam(value = "keyword", required = false) String keyword)
+	@RequestMapping("/admin/staff/list/{pageNo}")
+	public String showUserList(@PathVariable(value="pageNo") int pageNo, Model model, @RequestParam(value = "keyword", required = false) String keyword)
 	{
 		int pageSize= Constants.ADMIN_PAGE_SIZE;
 		Page<User> page=adminService.findPaginated(pageNo,pageSize,keyword);
@@ -256,7 +257,7 @@ public class AdminController {
 	}
 	@PostMapping("/admin/holiday/saveHoliday")
 	public String saveHoliday(@Valid PublicHoliday publicHoliday, 
-			BindingResult bindingResult){ 
+			BindingResult bindingResult){
 		if (bindingResult.hasErrors())
 		{
 			return "adminHolidayForm";

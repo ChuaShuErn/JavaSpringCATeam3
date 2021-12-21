@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/managerGeneral.html :: html_head"/>
-
+<!--<head th:replace="fragments/managerGeneral.html :: html_head"/>-->
+<head></head>
 <body>
-	<div th:replace="fragments/layout.html :: menu"/>
+	<!--<div th:replace="fragments/layout.html :: menu"/>
 	
 	
 	<div th:replace="fragments/managerGeneral.html :: header"/>
-	<div th:replace="fragments/managerGeneral.html :: manager_head"/> 
+	<div th:replace="fragments/managerGeneral.html :: manager_head"/> -->
 	<h3>Leave Details</h3>
 <!--Detailed table of the leave-->
 <table>
 		<tr>
-			<th align="right"><span th:text="#{fieldLabel.LeaveId}">LeaveID</span></th>
+			<th align="right"><span th:utext="#{fieldLabel.LeaveId}">LeaveID</span></th>
 			<td colspan="3" th:text="${leaveApplied.leaveAppliedId}">Id</td>
 		</tr>
 		<tr>
-			<th align="right"><span th:text="fieldLabel.Username">Name</span></th>
+			<th align="right"><span th:utext="#{fieldLabel.Username}">Name</span></th>
 			<td colspan="3" th:text="${leaveApplied.user.Username}">Name</td>
 		</tr>
 		<tr>
@@ -39,7 +39,7 @@
 		</tr>
 		<tr>
 			<th align="right"><span th:text="#{fieldLabel.status}">Status</span></th>
-			<td colspan="3" th:text="${leaveApplied.status}">Status</td>
+			<td colspan="3" th:text="${leaveApplied.approvalStatus}">Status</td>
 		</tr>
 	</table>
 
@@ -54,6 +54,7 @@
 						<label th:text="#{caption.approve}"></label> &nbsp;&nbsp;
 						<input type="radio" th:field="*{decision}" th:value="REJECTED" /> 
 						<label th:text="#{caption.reject}"></label>
+						<p th:errors="*{decision}"></p>
 					</fieldset>
 				</td>
 			</tr>
@@ -62,7 +63,10 @@
 					<fieldset>
 						<span th:text="#{fieldLabel.managerComment}">Manager Comment</span> <br>
 						<textarea rows="4" cols="60" th:field="*{comment}">Text Area</textarea>
+						
 					</fieldset>
+					
+					<p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></p>
 				</td>
 			</tr>
 			<tr>

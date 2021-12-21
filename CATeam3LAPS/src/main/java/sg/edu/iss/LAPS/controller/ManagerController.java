@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import sg.edu.iss.LAPS.model.LeaveApplied;
@@ -66,20 +67,22 @@ public class ManagerController {
 	
 	//List down all the team members, so can navigate to their employee leave histories
 	@RequestMapping(value="/team")
-    public ModelAndView teamList(HttpSession session) {
+    public ModelAndView teamList(HttpSession session, @RequestParam(value = "keyword", required = false) String keyword) 
+	{
 		User manager = urepo.getById((long) session.getAttribute("id"));
 		if (manager == null){
 			return new ModelAndView("login");
 		}
 		ModelAndView mav = new ModelAndView("managerTeamMemList");
-		List<User> myTeamList = (ArrayList) mservice.getAllSubordinates(manager.getEmail());
+		List<User> myTeamList = (ArrayList) mservice.getAllSubordinatesByKeyword(manager.getEmail(), keyword);
 		mav.addObject("teamList", myTeamList);
+		mav.addObject("keyword", keyword);
 		return mav;
 	}
 	
 	//List down the employee leave history of the selected team member, by id
 	@RequestMapping(value="/team/{id}")
-    public ModelAndView teamList(@PathVariable(value="id") Long subid, HttpSession session) {
+    public ModelAndView teamMemberList(@PathVariable(value="id") Long subid, HttpSession session) {
 		User manager = urepo.getById((long) session.getAttribute("id"));
 		if (manager == null){
 			return new ModelAndView("login");
