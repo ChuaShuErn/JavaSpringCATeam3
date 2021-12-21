@@ -1,9 +1,5 @@
 package sg.edu.iss.LAPS.controller;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import sg.edu.iss.LAPS.model.Role;
 import sg.edu.iss.LAPS.model.User;
 import sg.edu.iss.LAPS.repo.UserRepository;
 import sg.edu.iss.LAPS.services.UserService;
@@ -74,13 +69,13 @@ public class MainController {
 			session.setAttribute("role", "Staff");
 			session.setAttribute("id", currentUser.getId());
 			session.setAttribute("name", currentUser.getFirstName());
-			return "stafflanding";
+			return "redirect:/stafflanding";
 		}
 	}
 	@GetMapping("/stafflanding")
 	public String stafflanding()
 	{
-		return "stafflogin";
+		return "redirect:/leave/viewHistory";
 	}
 	
 	@RequestMapping("/logout")
