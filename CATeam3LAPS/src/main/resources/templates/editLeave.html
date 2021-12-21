@@ -12,13 +12,20 @@
 <body>
 
 <form action="editLeave" th:object="${leaveApplied}" th:action="@{/leave/updateLeaveApplied}" method="get">
-    <input type="hidden" th:field="*{leaveAppliedId}">
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Leave ID</label>
+        <div class="col-sm-5">
+            <input class="form-control" th:field="*{leaveAppliedId}" rows="4" readonly/>
+        </div>
+    </div>
     <input type="hidden" th:value="${session.id}" th:attr="name='user.id'">
     <div class="row mb-3">
         <label for="leaveType" class="col-sm-2 col-form-label">Leave Type</label>
         <div class="col-sm-5">
             <select class="form-select" aria-label="Default select example" th:field="*{leaveType}">
-                <option th:each="type : ${leaveTypeList}" th:value="${type.leaveTypeId}" th:text="${type.description}">type</option>
+                <option th:each="type : ${leaveTypeList}" th:value="${type.leaveTypeId}" th:text="${type.description}">
+                    type
+                </option>
             </select>
         </div>
     </div>
@@ -52,8 +59,8 @@
     </div>
 
     <div class="row mb-3">
-        <label>Work Dissemination:</label>
-        <div>
+        <label class="col-sm-2 col-form-label">Work Dissemination:</label>
+        <div class="col-sm-5">
             <input type="text" class="form-control" th:field="*{workDissemination}">
         </div>
     </div>
@@ -72,31 +79,27 @@
         </div>
     </div>
 
-    <!--    <div>-->
-    <!--        <form action="storeOverseasTrip" th:object="${overseasTrip}"> // here I'm not sure-->
-    <!--            <div class="row mb-3">-->
-    <!--                <label class="col-sm-2 col-form-label">Country</label>-->
-    <!--                <div class="col-sm-5">-->
-    <!--                    <input type="text" class="form-control" th:field="*{country}"/>-->
-    <!--                </div>-->
-    <!--            </div>-->
+    <input type="hidden" class="form-control" th:field="*{overseasTrip.overseasLeaveId}"/>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Country</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" th:field="*{overseasTrip.country}"/>
+        </div>
+    </div>
 
-    <!--            <div class="row mb-3">-->
-    <!--                <label class="col-sm-2 col-form-label">City</label>-->
-    <!--                <div class="col-sm-5">-->
-    <!--                    <input type="text" class="form-control" th:field="*{city}"/>-->
-    <!--                </div>-->
-    <!--            </div>-->
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">City</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" th:field="*{overseasTrip.city}"/>
+        </div>
+    </div>
 
-    <!--            <div class="row mb-3">-->
-    <!--                <label class="col-sm-2 col-form-label">Phone</label>-->
-    <!--                <div class="col-sm-5">-->
-    <!--                    <input type="text" class="form-control" th:field="*{phone}"/>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--            <button class="btn btn-secondary" type="submit">OK</button>-->
-    <!--        </form>-->
-    <!--    </div>-->
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Phone</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" th:field="*{overseasTrip.phone}"/>
+        </div>
+    </div>
     <button class="btn btn-secondary" type="submit">Submit form</button>
     <button class="btn btn-secondary" type="reset">Reset</button>
 </form>

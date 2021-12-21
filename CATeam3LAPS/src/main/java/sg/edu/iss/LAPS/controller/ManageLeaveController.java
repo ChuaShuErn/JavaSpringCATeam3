@@ -8,7 +8,6 @@ import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.LeaveType;
 import sg.edu.iss.LAPS.services.LeaveAppliedService;
 import sg.edu.iss.LAPS.services.LeaveTypeService;
-import sg.edu.iss.LAPS.utility.LeaveStatus;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -39,13 +38,6 @@ public class ManageLeaveController {
         Long userId = 1L;
         model.addAttribute("leaveAppliedList", service.findByUserId(userId));
         return "viewHistory";
-    }
-
-    @RequestMapping(value = "/currentLeaves")
-    public String viewCurrentLeaves(Model model, HttpSession session) {
-        Long userId = 1L;
-        model.addAttribute("leaveAppliedList", service.findByUserId(userId, LeaveStatus.APPROVED));
-        return "currentLeaves";
     }
 
     @RequestMapping(value = "/detail/{id}")
@@ -80,13 +72,13 @@ public class ManageLeaveController {
     @RequestMapping(value = "updateLeaveApplied")
     public String update(@ModelAttribute("leaveApplied") LeaveApplied leaveApplied) {
         service.update(leaveApplied);
-        return "redirect:/leave/currentLeaves";
+        return "redirect:/leave/viewHistory";
     }
 
     @RequestMapping(value = "/delete/{id}")
     public String delete(@PathVariable("id") Integer id) {
         service.delete(id);
-        return "redirect:/leave/currentLeaves";
+        return "redirect:/leave/viewHistory";
     }
 
 }

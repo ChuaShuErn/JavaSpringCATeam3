@@ -60,9 +60,7 @@ public class LeaveApplied {
     private boolean isOverseas;
 
     @OneToOne
-    @JoinColumn(name = "overseas_trip_overseas_leave_id")
     private OverseasLeaveDetails overseasTrip;
-
 
     public boolean getIsOverseas() {
         return isOverseas;
