@@ -58,7 +58,7 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
             savedLeaveApplied.setLeaveReason(leaveApplied.getLeaveReason());
             savedLeaveApplied.setWorkDissemination(leaveApplied.getWorkDissemination());
             savedLeaveApplied.setOverseasTrip(overseasLeaveDetails);
-            savedLeaveApplied.setNoOfDays(applyLeaveService.countNumberOfDays(leaveApplied.getLeaveStartDate(), leaveApplied.getLeaveEndDate()));
+            savedLeaveApplied.setNoOfDays(applyLeaveService.countNumberOfDaysV2(leaveApplied.getLeaveStartDate(), leaveApplied.getLeaveEndDate()));
         }
 
         repository.save(savedLeaveApplied);
