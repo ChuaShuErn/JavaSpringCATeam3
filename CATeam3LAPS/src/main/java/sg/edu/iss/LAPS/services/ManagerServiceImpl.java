@@ -83,4 +83,11 @@ public class ManagerServiceImpl implements ManagerService {
 		return subleaves;
 	}
 
+	
+	@Override
+	public List<User> getAllSubordinatesByKeyword(String mgrEmail, String keyword) {
+		List<User> sublist = this.getAllSubordinates(mgrEmail);
+		sublist.stream().filter(x -> x.getFirstName().contains(keyword) || x.getLastName().contains(keyword));
+		return sublist;
+	}
 }

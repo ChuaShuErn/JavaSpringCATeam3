@@ -6,8 +6,8 @@
     <div th:replace="fragments/managerGeneral.html :: menu"></div>
 	<h3 >My Team </h3 >
 	
-	<form th:action="@{/manager/team/search}" method="GET">
-		Search Employees by Name): 
+	<form th:action="@{/manager/team}" method="GET">
+		Search Employees by Name: 
 		<input type="text" name="keyword" th:value="${keyword==''}?'':${keyword}" /> 
 		<input type="submit" value="Search" />
 	</form>
