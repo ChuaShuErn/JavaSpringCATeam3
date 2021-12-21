@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/adminGeneral.html :: headerfiles"/>
+<head th:replace="fragments/managerGeneral.html :: headerfiles"/>
 
 <body>
-    <div th:replace="fragments/adminGeneral.html :: menu"></div>
-	<h3>My Team</h3>
+    <div th:replace="fragments/managerGeneral.html :: menu"></div>
+	<h3 >My Team </h3 >
 	
-	<form th:action="@{/manager/team/search}" method="GET">
-		Search Employee: 
+	<form th:action="@{/manager/team}" method="GET">
+		Search Employees by Name: 
 		<input type="text" name="keyword" th:value="${keyword==''}?'':${keyword}" /> 
 		<input type="submit" value="Search" />
 	</form>
 	
-	<table class="content-table" th:unless="${#lists.isEmpty(userList)}" border="1 pt">
+	<br/>
+	
+	<table class="content-table" th:unless="${#lists.isEmpty(teamList)}" border="1 pt">
 		<thead>
 			<tr>
 				<th>Staff ID</th>
@@ -28,9 +30,7 @@
 				<td th:text="${teamMember.email}">Email</td>
 				<td>
 					<a href = "subLeaves.html" th:href="@{/manager/team/}+${teamMember.id}"
-					class="btn btn-default">
-						<span th:text="View Leaves"></span>
-					</a>
+					class="btn btn-default"> View Leaves </a>
 				</td>
 			</tr>
 		</tbody>

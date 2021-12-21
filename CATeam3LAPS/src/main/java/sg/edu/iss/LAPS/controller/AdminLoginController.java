@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.servlet.ModelAndView;
 import sg.edu.iss.LAPS.model.User;
 import sg.edu.iss.LAPS.repo.UserRepository;
 import sg.edu.iss.LAPS.utility.AdminLogin;
@@ -39,7 +40,7 @@ public class AdminLoginController {
 	}
 
 	@RequestMapping("/adminsubmit")
-	public String adminsubmit(@ModelAttribute("adminlogin") @Valid AdminLogin adminlogin, BindingResult bindingResult, HttpSession session, Model model)
+	public Object adminsubmit(@ModelAttribute("adminlogin") @Valid AdminLogin adminlogin, BindingResult bindingResult, HttpSession session, Model model)
 	{
 		System.out.println(adminlogin);
 		if (bindingResult.hasErrors()) {
@@ -54,7 +55,7 @@ public class AdminLoginController {
 			session.setAttribute("role", "Admin");
 			session.setAttribute("id", adminuser.getId());
 			session.setAttribute("name", adminuser.getFirstName());
-			return "adminlanding";
+			return new ModelAndView ("forward:/admin/staff/");
 		}
 	}
 	/* Admin Login stuff*/
