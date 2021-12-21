@@ -1,6 +1,9 @@
 package sg.edu.iss.LAPS.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sg.edu.iss.LAPS.model.LeaveApplied;
@@ -40,6 +43,12 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
         return list.stream()
                 .filter(item -> item.getApprovalStatus().equals(status))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<LeaveApplied> findByUserId(Long userID, int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return repository.findByUserId(userID, pageable);
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package sg.edu.iss.LAPS.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -9,6 +10,7 @@ import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.LeaveType;
 import sg.edu.iss.LAPS.services.LeaveAppliedService;
 import sg.edu.iss.LAPS.services.LeaveTypeService;
+import sg.edu.iss.LAPS.utility.Constants;
 import sg.edu.iss.LAPS.validators.MockValidator;
 
 import javax.servlet.http.HttpSession;
@@ -35,8 +37,19 @@ public class ManageLeaveController {
 
     @RequestMapping(value = "/viewHistory")
     public String viewMyLeaveHistory(Model model, HttpSession session) {
+        return viewMyLeaveHistory(1, model, session);
+    }
+
+    @RequestMapping("/viewHistory/{pageNo}")
+    public String viewMyLeaveHistory(@PathVariable(value = "pageNo") int pageNo, Model model, HttpSession session) {
         long userId = (long) session.getAttribute("id");
-        model.addAttribute("leaveAppliedList", service.findByUserId(userId));
+        int pageSize = Constants.History_PAGE_SIZE;
+        Page<LeaveApplied> page = service.findByUserId(userId, pageNo, pageSize);
+        List<LeaveApplied> leaveAppliedList = page.getContent();
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("leaveAppliedList", leaveAppliedList);
         return "viewHistory";
     }
 
