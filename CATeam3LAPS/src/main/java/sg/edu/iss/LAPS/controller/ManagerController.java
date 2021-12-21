@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.User;
+import sg.edu.iss.LAPS.repo.LeaveAppliedRepository;
 import sg.edu.iss.LAPS.repo.UserRepository;
 import sg.edu.iss.LAPS.services.LeaveAppliedService;
 import sg.edu.iss.LAPS.services.ManagerService;
@@ -46,6 +47,8 @@ public class ManagerController {
 	
 	@Autowired
 	UserRepository urepo;
+	
+	LeaveAppliedRepository laRepo;
 	
 	//List down all pending leaves (on landing page, or on main use case page)
 	@RequestMapping(value="/pending")
@@ -107,8 +110,10 @@ public class ManagerController {
 
 			if (approve.getDecision().trim().equalsIgnoreCase(LeaveStatus.APPROVED.toString())) {
 				leave.setApprovalStatus(LeaveStatus.APPROVED);
+				laRepo.saveAndFlush(leave);
 			} else {
 				leave.setApprovalStatus(LeaveStatus.REJECTED);
+				laRepo.saveAndFlush(leave);
 			}
 
 			ModelAndView mav = new ModelAndView("forward:/manager/pending");
