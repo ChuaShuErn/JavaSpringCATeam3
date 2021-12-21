@@ -103,7 +103,7 @@ public class AdminController {
 			adminService.saveUser(oldUser);
 
 		}
-		return "redirect:/admin/staff/list/1 ";
+		return "redirect:/admin/staff";
 	}
 	
 	@GetMapping("/admin/staff")
