@@ -9,18 +9,23 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import sg.edu.iss.LAPS.model.ApprovalStatus;
 import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.User;
+import sg.edu.iss.LAPS.repo.LeaveAppliedRepository;
 import sg.edu.iss.LAPS.repo.UserRepository;
+import sg.edu.iss.LAPS.services.LeaveAppliedService;
 import sg.edu.iss.LAPS.services.ManagerService;
 import sg.edu.iss.LAPS.utility.Approve;
+import sg.edu.iss.LAPS.utility.LeaveStatus;
+import sg.edu.iss.LAPS.validators.ApproveValidator;
 
 @Controller
 @RequestMapping(value = "/manager")
@@ -30,7 +35,20 @@ public class ManagerController {
 	ManagerService mservice;
 	
 	@Autowired
+	LeaveAppliedService laService;
+	
+	@Autowired
+	ApproveValidator aValidator;
+	
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.addValidators(new ApproveValidator());
+	}
+	
+	@Autowired
 	UserRepository urepo;
+	
+	LeaveAppliedRepository laRepo;
 	
 	//List down all pending leaves (on landing page, or on main use case page)
 	@RequestMapping(value="/pending")
@@ -75,35 +93,34 @@ public class ManagerController {
 	//Show specific team member's individual leave application details, pending approval
 	@RequestMapping(value = "/leave/display/{id}", method = RequestMethod.GET)
 	public ModelAndView leaveDetailToApprove(@PathVariable int id) {
-		//LeaveApplied leave = laService.findLeaveApplied(id);
-		// TODO create new query in repo to find leave by LeaveAppliedID
-		LeaveApplied leave = null;// TODO remove once can call the leave object by ID
+		LeaveApplied leave = laService.findById(id).get();// 
 		ModelAndView mav = new ModelAndView("managerLeaveDetail", "leaveApplied", leave);
 		mav.addObject("approve", new Approve());
 		return mav;
 	}
 	
 	//Approve/reject the leave application
-	@RequestMapping(value = "/leave/edit/{id}", method = RequestMethod.POST)
-	public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
-			@PathVariable Integer id, HttpSession session) {
-		//UserSession usession = (UserSession) session.getAttribute("usession");
-		if (result.hasErrors())
-			return new ModelAndView("managerLeaveDetail");
-		//LeaveApplied leave = laService.findleaveApplied(id);
-		LeaveApplied leave=null;
-		if (approve.getDecision().trim().equalsIgnoreCase(ApprovalStatus.APPROVED.toString())) {
-				
-			leave.setApprovalStatus(ApprovalStatus.APPROVED);
-		} else {
-			leave.setApprovalStatus(ApprovalStatus.REJECTED);
-		}
+		@RequestMapping(value = "/leave/edit/{id}", method = RequestMethod.POST)
+		public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
+				@PathVariable Integer id, HttpSession session) {
+			if (result.hasErrors())
+				return new ModelAndView("managerLeaveDetail");
+			
+			LeaveApplied leave = laService.findById(id).get();
 
-		ModelAndView mav = new ModelAndView("forward:/manager/pending");
-		String message = "Course was successfully updated.";
-		System.out.println(message);
-		return mav;
-	}
+			if (approve.getDecision().trim().equalsIgnoreCase(LeaveStatus.APPROVED.toString())) {
+				leave.setApprovalStatus(LeaveStatus.APPROVED);
+				laRepo.saveAndFlush(leave);
+			} else {
+				leave.setApprovalStatus(LeaveStatus.REJECTED);
+				laRepo.saveAndFlush(leave);
+			}
+
+			ModelAndView mav = new ModelAndView("forward:/manager/pending");
+			String message = "Leave was successfully updated.";
+			System.out.println(message);
+			return mav;
+		}
 	
 
 }

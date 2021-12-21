@@ -1,7 +1,6 @@
 package sg.edu.iss.LAPS.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,8 +46,15 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public Page<User> findPaginated(int pageNo, int pageSize) {
+	public Page<User> findPaginated(int pageNo, int pageSize, String keyword) {
 		Pageable pageable=PageRequest.of(pageNo-1, pageSize);
-		return urepo.findAll(pageable);
+		if (keyword=="")
+		{
+			return urepo.findAll(pageable);
+		}
+		else
+		{
+			return urepo.findALL(keyword,pageable);
+		}
 	}
 }

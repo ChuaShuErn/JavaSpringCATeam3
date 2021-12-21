@@ -12,9 +12,11 @@
         </fieldset>
         <fieldset>
             Role Name <input type="text" th:field="*{name}">
+            <p style="color:red" th:if"${#fields.hasErrors('name')}" th:errors="*{name}"></p>
         </fieldset>
         <fieldset>
             Role Description <input type="text" th:field="*{description}">
+            <p style="color:red" th:if"${#fields.hasErrors('description')}" th:errors="*{description}"></p>
         </fieldset>
         <fieldset>
             <input type="submit" value="Save"/>

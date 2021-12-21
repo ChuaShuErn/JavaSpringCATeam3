@@ -1,7 +1,6 @@
 package sg.edu.iss.LAPS.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,6 +15,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,21 +35,27 @@ public class User{
 	@Column(name="user_id")
 	private Long id;
 	
+	@Size(min=6, max=20, message = "Please enter a valid username. Your username should contain at least 6 characters and not more than 20 characters.")
 	@Column(name="username")
 	private String Username;
 	
+	@Email(message = "Please enter a valid email.")
 	@Column(name="email")
 	private String email;
 	
+	@NotEmpty(message = "The Password field is required.")
 	@Column(name="password")
 	private String Password;
 	
+	@Pattern(regexp="[A-Z][a-z]+", message = "Please enter a valid first name. The first character must be uppercase.")
 	@Column(name="first_name")
 	private String FirstName;
 	
+	@Pattern(regexp="[A-Z][a-z]+", message = "Please enter a valid last name. The first character must be uppercase.")
 	@Column(name="last_name")
 	private String LastName;
 	
+	@Min(0)
 	@Column(name="reportsTo")
 	private Integer ReportsTo;
 	

@@ -9,7 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.ScriptAssert;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
@@ -21,10 +23,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ScriptAssert(lang = "javascript", script = "_this.holidayStartDate.before(_this.holidayEndDate)")
 public class PublicHoliday {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer holidayId;
+    
+    
+
+	@NotEmpty
     private String holidayName;
     
     @Temporal(TemporalType.DATE)
@@ -35,4 +42,10 @@ public class PublicHoliday {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date holidayEndDate;
 
+	/*
+	 * public PublicHoliday(Integer holidayId, String holidayName, Date
+	 * holidayStartDate, Date holidayEndDate) { this.holidayId = holidayId;
+	 * this.holidayName = holidayName; this.holidayStartDate = holidayStartDate;
+	 * this.holidayEndDate = holidayEndDate; }
+	 */
 }
