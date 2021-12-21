@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>ViewHistory</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:margin-left="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/staffGeneral.html :: headerfiles"/>
+
 <body>
-<p>This is an example of a simple HTML page with one paragraph.</p>
-<div class="container" style="float:left; margin-left:80px; width:750px">
-    <h1 align="center">Leave Pending Approval</h1>
-    <p th:if="${leaveAppliedList.empty}" style="color:red" align="center">No applied applications found.</p>
-    <table class="table table-bordered" align="center" th:if="${not #lists.isEmpty(leaveAppliedList)}">
-        <thead style="background-color:lightgrey" margin-left:50px;>
+<div th:replace="fragments/staffGeneral.html :: menu"></div>
+<div class="main-div">
+    <p th:if="${leaveAppliedList.empty}" style="color:red" align="center">No applied leaves found.</p>
+    <table class="content-table" th:if="${not #lists.isEmpty(leaveAppliedList)}">
+        <thead>
         <tr>
             <td><b>Leave ID</b></td>
             <td><b>Leave Type</b></td>

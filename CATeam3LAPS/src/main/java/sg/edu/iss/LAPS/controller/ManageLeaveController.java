@@ -24,18 +24,7 @@ public class ManageLeaveController {
 
     @RequestMapping(value = "/viewHistory")
     public String viewMyLeaveHistory(Model model, HttpSession session) {
-//        int id = (int) session.getAttribute("id");
-//        List<LeaveApplication> leaves = lservice.findApplicationByStaffId(id);
-//        model.addAttribute("leaves", leaves);
-//        List<Boolean> status = new ArrayList<>();
-//        for (LeaveApplication l : leaves) {
-//            boolean s = lservice.validateforCancel(l);
-//            status.add(s);
-//        }
-//        model.addAttribute("status", status);
-
-//        return "viewHistory";
-        Long userId = 1L;
+        long userId = (long) session.getAttribute("id");
         model.addAttribute("leaveAppliedList", service.findByUserId(userId));
         return "viewHistory";
     }
