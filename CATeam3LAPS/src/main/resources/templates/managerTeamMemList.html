@@ -1,32 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/managerGeneral.html :: html_head"/>
+<head th:replace="fragments/managerGeneral.html :: headerfiles"/>
 
 <body>
-	<div th:replace="fragments/layout.html :: menu"/>
-	<div th:replace="fragments/managerGeneral.html :: header"/>
-	<div th:replace="fragments/managerGeneral.html :: manager_head"/> 
-	<h3>My Team</h3>
+    <div th:replace="fragments/managerGeneral.html :: menu"></div>
+	<h3 >My Team </h3 >
 	
-	<div th:if="${not #lists.isEmpty(teamList)}">
-		<table style="border: 1;">
-			<tr class="listHeading">
+	<form th:action="@{/manager/team}" method="GET">
+		Search Employees by Name: 
+		<input type="text" name="keyword" th:value="${keyword==''}?'':${keyword}" /> 
+		<input type="submit" value="Search" />
+	</form>
+	
+	<br/>
+	
+	<table class="content-table" th:unless="${#lists.isEmpty(teamList)}" border="1 pt">
+		<thead>
+			<tr>
 				<th>Staff ID</th>
-				<th>First Name</th>
-				<th>Last Name</th>
+				<th>Staff Name</th>
 				<th>Email</th>
-				<th>View Leave History</th>
+				<th>Actions</th>
 			</tr>
+		</thead>
+		<tbody>	
 			<tr class="listRecord" th:each="teamMember : ${teamList}">
 				<td th:text="${teamMember.id}">Id</td>
-				<td th:text="${teamMember.firstName}">First Name</td>
-				<td th:text="${teamMember.lastName}">Last Name</td>
+				<td th:text="${teamMember.firstName+ ' '+teamMember.lastName}">Staff Name</td>
 				<td th:text="${teamMember.email}">Email</td>
-				<td><a href = "managerTeamMemLeaveList.html"
-				 	th:href="@{/manager/team/}+${teamMember.id}"
-					class="btn btn-default"><span th:text="View Leaves"></span></a></td>
+				<td>
+					<a href = "subLeaves.html" th:href="@{/manager/team/}+${teamMember.id}"
+					class="btn btn-default"> View Leaves </a>
+				</td>
 			</tr>
-		</table>
-	</div>
+		</tbody>
+	</table>
 </body>
+
 </html>

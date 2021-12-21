@@ -20,7 +20,7 @@ import sg.edu.iss.LAPS.services.PublicHolidayService;
 
 @CrossOrigin(origins= "http://localhost:3000")
 @RestController
-@RequestMapping(path="/api/admin-dashboard/")
+@RequestMapping(path="/api")
 public class AdminDashboardController {
 	@Autowired
 	PublicHolidayService publicHolidayService;
