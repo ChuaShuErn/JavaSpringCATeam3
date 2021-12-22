@@ -7,6 +7,10 @@
 	<h3> Team Leaves - Pending Approval </h3 >
 	<br/>
 
+	<centre>
+	<h5 th:if="${#lists.isEmpty(pendingLeaves)}" style="text-align: center;"> No Pending Leave Applications </h5>
+	</centre>
+
 	<div th:if="${not #lists.isEmpty(pendingLeaves)}">
 		<table class="content-table">
 			<tr class="listHeading" >
@@ -32,7 +36,7 @@
 					<td>
 					<button type="button">
 						<a th:href="@{/manager/leave/display/}+${leaveApplied.leaveAppliedId}"
-							class="btn btn-default"> Details </span>
+							class="btn btn-default"> View Details </span>
 					</a>
 					</button>
 					</td>
