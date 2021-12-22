@@ -65,6 +65,20 @@ public class ManagerController {
 		return mav;
 	}
 	
+	//List down all compensation claims
+	@RequestMapping(value="/compensations")
+    public ModelAndView compensationList(HttpSession session) {
+		User manager = urepo.getById((long) session.getAttribute("id"));
+		if (manager == null){
+			return new ModelAndView("login");
+		}
+		ModelAndView mav = new ModelAndView("managerCompensationList");
+		List<LeaveApplied> compList = (ArrayList) mservice.getSubordinateLeavesByLeaveType(
+				manager.getEmail(), 3);
+		mav.addObject("compLeaves", compList);
+		return mav;
+	}
+	
 	//List down all the team members, so can navigate to their employee leave histories
 	@RequestMapping(value="/team")
     public ModelAndView teamList(HttpSession session, @RequestParam(value = "keyword", required = false) String keyword) 
