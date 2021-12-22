@@ -18,7 +18,7 @@
 					<th th:utext="#{fieldLabel.endDate}">LeaveEndDate</th>
 					<th th:utext="#{fieldLabel.leaveType}">LeaveType</th>
 					<th th:utext="#{fieldlabel.status}">Status</th>
-					<th th:utext="#{fieldlabel.leaveDetails}">Action</th>
+					<th th:utext="Action">Action</th>
 			</tr>
 			<tr class="listRecord" th:each="leaveApplied : ${pendingLeaves}">
 			<!--entry iterated inside pendingLeaves list-->
@@ -32,7 +32,7 @@
 					<td>
 					<button type="button">
 						<a th:href="@{/manager/leave/display/}+${leaveApplied.leaveAppliedId}"
-							class="btn btn-default"><span th:text="#{caption.detail}"></span>
+							class="btn btn-default"> Details </span>
 					</a>
 					</button>
 					</td>

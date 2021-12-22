@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/managerGeneral.html :: headerfiles"/>
+
+<body>
+    <div th:replace="fragments/managerGeneral.html :: menu"></div>
+	<h3> Team Compensation Claims </h3 >
+	<br/>
+
+	<centre>
+	<h5 th:if="${#lists.isEmpty(compLeaves)}" style="text-align: center;"> No Compensation Claims Lodged </h5>
+	</centre>
+
+	<div th:if="${not #lists.isEmpty(compLeaves)}">
+		<table class="content-table">
+			<tr class="listHeading" >
+			
+					<th th:utext="#{fieldLabel.leaveID}">LeaveID</th>
+					<th th:utext="#{fieldLabel.name}">Name</th>
+					<th th:utext="#{fieldLabel.appliedDate}">AppliedDate</th>
+					<th th:utext="#{fieldLabel.startDate}">LeaveStartDate</th>
+					<th th:utext="#{fieldLabel.endDate}">LeaveEndDate</th>
+					<th th:utext="#{fieldLabel.leaveType}">LeaveType</th>
+					<th th:utext="#{fieldlabel.status}">Status</th>
+					<th th:utext="#{fieldlabel.leaveDetails}">Action</th>
+			</tr>
+			<tr class="listRecord" th:each="compLeave : ${compLeaves}">
+			<!--entry iterated inside pendingLeaves list-->
+					<td th:text="${compLeave.leaveAppliedId}">Id</td>
+					<td th:text="${compLeave.user.Username}">Name</td>
+					<td th:text="${compLeave.appliedDate}">Applied Date</td>
+					<td th:text="${compLeave.leaveStartDate}">LeaveStartDate</td>
+					<td th:text="${compLeave.leaveEndDate}">LeaveEndDate</td>
+					<td th:text="${compLeave.leaveType.description}">LeaveType</td>
+					<td th:text="${compLeave.approvalStatus}">Status</td>
+					<td>
+					<button type="button">
+						<a th:href="@{/manager/leave/display/}+${compLeave.leaveAppliedId}"
+							class="btn btn-default"><span th:text="#{caption.detail}"></span>
+					</a>
+					</button>
+					</td>
+			</tr>
+		</table >
+	</div>
+
+</body>
+</html>

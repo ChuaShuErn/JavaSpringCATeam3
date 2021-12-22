@@ -66,7 +66,7 @@ public class ManagerController {
 	}
 	
 	//List down all compensation claims
-	@RequestMapping(value="/compensations")
+	@RequestMapping(value="/compensation")
     public ModelAndView compensationList(HttpSession session) {
 		User manager = urepo.getById((long) session.getAttribute("id"));
 		if (manager == null){
