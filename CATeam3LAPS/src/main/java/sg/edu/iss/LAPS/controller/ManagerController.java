@@ -136,32 +136,32 @@ public class ManagerController {
 	}
 	
 	//Approve/reject the leave application
-		@RequestMapping(value = "/staff/edit/{id}", method = RequestMethod.POST)
-		public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
-				@PathVariable Integer id, HttpSession session) {
-			if (result.hasErrors()) {
-				LeaveApplied leave = laService.findById(id).get();// 
-				ModelAndView mav = new ModelAndView("managerLeaveDetail", "leaveApplied", leave);
-				mav.addObject("approve", approve);
-				return mav;
-			}
-				
-			LeaveApplied leave = laService.findById(id).get();
-
-			if (approve.getDecision().trim().equalsIgnoreCase(LeaveStatus.APPROVED.toString())) {
-				leave.setApprovalStatus(LeaveStatus.APPROVED);
-				laRepo.saveAndFlush(leave);
-			} else {
-				leave.setApprovalStatus(LeaveStatus.REJECTED);
-				laRepo.saveAndFlush(leave);
-			}
-			
-
-			ModelAndView mav = new ModelAndView("forward:/manager/pending");
-			String message = "Leave was successfully updated.";
-			System.out.println(message);
+	@RequestMapping(value = "/leave/edit/{id}", method = RequestMethod.POST)
+	public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
+			@PathVariable Integer id, HttpSession session) {
+		if (result.hasErrors()) {
+			LeaveApplied leave = laService.findById(id).get();// 
+			ModelAndView mav = new ModelAndView("managerLeaveDetail", "leaveApplied", leave);
+			mav.addObject("approve", approve);
 			return mav;
 		}
+			
+		LeaveApplied leave = laService.findById(id).get();
+
+		if (approve.getDecision().trim().equalsIgnoreCase(LeaveStatus.APPROVED.toString())) {
+			leave.setApprovalStatus(LeaveStatus.APPROVED);
+			laRepo.saveAndFlush(leave);
+		} else {
+			leave.setApprovalStatus(LeaveStatus.REJECTED);
+			laRepo.saveAndFlush(leave);
+		}
+		
+
+		ModelAndView mav = new ModelAndView("forward:/manager/pending");
+		String message = "Leave was successfully updated.";
+		System.out.println(message);
+		return mav;
+	}
 	
 
 }
