@@ -2,10 +2,12 @@ package sg.edu.iss.LAPS.services;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.User;
 
+@Service
 public class EmailNotificationServiceImpl implements EmailNotificationService {
 	
 	private JavaMailSender javaMailSender;
