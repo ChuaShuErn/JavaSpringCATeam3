@@ -2,12 +2,14 @@ package sg.edu.iss.LAPS.validators;
 
 import java.time.temporal.ChronoUnit;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.utility.DateTools;
 
+@Component
 public class LeaveAppliedValidator implements Validator {
 
 	@Override
