@@ -26,6 +26,16 @@ public class SecurityInterceptor implements HandlerInterceptor {
                 response.sendRedirect("/adminlogin/");
             }
         }
+//        else if(request.getServletPath().contains("/staff/")){
+//            if(request.getSession().getAttribute("role")==null || request.getSession().getAttribute("role").toString() != Constants.STAFF_ROLE_NAME){
+//                response.sendRedirect("/stafflogin/");
+//            }
+//        }
+//        else if(request.getServletPath().contains("/manager/")){
+//            if(request.getSession().getAttribute("role")==null || request.getSession().getAttribute("role").toString() != Constants.MANAGER_ROLE_NAME){
+//                response.sendRedirect("/stafflogin/");
+//            }
+//        }
         return true;
     }
 }

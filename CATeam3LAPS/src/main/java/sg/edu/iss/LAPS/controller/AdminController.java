@@ -272,4 +272,10 @@ public class AdminController {
 		publicHolidayService.deleteHolidayById(holidayId);
 		return "redirect:/admin/holiday/list/"+currPage;
 	}
+
+	@RequestMapping("/admin/logout")
+	public String Logout(HttpSession session){
+		session.invalidate();
+		return "redirect:/adminlogin/";
+	}
 }
