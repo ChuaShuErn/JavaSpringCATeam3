@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:margin-left="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/staffGeneral.html :: headerfiles"/>
 
 
 <head>
@@ -9,9 +10,10 @@
 </head>
 
 <body>
+<div th:replace="fragments/staffGeneral.html :: menu"></div>
     <h1>Compensation Claim Form</h1>
 
-1
+
 	<form action = "claimcompensation" th:object="${claimcompensation}" th:action="@{/staff/claimcompensation/submit}" method="POST">
 	 	<input type="hidden" th:field="*{compensationClaimId}"th:attr="name='compensationClaimId'"/>  
 	   <!-- <input type="hidden" th:value="${session.id}" th:attr="Username='user.id'">

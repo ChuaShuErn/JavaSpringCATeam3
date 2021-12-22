@@ -70,7 +70,6 @@ public class ClaimCompensationController {
 	 @RequestMapping(value = "/viewLedger")
 		private String loadClaimCompensationLedger(Model model, HttpSession session)
 		{
-		 
 			model.addAttribute("compensationClaimList",ccservice.findByUserId((Long) session.getAttribute("id")));
 			return "claimCompensationLedger";
 		}
