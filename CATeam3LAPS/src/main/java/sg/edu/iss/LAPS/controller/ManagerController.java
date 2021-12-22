@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -53,6 +54,20 @@ public class ManagerController {
 	LeaveAppliedRepository laRepo;
 	
 	//List down all pending leaves (on landing page, or on main use case page)
+	@RequestMapping(value="/landing")
+    public String landing(HttpSession session, Model model) {
+		User manager = urepo.getById((long) session.getAttribute("id"));
+		if (manager == null){
+			return "login";
+		}
+		List<LeaveApplied> subApplied = (ArrayList) mservice.getSubordinateLeavesByPending(
+				manager.getEmail());
+		model.addAttribute("manager", manager);
+		model.addAttribute("pendingLeaves", subApplied);
+		return "managerlanding";
+	}
+	
+	//List down all pending leaves (on landing page, or on main use case page)
 	@RequestMapping(value="/pending")
     public ModelAndView pendingApproval(HttpSession session) {
 		User manager = urepo.getById((long) session.getAttribute("id"));
@@ -82,17 +97,19 @@ public class ManagerController {
 	
 	//List down all the team members, so can navigate to their employee leave histories
 	@RequestMapping(value="/team")
-    public ModelAndView teamList(HttpSession session, @RequestParam(value = "keyword", required = false) String keyword) 
+    public String teamList(HttpSession session, @RequestParam(value = "keyword", required = false) String keyword, Model model) 
 	{
 		User manager = urepo.getById((long) session.getAttribute("id"));
 		if (manager == null){
-			return new ModelAndView("login");
+			return "login";
 		}
-		ModelAndView mav = new ModelAndView("managerTeamMemList");
+		//ModelAndView mav = new ModelAndView("managerTeamMemList");
+		if (keyword == null)
+			keyword = "";
 		List<User> myTeamList = (ArrayList) mservice.getAllSubordinatesByKeyword(manager.getEmail(), keyword);
-		mav.addObject("teamList", myTeamList);
-		mav.addObject("keyword", keyword);
-		return mav;
+		model.addAttribute("teamList", myTeamList);
+		model.addAttribute("keyword", keyword);
+		return "managerTeamMemList";
 	}
 	
 	//List down the employee leave history of the selected team member, by id
@@ -119,7 +136,7 @@ public class ManagerController {
 	}
 	
 	//Approve/reject the leave application
-		@RequestMapping(value = "/leave/edit/{id}", method = RequestMethod.POST)
+		@RequestMapping(value = "/staff/edit/{id}", method = RequestMethod.POST)
 		public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
 				@PathVariable Integer id, HttpSession session) {
 			if (result.hasErrors()) {

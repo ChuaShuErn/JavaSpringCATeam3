@@ -5,7 +5,12 @@
 <body>
     <div th:replace="fragments/managerGeneral.html :: menu"></div>
 	<h3> Manager's Landing Page </h3 >
+	<h4 th:text="${'Welcome, ' + manager.firstName + ' ' + manager.lastName + '!'}"></h4>
 	<br/>
+	
+	<h5> Your Tasks </h5>
+	<p th:if="${#lists.isEmpty(pendingLeaves)}"> No outstanding tasks today! </p>
+	<p th:unless="${#lists.isEmpty(pendingLeaves)}" th:text ="${#lists.size(pendingLeaves) + ' leave applications pending your approval'}" style></p>
 	
 	
 

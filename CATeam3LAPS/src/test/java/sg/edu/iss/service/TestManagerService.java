@@ -66,8 +66,8 @@ public class TestManagerService {
 	@Order(5)
 	public void testGetSubordinateLeavesByLeaveStatus() {
 		ArrayList<LeaveApplied> AppliedOnlyLeaves = (ArrayList) mservice.getSubordinateLeavesByLeaveStatus(
-				"Gab@u.nus.edu", LeaveStatus.APPLIED);
-		assertEquals(AppliedOnlyLeaves.size(), 1);
+				"Gab@u.nus.edu", LeaveStatus.APPROVED);
+		assertEquals(AppliedOnlyLeaves.size(), 2);
 	}
 	
 

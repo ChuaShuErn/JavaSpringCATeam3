@@ -69,25 +69,40 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public List<LeaveApplied> getSubordinateLeavesByLeaveStatus(String mgrEmail, LeaveStatus status) {
 		ArrayList<LeaveApplied> subleaves = (ArrayList) this.getAllSubordinatesLeaves(mgrEmail);
-		String statusStr = status.toString();
-		subleaves.stream().filter(x -> x.getApprovalStatus().toString().equalsIgnoreCase(statusStr)).
-			sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
-		return subleaves;
+		String statusStr = status.toString().trim();
+		ArrayList<LeaveApplied> filtered_subleave = new ArrayList<LeaveApplied>();
+		for (LeaveApplied leave : subleaves)
+		{
+			if(leave.getApprovalStatus() == status)
+				filtered_subleave.add(leave);
+		}
+		return filtered_subleave;
 	}
 
 	@Override
 	public List<LeaveApplied> getSubordinateLeavesByLeaveType(String mgrEmail, Integer leavetypeid) {
 		ArrayList<LeaveApplied> subleaves = (ArrayList) this.getAllSubordinatesLeaves(mgrEmail);
-		subleaves.stream().filter(x -> x.getLeaveType().getLeaveTypeId() == leavetypeid).
-			sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
-		return subleaves;
+		ArrayList<LeaveApplied> filtered_subleave = new ArrayList<LeaveApplied>();
+		for (LeaveApplied leave : subleaves)
+		{
+			if(leave.getLeaveType().getLeaveTypeId() == leavetypeid)
+				filtered_subleave.add(leave);
+		}
+		//subleaves.stream().filter(x -> x.getLeaveType().getLeaveTypeId() == leavetypeid).
+			//sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
+		return filtered_subleave;
 	}
 
 	
 	@Override
 	public List<User> getAllSubordinatesByKeyword(String mgrEmail, String keyword) {
 		List<User> sublist = this.getAllSubordinates(mgrEmail);
-		sublist.stream().filter(x -> x.getFirstName().contains(keyword) || x.getLastName().contains(keyword));
-		return sublist;
+		ArrayList<User> filtered_sublist = new ArrayList<User>();
+		for (User user : sublist)
+		{
+			if(user.getFirstName().contains(keyword) || user.getLastName().contains(keyword))
+				filtered_sublist.add(user);
+		}
+		return filtered_sublist;
 	}
 }
