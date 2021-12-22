@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import sg.edu.iss.LAPS.model.ClaimCompensation;
 import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.User;
+import sg.edu.iss.LAPS.repo.ClaimCompensationRepository;
 import sg.edu.iss.LAPS.repo.LeaveAppliedRepository;
 import sg.edu.iss.LAPS.repo.UserRepository;
+import sg.edu.iss.LAPS.services.ClaimCompensationService;
 import sg.edu.iss.LAPS.services.LeaveAppliedService;
 import sg.edu.iss.LAPS.services.ManagerService;
 import sg.edu.iss.LAPS.utility.Approve;
@@ -40,6 +43,9 @@ public class ManagerController {
 	LeaveAppliedService laService;
 	
 	@Autowired
+	ClaimCompensationService cService;
+	
+	@Autowired
 	ApproveValidator aValidator;
 	
 	@InitBinder("approve")
@@ -52,6 +58,9 @@ public class ManagerController {
 	
 	@Autowired
 	LeaveAppliedRepository laRepo;
+	
+	@Autowired
+	ClaimCompensationRepository cRepo;
 	
 	//List down all pending leaves (on landing page, or on main use case page)
 	@RequestMapping(value="/landing")
@@ -155,13 +164,51 @@ public class ManagerController {
 			leave.setApprovalStatus(LeaveStatus.REJECTED);
 			laRepo.saveAndFlush(leave);
 		}
-		
+		leave.setManagerComments(approve.getComment());
+		laRepo.saveAndFlush(leave);
 
 		ModelAndView mav = new ModelAndView("forward:/manager/pending");
 		String message = "Leave was successfully updated.";
 		System.out.println(message);
 		return mav;
 	}
+
+	//Show specific Leave Compensation application details, to be approved
+	@RequestMapping(value = "/compensation/display/{id}", method = RequestMethod.GET)
+	public ModelAndView compensationDetailToApprove(@PathVariable long id) {
+		ArrayList<ClaimCompensation> compensation = cService.findByUserId(id);// 
+		ModelAndView mav = new ModelAndView("managerCompensationDetail", "ClaimCompensation", compensation);
+		mav.addObject("approve", new Approve());
+		return mav;
+	}
 	
+	//Approve/reject the Leave compensation application
+//	@RequestMapping(value = "/compensation/edit/{id}", method = RequestMethod.POST)
+//	public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
+//			@PathVariable Integer id, HttpSession session) {
+//		if (result.hasErrors()) {
+//			LeaveApplied leave = laService.findById(id).get();// 
+//			ModelAndView mav = new ModelAndView("managerLeaveDetail", "leaveApplied", leave);
+//			mav.addObject("approve", approve);
+//			return mav;
+//		}
+//			
+//		LeaveApplied leave = laService.findById(id).get();
+//
+//		if (approve.getDecision().trim().equalsIgnoreCase(LeaveStatus.APPROVED.toString())) {
+//			leave.setApprovalStatus(LeaveStatus.APPROVED);
+//			laRepo.saveAndFlush(leave);
+//		} else {
+//			leave.setApprovalStatus(LeaveStatus.REJECTED);
+//			laRepo.saveAndFlush(leave);
+//		}
+//		leave.setManagerComments(approve.getComment());
+//		laRepo.saveAndFlush(leave);
+//
+//		ModelAndView mav = new ModelAndView("forward:/manager/pending");
+//		String message = "Leave was successfully updated.";
+//		System.out.println(message);
+//		return mav;
+//	}
 
 }
