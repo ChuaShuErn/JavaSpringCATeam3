@@ -69,7 +69,7 @@ public class ApplyLeaveController {
 	}
     
 
-    @RequestMapping(value="/applyleave")
+    @RequestMapping(value="/staff/applyleave")
 	public String applyForm(Model model) {
 		model.addAttribute("leaveapplication", new LeaveApplied());
 		List<LeaveType> leaveTypeList = leaveTypeService.getAllLeaveType();
@@ -79,9 +79,9 @@ public class ApplyLeaveController {
 	}
 
 /*
-    @RequestMapping(value = "/applyleave/submit")
-    public String createLeaveApplication(@ModelAttribute("leaveapplication") @Valid LeaveApplied application, @ModelAttribute("overseasTrip") @Valid OverseasLeaveDetails overseasTrip, BindingResult bindingResult, HttpSession session, Model model) {
-    	if (bindingResult.hasErrors()) {
+    @RequestMapping(value = "/staff/applyleave/submit")
+    public String createLeaveApplication(@ModelAttribute("leaveapplication") @Valid LeaveApplied application, BindingResult bindingResult, HttpSession session, Model model) {
+        if (bindingResult.hasErrors()) {
 			return "applyLeave";
 		}
 

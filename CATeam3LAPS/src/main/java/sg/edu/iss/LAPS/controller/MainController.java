@@ -75,7 +75,7 @@ public class MainController {
 	@GetMapping("/stafflanding")
 	public String stafflanding()
 	{
-		return "redirect:/leave/viewHistory";
+		return "redirect:/staff/viewHistory";
 	}
 	
 	@RequestMapping("/logout")

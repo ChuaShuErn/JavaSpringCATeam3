@@ -7,7 +7,7 @@
 <body>
 <div th:replace="fragments/staffGeneral.html :: menu"></div>
 
-	<form action="applyLeave" th:object="${leaveapplication}" th:action="@{/applyleave/submit}" method="POST">
+	<form action="applyLeave" th:object="${leaveapplication}" th:action="@{staff/applyleave/submit}" method="POST">
 	    <input type="hidden" th:field="*{leaveAppliedId}">
 	    <input type="hidden" th:value="${session.id}" th:attr="Username='user.id'">
 	    <div class="row mb-3">

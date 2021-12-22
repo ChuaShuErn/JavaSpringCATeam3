@@ -122,7 +122,7 @@ public class ManagerController {
 	}
 	
 	//Approve/reject the leave application
-		@RequestMapping(value = "/leave/edit/{id}", method = RequestMethod.POST)
+		@RequestMapping(value = "/staff/edit/{id}", method = RequestMethod.POST)
 		public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
 				@PathVariable Integer id, HttpSession session) {
 			if (result.hasErrors()) {

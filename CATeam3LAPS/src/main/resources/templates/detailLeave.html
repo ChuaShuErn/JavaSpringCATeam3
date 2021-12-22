@@ -91,15 +91,15 @@
             <input type="text" class="form-control" th:field="*{overseasTrip.phone}" readonly/>
         </div>
     </div>
-    <a th:href="@{/leave/edit/}+${leaveApplied.leaveAppliedId}"
+    <a th:href="@{/staff/edit/}+${leaveApplied.leaveAppliedId}"
        th:if="${leaveApplied.approvalStatus == T(sg.edu.iss.LAPS.utility.LeaveStatus).APPLIED}">
         <button type="button" class="btn btn-danger" style="background-color:orange">Edit</button>
     </a>
-    <a th:href="@{/leave/delete/}+${leaveApplied.leaveAppliedId}"
+    <a th:href="@{/staff/delete/}+${leaveApplied.leaveAppliedId}"
        th:if="${leaveApplied.approvalStatus == T(sg.edu.iss.LAPS.utility.LeaveStatus).APPLIED}">
         <button type="button" class="btn btn-danger">Delete</button>
     </a>
-    <a th:href="@{/leave/viewHistory}">
+    <a th:href="@{/staff/viewHistory}">
         <button type="button" class="btn btn-secondary">Cancel</button>
     </a>
 </form>

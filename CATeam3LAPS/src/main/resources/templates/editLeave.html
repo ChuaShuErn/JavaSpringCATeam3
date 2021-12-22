@@ -7,7 +7,7 @@
 <body>
 <div th:replace="fragments/staffGeneral.html :: menu"></div>
 
-<form action="editLeave" th:object="${leaveApplied}" th:action="@{/leave/updateLeaveApplied}" method="get">
+<form action="editLeave" th:object="${leaveApplied}" th:action="@{/staff/updateLeaveApplied}" method="get">
     <input type="hidden" th:field="*{appliedDate}">
     <div class="row mb-3">
         <label class="col-sm-2 col-form-label">Leave ID</label>

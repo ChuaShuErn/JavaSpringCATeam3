@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/leave")
+@RequestMapping("/staff")
 public class ManageLeaveController {
     @Autowired
     LeaveAppliedService service;
@@ -85,13 +85,13 @@ public class ManageLeaveController {
     @RequestMapping(value = "updateLeaveApplied")
     public String update(@ModelAttribute("leaveApplied") @Valid LeaveApplied leaveApplied) {
         service.update(leaveApplied);
-        return "redirect:/leave/viewHistory";
+        return "redirect:/staff/viewHistory";
     }
 
     @RequestMapping(value = "/delete/{id}")
     public String delete(@PathVariable("id") Integer id) {
         service.delete(id);
-        return "redirect:/leave/viewHistory";
+        return "redirect:/staff/viewHistory";
     }
 
 }
