@@ -18,6 +18,15 @@ public class DateTools {
             return true;
         } else return false;
     }
+    
+    // To check if the start day or the end day are in weekdays
+    public static boolean isWeekdays(Calendar start, Calendar end) {
+    	if (start.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY && start.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+    		return true;
+    	}
+    	return false;
+    }
+    
 
     //Remove weekends if leave days is <=14
     public static float removeWeekends(Calendar start, Calendar end) {

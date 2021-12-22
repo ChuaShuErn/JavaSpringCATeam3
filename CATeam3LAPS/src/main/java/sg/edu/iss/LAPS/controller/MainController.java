@@ -61,7 +61,7 @@ public class MainController {
 			session.setAttribute("role", "Manager");
 			session.setAttribute("id", currentUser.getId());
 			session.setAttribute("name", currentUser.getFirstName());
-			return "managerlanding";
+			return "forward:/manager/landing";
 			
 		}
 		else
@@ -75,7 +75,7 @@ public class MainController {
 	@GetMapping("/stafflanding")
 	public String stafflanding()
 	{
-		return "redirect:/leave/viewHistory";
+		return "redirect:/staff/viewHistory";
 	}
 	
 	@RequestMapping("/logout")

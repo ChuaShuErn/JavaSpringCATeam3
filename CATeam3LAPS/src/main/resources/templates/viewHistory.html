@@ -26,7 +26,7 @@
             <td th:text=${leaveApplied.leaveEndDate}>End Date</td>
             <td th:text=${leaveApplied.noOfDays}>Number of Days</td>
             <td th:text=${leaveApplied.approvalStatus}>Status</td>
-            <td><a th:href="@{/leave/detail/}+${leaveApplied.leaveAppliedId}">
+            <td><a th:href="@{/staff/detail/}+${leaveApplied.leaveAppliedId}">
                 <button type="button" class="btn btn-danger">Detail</button>
             </a></td>
         </tr>
@@ -39,16 +39,16 @@
             </div>
             <div class="col-sm-1">
 				<span th:each="i: ${#numbers.sequence(1,totalPages)}">
-					<a th:if="${currentPage != i}" th:href="@{'/leave/viewHistory/' + ${i}}">[[${i}]]</a>
+					<a th:if="${currentPage != i}" th:href="@{'/staff/viewHistory/' + ${i}}">[[${i}]]</a>
 					<span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
 				</span>
             </div>
             <div class="col-sm-1">
-                <a th:if="${currentPage<totalPages}" th:href="@{'/leave/viewHistory/' + ${currentPage +1}}">Next</a>
+                <a th:if="${currentPage<totalPages}" th:href="@{'/staff/viewHistory/' + ${currentPage +1}}">Next</a>
                 <span th:unless="${currentPage<totalPages}">Next</span>
             </div>
             <div class="col-sm-1">
-                <a th:if="${currentPage<totalPages}" th:href="@{'/leave/viewHistory/' + ${totalPages}}">Last</a>
+                <a th:if="${currentPage<totalPages}" th:href="@{'/staff/viewHistory/' + ${totalPages}}">Last</a>
                 <span th:unless="${currentPage<totalPages}">Last</span>
             </div>
         </div>

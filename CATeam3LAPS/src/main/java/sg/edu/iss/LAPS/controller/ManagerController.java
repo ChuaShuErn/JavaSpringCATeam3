@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -41,15 +42,30 @@ public class ManagerController {
 	@Autowired
 	ApproveValidator aValidator;
 	
-	@InitBinder
+	@InitBinder("approve")
 	private void initBinder(WebDataBinder binder) {
-		binder.addValidators(new ApproveValidator());
+		binder.addValidators(aValidator);
 	}
 	
 	@Autowired
 	UserRepository urepo;
 	
+	@Autowired
 	LeaveAppliedRepository laRepo;
+	
+	//List down all pending leaves (on landing page, or on main use case page)
+	@RequestMapping(value="/landing")
+    public String landing(HttpSession session, Model model) {
+		User manager = urepo.getById((long) session.getAttribute("id"));
+		if (manager == null){
+			return "login";
+		}
+		List<LeaveApplied> subApplied = (ArrayList) mservice.getSubordinateLeavesByPending(
+				manager.getEmail());
+		model.addAttribute("manager", manager);
+		model.addAttribute("pendingLeaves", subApplied);
+		return "managerlanding";
+	}
 	
 	//List down all pending leaves (on landing page, or on main use case page)
 	@RequestMapping(value="/pending")
@@ -65,19 +81,35 @@ public class ManagerController {
 		return mav;
 	}
 	
-	//List down all the team members, so can navigate to their employee leave histories
-	@RequestMapping(value="/team")
-    public ModelAndView teamList(HttpSession session, @RequestParam(value = "keyword", required = false) String keyword) 
-	{
+	//List down all compensation claims
+	@RequestMapping(value="/compensation")
+    public ModelAndView compensationList(HttpSession session) {
 		User manager = urepo.getById((long) session.getAttribute("id"));
 		if (manager == null){
 			return new ModelAndView("login");
 		}
-		ModelAndView mav = new ModelAndView("managerTeamMemList");
-		List<User> myTeamList = (ArrayList) mservice.getAllSubordinatesByKeyword(manager.getEmail(), keyword);
-		mav.addObject("teamList", myTeamList);
-		mav.addObject("keyword", keyword);
+		ModelAndView mav = new ModelAndView("managerCompensationList");
+		List<LeaveApplied> compList = (ArrayList) mservice.getSubordinateLeavesByLeaveType(
+				manager.getEmail(), 3);
+		mav.addObject("compLeaves", compList);
 		return mav;
+	}
+	
+	//List down all the team members, so can navigate to their employee leave histories
+	@RequestMapping(value="/team")
+    public String teamList(HttpSession session, @RequestParam(value = "keyword", required = false) String keyword, Model model) 
+	{
+		User manager = urepo.getById((long) session.getAttribute("id"));
+		if (manager == null){
+			return "login";
+		}
+		//ModelAndView mav = new ModelAndView("managerTeamMemList");
+		if (keyword == null)
+			keyword = "";
+		List<User> myTeamList = (ArrayList) mservice.getAllSubordinatesByKeyword(manager.getEmail(), keyword);
+		model.addAttribute("teamList", myTeamList);
+		model.addAttribute("keyword", keyword);
+		return "managerTeamMemList";
 	}
 	
 	//List down the employee leave history of the selected team member, by id
@@ -89,7 +121,8 @@ public class ManagerController {
 		}
 		ModelAndView mav = new ModelAndView("managerTeamMemLeaveList");
 		ArrayList<LeaveApplied> thisSubLeave = (ArrayList) mservice.getThisSubordinateLeaves(manager.getEmail(), subid);
-		mav.addObject("thisSubLeave", thisSubLeave);
+		User thisSub = mservice.getThisSubordinate(manager.getEmail(), subid);
+		mav.addObject("thisSubLeave", thisSubLeave);	
 		return mav;
 	}
 	
@@ -103,12 +136,16 @@ public class ManagerController {
 	}
 	
 	//Approve/reject the leave application
-		@RequestMapping(value = "/leave/edit/{id}", method = RequestMethod.POST)
+		@RequestMapping(value = "/staff/edit/{id}", method = RequestMethod.POST)
 		public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
 				@PathVariable Integer id, HttpSession session) {
-			if (result.hasErrors())
-				return new ModelAndView("managerLeaveDetail");
-			
+			if (result.hasErrors()) {
+				LeaveApplied leave = laService.findById(id).get();// 
+				ModelAndView mav = new ModelAndView("managerLeaveDetail", "leaveApplied", leave);
+				mav.addObject("approve", approve);
+				return mav;
+			}
+				
 			LeaveApplied leave = laService.findById(id).get();
 
 			if (approve.getDecision().trim().equalsIgnoreCase(LeaveStatus.APPROVED.toString())) {
@@ -118,6 +155,7 @@ public class ManagerController {
 				leave.setApprovalStatus(LeaveStatus.REJECTED);
 				laRepo.saveAndFlush(leave);
 			}
+			
 
 			ModelAndView mav = new ModelAndView("forward:/manager/pending");
 			String message = "Leave was successfully updated.";
