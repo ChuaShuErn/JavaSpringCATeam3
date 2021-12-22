@@ -29,6 +29,7 @@ import sg.edu.iss.LAPS.services.ClaimCompensationService;
 import sg.edu.iss.LAPS.services.LeaveAppliedService;
 import sg.edu.iss.LAPS.services.ManagerService;
 import sg.edu.iss.LAPS.utility.Approve;
+import sg.edu.iss.LAPS.utility.ClaimStatus;
 import sg.edu.iss.LAPS.utility.LeaveStatus;
 import sg.edu.iss.LAPS.validators.ApproveValidator;
 
@@ -38,13 +39,10 @@ public class ManagerController {
 	
 	@Autowired
 	ManagerService mservice;
-	
 	@Autowired
 	LeaveAppliedService laService;
-	
 	@Autowired
 	ClaimCompensationService cService;
-	
 	@Autowired
 	ApproveValidator aValidator;
 	
@@ -55,10 +53,8 @@ public class ManagerController {
 	
 	@Autowired
 	UserRepository urepo;
-	
 	@Autowired
 	LeaveAppliedRepository laRepo;
-	
 	@Autowired
 	ClaimCompensationRepository cRepo;
 	
@@ -146,7 +142,7 @@ public class ManagerController {
 	
 	//Approve/reject the leave application
 	@RequestMapping(value = "/leave/edit/{id}", method = RequestMethod.POST)
-	public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
+	public ModelAndView approveOrRejectLeave(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
 			@PathVariable Integer id, HttpSession session) {
 		if (result.hasErrors()) {
 			LeaveApplied leave = laService.findById(id).get();// 
@@ -176,7 +172,7 @@ public class ManagerController {
 	//Show specific Leave Compensation application details, to be approved
 	@RequestMapping(value = "/compensation/display/{id}", method = RequestMethod.GET)
 	public ModelAndView compensationDetailToApprove(@PathVariable long id) {
-		ArrayList<ClaimCompensation> compensation = cService.findByUserId(id);// 
+		ArrayList<ClaimCompensation> compensation = cService.findByUserId(id);// check the service again
 		ModelAndView mav = new ModelAndView("managerCompensationDetail", "ClaimCompensation", compensation);
 		mav.addObject("approve", new Approve());
 		return mav;
@@ -187,26 +183,26 @@ public class ManagerController {
 //	public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
 //			@PathVariable Integer id, HttpSession session) {
 //		if (result.hasErrors()) {
-//			LeaveApplied leave = laService.findById(id).get();// 
-//			ModelAndView mav = new ModelAndView("managerLeaveDetail", "leaveApplied", leave);
+//			ArrayList<ClaimCompensation> compensation = cService.findByUserId(id);// check the service again
+//			ModelAndView mav = new ModelAndView("managerCompensationDetail", "ClaimCompensation", compensation);
 //			mav.addObject("approve", approve);
 //			return mav;
 //		}
 //			
-//		LeaveApplied leave = laService.findById(id).get();
+//		ArrayList<ClaimCompensation> compensation = cService.findByUserId(id);// check the service again
 //
-//		if (approve.getDecision().trim().equalsIgnoreCase(LeaveStatus.APPROVED.toString())) {
-//			leave.setApprovalStatus(LeaveStatus.APPROVED);
-//			laRepo.saveAndFlush(leave);
+//		if (approve.getDecision().trim().equalsIgnoreCase(ClaimStatus.APPROVED.toString())) {
+//			compensation.setClaimStatus(ClaimStatus.APPROVED);
+//			cRepo.saveAndFlush(compensation);
 //		} else {
-//			leave.setApprovalStatus(LeaveStatus.REJECTED);
-//			laRepo.saveAndFlush(leave);
+//			compensation.setClaimStatus(ClaimStatus.REJECTED);
+//			cRepo.saveAndFlush(compensation);
 //		}
-//		leave.setManagerComments(approve.getComment());
-//		laRepo.saveAndFlush(leave);
+//		compensation.setManagerComments(approve.getComment());//need comment?
+//		cRepo.saveAndFlush(compensation);
 //
-//		ModelAndView mav = new ModelAndView("forward:/manager/pending");
-//		String message = "Leave was successfully updated.";
+//		ModelAndView mav = new ModelAndView("forward:/manager/compensation");
+//		String message = "Compensation was successfully updated.";
 //		System.out.println(message);
 //		return mav;
 //	}

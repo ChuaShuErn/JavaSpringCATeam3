@@ -15,56 +15,31 @@
 		</tr >
 		
 		<tr>
-			<th align="right"><span>Leave ID</span></th>
-			<td colspan="3" th:text="${leaveApplied.leaveAppliedId}">Id</td>
+			<th align="right"><span>Claim/Compensation??? ID</span></th>
+			<td colspan="3" th:text="${ClaimCompensation.compensationClaimId}">Id</td>
 		</tr>
 		<tr>
 			<th align="right"><span>Name</span></th>
-			<td colspan="3" th:text="${leaveApplied.user.Username}">Name</td>
+			<td colspan="3" th:text="${ClaimCompensation.user.Username}">Name</td>
 		</tr>
 		<tr>
-			<th align="right">Leave Applied Date</th>
-			<td colspan="3" th:text="${#dates.format(leaveApplied.appliedDate,'dd-MMM-yyyy')}">applied Date</td>
+			<th align="right">Claim Date</th>
+			<td colspan="3" th:text="${#dates.format(ClaimCompensation.claimDate,'dd-MMM-yyyy')}">Claim Date</td>
 		</tr>
 		<tr>
-			<th align="right">Leave Start Date</th>
-			<td th:text="${#dates.format(leaveApplied.leaveStartDate, 'dd-MMM-yyyy')}">From Date</td>
-
-		</tr>
-		
-		<tr>
-			<th align="right">Leave End Date</th>
-			<td th:text="${#dates.format(leaveApplied.leaveEndDate, 'dd-MMM-yyyy')}">To Date</td>
-		</tr>
-		<tr>
-			<th align="right">Leave Type</th>
-			<td th:text="${leaveApplied.leaveType.description}">Leave Type</td>
-		</tr>
-		<tr>
-			<th align="right">Leave Reason</th>
-			<td colspan="3" th:text="${leaveApplied.leaveReason}">Leave Reason</td>
-		</tr>
-		
-		<tr>
-			<th align="right">Overseas Trip</th>
-			<td colspan="3" th:if="${leaveApplied.isOverseas}" th:text="${leaveApplied.isOverseas} + ${leaveApplied.overseasTrip.country}">isOverSeas</td>
-			<td colspan="3" th:text="${leaveApplied.isOverseas}">isOverSeas</td>
+			<th align="right">Compensation Reason</th>
+			<td colspan="3" th:text="${ClaimCompensation.compensationReason}">Compensation Reason</td>
 		</tr>
 		
 		<tr>
 			<th align="right">Status</th>
-			<td colspan="3" th:text="${leaveApplied.approvalStatus}">Status</td>
-		</tr>
-		
-		<tr>
-			<th align="right">Comment</th>
-			<td colspan="3" th:text="${leaveApplied.managerComments}">Status</td>
+			<td colspan="3" th:text="${ClaimCompensation.claimStatus}">Status</td>
 		</tr>
 	</table >
 
 
 <!--Radio button and comments-->
-<form action="#" th:action="@{/manager/leave/edit/}+${leaveApplied.leaveAppliedId}" th:object="${approve}" method="post">
+<form action="#" th:action="@{/manager/compensation/edit/}+${ClaimCompensation.compensationClaimId}" th:object="${approve}" method="post">
 		<table>
 			<tr>
 				<td>
@@ -75,17 +50,6 @@
 						<label th:text="#{caption.reject}"></label>
 						<p th:if="${#fields.hasErrors('decision')}" th:errors="*{decision}"></p>
 					</fieldset>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<fieldset>
-						<span>Manager Comment</span> <br>
-						<textarea rows="4" cols="60" th:field="*{comment}" placeholder="Please enter your comment here">Text Area</textarea>
-						
-					</fieldset>
-					
-					<p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></p>
 				</td>
 			</tr>
 			<tr>
