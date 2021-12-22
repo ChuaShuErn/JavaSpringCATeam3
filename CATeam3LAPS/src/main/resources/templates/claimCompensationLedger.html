@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
+
+<head>
+	<meta charset="UTF-8">
+    <title>Compensation Claim Ledger</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container" style="float:left; margin-left:80px; width:750px">
+    <h1 align="center">Compensation Claim Ledger</h1>
+   <!-- <p th:if="${compensationClaimList.empty}" style="color:red" align="center">No Compensation Claims filed.</p>-->
+    <table class="table table-bordered" align="center" > <!--th:if="${not #lists.isEmpty(compensationClaimList)}"-->
+        <thead style="background-color:lightgrey" margin-left:50px;>
+        <tr>
+            <td><b>Claim ID</b></td>
+            <td><b>Claim Date</b></td>
+            <td><b>Reason</b></td>
+            <td><b>Days Requested</b></td>
+            <td><b>Approval Status</b></td>
+          
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="claim : ${compensationClaimList}">
+            <td th:text=${claim.compensationClaimId}>Claim ID</td>
+            <td th:text=${claim.claimDate}>Claim Date</td>
+            <td th:text=${claim.compensationReason}>Compensation Reason</td>
+            <td th:text=${claim.daysRequested}>Days Requested</td>
+            <td th:text=${claim.claimStatus}>Approval Status</td>
+            
+            <!--<td><a th:href="@{/leave/detail/}+${leaveApplied.leaveAppliedId}">-->
+            <!--    <button type="button" class="btn btn-danger">Detail</button>-->
+            </a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
