@@ -41,14 +41,15 @@ public class ManagerController {
 	@Autowired
 	ApproveValidator aValidator;
 	
-	@InitBinder
+	@InitBinder("approve")
 	private void initBinder(WebDataBinder binder) {
-		binder.addValidators(new ApproveValidator());
+		binder.addValidators(aValidator);
 	}
 	
 	@Autowired
 	UserRepository urepo;
 	
+	@Autowired
 	LeaveAppliedRepository laRepo;
 	
 	//List down all pending leaves (on landing page, or on main use case page)
@@ -121,9 +122,13 @@ public class ManagerController {
 		@RequestMapping(value = "/leave/edit/{id}", method = RequestMethod.POST)
 		public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
 				@PathVariable Integer id, HttpSession session) {
-			if (result.hasErrors())
-				return new ModelAndView("managerLeaveDetail");
-			
+			if (result.hasErrors()) {
+				LeaveApplied leave = laService.findById(id).get();// 
+				ModelAndView mav = new ModelAndView("managerLeaveDetail", "leaveApplied", leave);
+				mav.addObject("approve", approve);
+				return mav;
+			}
+				
 			LeaveApplied leave = laService.findById(id).get();
 
 			if (approve.getDecision().trim().equalsIgnoreCase(LeaveStatus.APPROVED.toString())) {
