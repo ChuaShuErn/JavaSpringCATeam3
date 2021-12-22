@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -82,17 +83,19 @@ public class ManagerController {
 	
 	//List down all the team members, so can navigate to their employee leave histories
 	@RequestMapping(value="/team")
-    public ModelAndView teamList(HttpSession session, @RequestParam(value = "keyword", required = false) String keyword) 
+    public String teamList(HttpSession session, @RequestParam(value = "keyword", required = false) String keyword, Model model) 
 	{
 		User manager = urepo.getById((long) session.getAttribute("id"));
 		if (manager == null){
-			return new ModelAndView("login");
+			return "login";
 		}
-		ModelAndView mav = new ModelAndView("managerTeamMemList");
+		//ModelAndView mav = new ModelAndView("managerTeamMemList");
+		if (keyword == null)
+			keyword = "";
 		List<User> myTeamList = (ArrayList) mservice.getAllSubordinatesByKeyword(manager.getEmail(), keyword);
-		mav.addObject("teamList", myTeamList);
-		mav.addObject("keyword", keyword);
-		return mav;
+		model.addAttribute("teamList", myTeamList);
+		model.addAttribute("keyword", keyword);
+		return "managerTeamMemList";
 	}
 	
 	//List down the employee leave history of the selected team member, by id
