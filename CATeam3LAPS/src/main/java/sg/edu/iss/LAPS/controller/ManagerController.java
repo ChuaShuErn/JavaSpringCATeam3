@@ -89,7 +89,8 @@ public class ManagerController {
 		}
 		ModelAndView mav = new ModelAndView("managerTeamMemLeaveList");
 		ArrayList<LeaveApplied> thisSubLeave = (ArrayList) mservice.getThisSubordinateLeaves(manager.getEmail(), subid);
-		mav.addObject("thisSubLeave", thisSubLeave);
+		User thisSub = mservice.getThisSubordinate(manager.getEmail(), subid);
+		mav.addObject("thisSubLeave", thisSubLeave);	
 		return mav;
 	}
 	
