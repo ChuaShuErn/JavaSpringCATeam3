@@ -34,7 +34,7 @@ public class ManageLeaveController {
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(validator);
     }
-
+ 
     @RequestMapping(value = "/viewHistory")
     public String viewMyLeaveHistory(Model model, HttpSession session) {
         return viewMyLeaveHistory(1, model, session);

@@ -58,15 +58,15 @@ public class ApplyLeaveController {
     private EmailNotificationService emailservice;
     
     
-    @InitBinder("LeaveApplied")
+    @InitBinder("leaveapplication")
 	protected void initBinder(WebDataBinder binder) {
 		binder.addValidators(leaveAppliedValidator);
 	}
     
-    @InitBinder("OverseasLeaveDetails")
-	protected void initBinder1(WebDataBinder binder) {
-		binder.addValidators(overseasLeaveDetailsValidator);
-	}
+//    @InitBinder("OverseasLeaveDetails")
+//	protected void initBinder1(WebDataBinder binder) {
+//		binder.addValidators(overseasLeaveDetailsValidator);
+//	}
     
 
     @RequestMapping(value="/staff/applyleave")
@@ -78,15 +78,19 @@ public class ApplyLeaveController {
 		return "applyleave";
 	}
 
-/*
+
     @RequestMapping(value = "/staff/applyleave/submit")
     public String createLeaveApplication(@ModelAttribute("leaveapplication") @Valid LeaveApplied application, BindingResult bindingResult, HttpSession session, Model model) {
         if (bindingResult.hasErrors()) {
-			return "applyLeave";
-		}
+    		
+    		List<LeaveType> leaveTypeList = leaveTypeService.getAllLeaveType();
+    		model.addAttribute("leaveTypeList", leaveTypeList);
 
+			return "applyLeave";
+		}//appliedDate,LeaveType,@notnullapplieddate 
+        
         User currUser = userService.findUserById((Long) session.getAttribute("id"));
-        LeaveType leaveType = leaveTypeService.findLeaveTypeByDescription(application.getLeaveType().getDescription());
+        LeaveType leaveType = leaveTypeService.getLeaveTypeById(application.getLeaveType().getLeaveTypeId());
         application.setUser(currUser);
         application.setLeaveType(leaveType);
         Calendar appliedStartDate = DateTools.dateToCalendar(application.getLeaveStartDate());
@@ -160,18 +164,23 @@ public class ApplyLeaveController {
         application.setNoOfDays(daysPeriod);
         application.setApprovalStatus(LeaveStatus.APPLIED);
         
-        if(application.getIsOverseas()) {
-        	
-        	OverseasLeaveDetails overseaTrip = overseasLeaveService.findOverseasLeaveDetailsByoverseasLeaveId(application.getOverseasTrip().getOverseasLeaveId());
-        	application.setOverseasTrip(overseaTrip);
-        }
+//        if(application.getIsOverseas()) {
+//        	
+//        	OverseasLeaveDetails overseaTrip = overseasLeaveService.findOverseasLeaveDetailsByoverseasLeaveId(application.getOverseasTrip().getOverseasLeaveId());
+//        	application.setOverseasTrip(overseaTrip);
+//        }
 
         applyLeaveService.createLeaveApplication(application);
         
-        emailservice.sendLeaveCreationSucessful(currUser, application);
+        //emailservice.sendLeaveCreationSucessful(currUser, application);
 
-        return "redirect:/leave/viewHistory";
-    }*/
+        return "redirect:/staff/viewHistory";
+        
+        //localhost:8080/staff/applyleave		-->applyleave.html -->a href pressed
+        //localhost:8080/staff/applyleave/submit-->
+        //localhost:8080/staff/viewhistory
+        
+    }
 
 
 }

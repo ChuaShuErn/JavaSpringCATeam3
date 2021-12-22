@@ -10,13 +10,16 @@
 	<form action="applyLeave" th:object="${leaveapplication}" th:action="@{/staff/applyleave/submit}" method="POST">
 	    <input type="hidden" th:field="*{leaveAppliedId}" th:attr="name='leaveAppliedId'"/>
 <!-- 	    <input type="hidden" th:value="${session.id}" th:attr="Username='user.id'"/> -->
-	    <input type="hidden" th:value="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}" name = "appliedDate"/>
-	    <input type="hidden" th:field="*{appliedDate}">
+	  
+	  
+	    <input type="hidden" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" name = "appliedDate"/>
+	    <input type="hidden" th:field="*{appliedDate}"> 
 	    <div class="row mb-3">
 	        <label for="leaveType" class="col-sm-2 col-form-label">Leave Type</label>
 	        <div class="col-sm-5">
-				<select class="form-select" aria-label="Default select example" th:field="*{leaveType}">
-					<option th:each="type : ${leaveTypeList}" th:value="${type.description}" th:text="${type.description}">
+				<select class="form-select" aria-label="Default select example" th:field="*{leaveType}"> 
+				
+					<option th:each="type : ${leaveTypeList}" th:value="${type.leaveTypeId}" th:text="${type.description}" >
 						type
 					</option>
 				</select>
@@ -77,6 +80,7 @@
 	        <label class="col-sm-2 col-form-label">Country</label>
 	        <div class="col-sm-5">
 	            <input type="text" class="form-control" th:field="*{overseasTrip.country}"/>
+	            <p th:if="${#fields.hasErrors('overseasTrip.country')}" th:errors="*{overseasTrip.country}"></p>
 	        </div>
 	    </div>
 
@@ -84,6 +88,7 @@
 	        <label class="col-sm-2 col-form-label">City</label>
 	        <div class="col-sm-5">
 	            <input type="text" class="form-control" th:field="*{overseasTrip.city}"/>
+	            <p th:if="${#fields.hasErrors('overseasTrip.city')}" th:errors="*{overseasTrip.city}"></p>
 	        </div>
 	    </div>
 
@@ -91,6 +96,7 @@
 	        <label class="col-sm-2 col-form-label">Phone</label>
 	        <div class="col-sm-5">
 	            <input type="text" class="form-control" th:field="*{overseasTrip.phone}"/>
+	            <p th:if="${#fields.hasErrors('overseasTrip.phone')}" th:errors="*{overseasTrip.phone}"></p>
 	        </div>
 	    </div>
 	    <button class="btn btn-secondary" type="submit">Submit form</button>
