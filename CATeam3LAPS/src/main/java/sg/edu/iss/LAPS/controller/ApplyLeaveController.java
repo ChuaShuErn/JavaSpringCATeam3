@@ -78,7 +78,7 @@ public class ApplyLeaveController {
 		return "applyleave";
 	}
 
-
+/*
     @RequestMapping(value = "/applyleave/submit")
     public String createLeaveApplication(@ModelAttribute("leaveapplication") @Valid LeaveApplied application, @ModelAttribute("overseasTrip") @Valid OverseasLeaveDetails overseasTrip, BindingResult bindingResult, HttpSession session, Model model) {
     	if (bindingResult.hasErrors()) {
@@ -171,7 +171,7 @@ public class ApplyLeaveController {
         emailservice.sendLeaveCreationSucessful(currUser, application);
 
         return "redirect:/leave/viewHistory";
-    }
+    }*/
 
 
 }

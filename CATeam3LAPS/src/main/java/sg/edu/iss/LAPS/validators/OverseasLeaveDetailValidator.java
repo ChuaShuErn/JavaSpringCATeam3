@@ -1,10 +1,12 @@
 package sg.edu.iss.LAPS.validators;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import sg.edu.iss.LAPS.model.OverseasLeaveDetails;
 
+@Component
 public class OverseasLeaveDetailValidator implements Validator {
 
 	@Override
