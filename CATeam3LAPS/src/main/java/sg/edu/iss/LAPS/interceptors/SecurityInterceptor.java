@@ -24,18 +24,21 @@ public class SecurityInterceptor implements HandlerInterceptor {
         if(request.getServletPath().contains("/admin/")){
             if(request.getSession().getAttribute("role")==null || request.getSession().getAttribute("role").toString() != Constants.ADMIN_ROLE_NAME){
                 response.sendRedirect("/adminlogin/");
+                return false;
             }
         }
-//        else if(request.getServletPath().contains("/staff/")){
-//            if(request.getSession().getAttribute("role")==null || request.getSession().getAttribute("role").toString() != Constants.STAFF_ROLE_NAME){
-//                response.sendRedirect("/stafflogin/");
-//            }
-//        }
-//        else if(request.getServletPath().contains("/manager/")){
-//            if(request.getSession().getAttribute("role")==null || request.getSession().getAttribute("role").toString() != Constants.MANAGER_ROLE_NAME){
-//                response.sendRedirect("/stafflogin/");
-//            }
-//        }
+        else if(request.getServletPath().contains("/staff/")){
+            if(request.getSession().getAttribute("role")==null || request.getSession().getAttribute("role").toString() == Constants.ADMIN_ROLE_NAME){
+                response.sendRedirect("/stafflogin/");
+                return false;
+            }
+        }
+        else if(request.getServletPath().contains("/manager/")){
+            if(request.getSession().getAttribute("role")==null || request.getSession().getAttribute("role").toString() != Constants.MANAGER_ROLE_NAME){
+                response.sendRedirect("/stafflogin/");
+                return false;
+            }
+        }
         return true;
     }
 }
