@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:margin-left="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/staffGeneral.html :: headerfiles"/>
 
 
 <head>
@@ -12,6 +12,7 @@
 </head>
 
 <body>
+<div th:replace="fragments/staffGeneral.html :: menu"></div>
 <div class="container" style="float:left; margin-left:80px; width:750px">
     <h1 align="center">Compensation Claim Ledger</h1>
    <!-- <p th:if="${compensationClaimList.empty}" style="color:red" align="center">No Compensation Claims filed.</p>-->
