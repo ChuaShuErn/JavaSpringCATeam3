@@ -7,6 +7,10 @@
 	<h3> Team Leaves - Pending Approval </h3 >
 	<br/>
 
+	<centre>
+	<h5 th:if="${#lists.isEmpty(thisSubLeave)}" style="text-align: center;"> No Pending Leave Applications </h5>
+	</centre>
+
 	<div th:if="${not #lists.isEmpty(pendingLeaves)}">
 		<table class="content-table">
 			<tr class="listHeading" >
