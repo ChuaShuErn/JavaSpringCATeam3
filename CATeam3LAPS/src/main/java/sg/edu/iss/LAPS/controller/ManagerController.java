@@ -54,6 +54,20 @@ public class ManagerController {
 	LeaveAppliedRepository laRepo;
 	
 	//List down all pending leaves (on landing page, or on main use case page)
+	@RequestMapping(value="/landing")
+    public String landing(HttpSession session, Model model) {
+		User manager = urepo.getById((long) session.getAttribute("id"));
+		if (manager == null){
+			return "login";
+		}
+		List<LeaveApplied> subApplied = (ArrayList) mservice.getSubordinateLeavesByPending(
+				manager.getEmail());
+		model.addAttribute("manager", manager);
+		model.addAttribute("pendingLeaves", subApplied);
+		return "managerlanding";
+	}
+	
+	//List down all pending leaves (on landing page, or on main use case page)
 	@RequestMapping(value="/pending")
     public ModelAndView pendingApproval(HttpSession session) {
 		User manager = urepo.getById((long) session.getAttribute("id"));

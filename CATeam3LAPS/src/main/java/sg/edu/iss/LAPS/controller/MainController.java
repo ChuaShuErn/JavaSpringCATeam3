@@ -61,7 +61,7 @@ public class MainController {
 			session.setAttribute("role", "Manager");
 			session.setAttribute("id", currentUser.getId());
 			session.setAttribute("name", currentUser.getFirstName());
-			return "managerlanding";
+			return "forward:/manager/landing";
 			
 		}
 		else
