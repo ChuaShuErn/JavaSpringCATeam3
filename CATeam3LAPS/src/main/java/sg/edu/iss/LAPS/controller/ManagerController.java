@@ -138,6 +138,7 @@ public class ManagerController {
 				leave.setApprovalStatus(LeaveStatus.REJECTED);
 				laRepo.saveAndFlush(leave);
 			}
+			
 
 			ModelAndView mav = new ModelAndView("forward:/manager/pending");
 			String message = "Leave was successfully updated.";
