@@ -8,7 +8,7 @@
 	<br/>
 
 	<centre>
-	<h5 th:if="${#lists.isEmpty(thisSubLeave)}" style="text-align: center;"> No Pending Leave Applications </h5>
+	<h5 th:if="${#lists.isEmpty(pendingLeaves)}" style="text-align: center;"> No Pending Leave Applications </h5>
 	</centre>
 
 	<div th:if="${not #lists.isEmpty(pendingLeaves)}">
@@ -36,7 +36,7 @@
 					<td>
 					<button type="button">
 						<a th:href="@{/manager/leave/display/}+${leaveApplied.leaveAppliedId}"
-							class="btn btn-default"> Details </span>
+							class="btn btn-default"> View Details </span>
 					</a>
 					</button>
 					</td>
