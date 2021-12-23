@@ -55,7 +55,7 @@
 				<span th:unless="${currentPage<totalPages}">Next</span>
 			</div>
 			<div class="col-sm-1">
-				<a th:if="${currentPage<totalPages}" th:href="@{'/admin/staff/list/' + ${totalPages}'?keyword='+${keyword}}">Last</a>
+				<a th:if="${currentPage<totalPages}" th:href="@{'/admin/staff/list/' + ${totalPages}+'?keyword='+${keyword}}">Last</a>
 				<span th:unless="${currentPage<totalPages}">Last</span>
 			</div>
 		</div>
