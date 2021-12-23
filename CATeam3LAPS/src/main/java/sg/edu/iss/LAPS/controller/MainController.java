@@ -66,9 +66,11 @@ public class MainController {
 		}
 		else
 		{
+			String greeting = "Welcome, " + currentUser.getFirstName() + "!";
 			session.setAttribute("role", "Staff");
 			session.setAttribute("id", currentUser.getId());
 			session.setAttribute("name", currentUser.getFirstName());
+			session.setAttribute("greeting", greeting);
 			return "redirect:/stafflanding";
 		}
 	}
