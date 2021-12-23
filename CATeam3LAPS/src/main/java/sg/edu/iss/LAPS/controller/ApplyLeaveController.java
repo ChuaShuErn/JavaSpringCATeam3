@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.LAPS.model.*;
 import sg.edu.iss.LAPS.services.*;
-import sg.edu.iss.LAPS.utility.Constants;
 import sg.edu.iss.LAPS.utility.DateTools;
 import sg.edu.iss.LAPS.utility.LeaveDetails;
-import sg.edu.iss.LAPS.utility.LeaveStatus;
 import sg.edu.iss.LAPS.validators.LeaveAppliedValidator;
 import sg.edu.iss.LAPS.validators.OverseasLeaveDetailValidator;
 
@@ -191,17 +189,39 @@ public class ApplyLeaveController {
 //        leaveEntitled.setTotalLeave(leaveEntitled.getTotalLeave()-daysPeriod);
 //        leaveEntitledService.saveLeaveEntitled(leaveEntitled);
 
-        applyLeaveService.createLeaveApplication(application);
-        
-        //emailservice.sendLeaveCreationSucessful(currUser, application);
+        Float totalLeaveAvailable = leaveEntitledService.totalAvailableLeave((Long)session.getAttribute("id"),leaveType.getLeaveTypeId());
 
-        return "redirect:/staff/viewHistory";
+        if(totalLeaveAvailable<daysPeriod){
+            model.addAttribute("error_message","You have exceeded the number of available leaves");
+            List<LeaveType> leaveTypeList = leaveTypeService.getAllLeaveType();
+            model.addAttribute("leaveTypeList", leaveTypeList);
+
+            // Code for balances
+            ArrayList<LeaveDetails> leaveDetails = new ArrayList<LeaveDetails>();
+            for(LeaveType lType: leaveTypeList){
+                LeaveDetails leaveDetail = new LeaveDetails();
+                leaveDetail.setName(lType.getDescription());
+                leaveDetail.setPending(leaveAppliedService.CalLeavesByStatus((Long)session.getAttribute("id"),lType.getLeaveTypeId(), APPLIED));
+                leaveDetail.setTaken(leaveAppliedService.CalLeavesByStatus((Long)session.getAttribute("id"),lType.getLeaveTypeId(), APPROVED));
+                leaveDetail.setAvailable(leaveEntitledService.totalAvailableLeave((Long)session.getAttribute("id"),lType.getLeaveTypeId()));
+                leaveDetails.add(leaveDetail);
+            }
+            model.addAttribute("leaveDetails",leaveDetails);
+
+            return "applyLeave";
+        }
+        else {
+            applyLeaveService.createLeaveApplication(application);
+
+            //emailservice.sendLeaveCreationSucessful(currUser, application);
+
+            return "redirect:/staff/viewHistory";
+        }
         
         //localhost:8080/staff/applyleave		-->applyleave.html -->a href pressed
         //localhost:8080/staff/applyleave/submit-->
         //localhost:8080/staff/viewhistory
         
     }
-
 
 }

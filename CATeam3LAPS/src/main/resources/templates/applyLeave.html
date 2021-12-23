@@ -17,6 +17,7 @@
 </div>
 
 <div class = "main-div">
+	<div th:text="${error_message}" style="color: red"></div>
 
 	<form action="applyLeave" th:object="${leaveapplication}" th:action="@{/staff/applyleave/submit}" method="POST">
 	    <input type="hidden" th:field="*{leaveAppliedId}" th:attr="name='leaveAppliedId'"/>
