@@ -15,4 +15,6 @@ public interface ClaimCompensationService {
 	
 	public ArrayList<ClaimCompensation>findByUserId(Long userId);
 
+	public ClaimCompensation findByCompensationClaimId(Long id);
+
 }

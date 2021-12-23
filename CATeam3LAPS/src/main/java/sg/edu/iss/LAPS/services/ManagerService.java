@@ -20,7 +20,7 @@ public interface ManagerService {
 	//Claim Compensation Retrieval
 	List<ClaimCompensation> getAllSubordinatesCompensations(String mgrEmail);
 	List<ClaimCompensation> getSubordinateCompensationsByClaimStatus(String mgrEmail, ClaimStatus status);
-	Integer increaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Integer increaseBy);
+	Float increaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Float increaseBy);
 
 	
 	

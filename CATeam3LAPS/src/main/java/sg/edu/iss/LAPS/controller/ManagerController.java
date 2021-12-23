@@ -176,9 +176,9 @@ public class ManagerController {
 	
 	//Show specific Leave Compensation application details, to be approved
 	@RequestMapping(value = "/compensation/display/{id}", method = RequestMethod.GET)
-	public ModelAndView compensationDetailToApprove(@PathVariable long id) {
-		ArrayList<ClaimCompensation> compensation = cService.findByUserId(id);// check the service again
-		ModelAndView mav = new ModelAndView("managerCompensationDetail", "ClaimCompensation", compensation);
+	public ModelAndView compensationDetailToApprove(@PathVariable Long id) {
+		ClaimCompensation compensation = cService.findByCompensationClaimId(id);// check the service again
+		ModelAndView mav = new ModelAndView("managerCompensationDetail", "cc", compensation);
 		mav.addObject("approve", new Approve());
 		return mav;
 	}
@@ -186,36 +186,38 @@ public class ManagerController {
 	
 	
 	//Approve/reject the Leave compensation application
-//	@RequestMapping(value = "/compensation/edit/{id}", method = RequestMethod.POST)
-//	public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
-//			@PathVariable Integer id, HttpSession session) {
-//		if (result.hasErrors()) {
-//			ArrayList<ClaimCompensation> compensation = cService.findByUserId(id);// check the service again
-//			ModelAndView mav = new ModelAndView("managerCompensationDetail", "ClaimCompensation", compensation);
-//			mav.addObject("approve", approve);
-//			return mav;
-//		}
-//			
-//		ArrayList<ClaimCompensation> compensation = cService.findByUserId(id);// check the service again
-//
-		//User manager = urepo.getById((long) session.getAttribute("id")); //get the manager
-		//User thisSub = mservice.getThisSubordinate(manager.getEmail(), subid); //get the subordinate
+	@RequestMapping(value = "/compensation/edit/{id}", method = RequestMethod.POST)
+	public ModelAndView approveOrRejectCourse(@ModelAttribute("approve") @Valid Approve approve, BindingResult result,
+			@PathVariable Long id, HttpSession session) {
+		if (result.hasErrors()) {
+			ClaimCompensation compensation = cService.findByCompensationClaimId(id);// check the service again
+			ModelAndView mav = new ModelAndView("managerCompensationDetail", "cc", compensation);
+			mav.addObject("approve", approve);
+			return mav;
+		}
+			
+		ClaimCompensation compensation = cService.findByCompensationClaimId(id);// check the service again
+		Long subid = compensation.getUser().getId();
+
+		User manager = urepo.getById((long) session.getAttribute("id")); //get the manager
+		User thisSub = mservice.getThisSubordinate(manager.getEmail(), subid); //get the subordinate
 		
-//		if (approve.getDecision().trim().equalsIgnoreCase(ClaimStatus.APPROVED.toString())) {
-//			compensation.setClaimStatus(ClaimStatus.APPROVED);
-//			cRepo.saveAndFlush(compensation);
-			//mservice.increaseThisSubordinateLeaveEntitled()
-//		} else {
-//			compensation.setClaimStatus(ClaimStatus.REJECTED);
-//			cRepo.saveAndFlush(compensation);
-//		}
-//		compensation.setManagerComments(approve.getComment());//need comment?
-//		cRepo.saveAndFlush(compensation);
-//
-//		ModelAndView mav = new ModelAndView("forward:/manager/compensation");
-//		String message = "Compensation was successfully updated.";
-//		System.out.println(message);
-//		return mav;
-//	}
+		
+		if (approve.getDecision().trim().equalsIgnoreCase(ClaimStatus.APPROVED.toString())) {
+			compensation.setClaimStatus(ClaimStatus.APPROVED);
+			cRepo.saveAndFlush(compensation);
+			mservice.increaseThisSubordinateLeaveEntitled(manager.getEmail(),thisSub.getId(),compensation.getDaysRequested());
+		} else {
+			compensation.setClaimStatus(ClaimStatus.REJECTED);
+			cRepo.saveAndFlush(compensation);
+		}
+		//compensation.setManagerComments(approve.getComment());//need comment?
+		cRepo.saveAndFlush(compensation);
+
+		ModelAndView mav = new ModelAndView("forward:/manager/compensation");
+		String message = "Compensation was successfully updated.";
+		System.out.println(message);
+		return mav;
+	}
 
 }

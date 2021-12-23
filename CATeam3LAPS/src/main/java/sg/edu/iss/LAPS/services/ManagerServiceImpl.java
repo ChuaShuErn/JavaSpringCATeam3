@@ -142,7 +142,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	
 	@Override
-	public Integer increaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Integer increaseBy) {
+	public Float increaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Float increaseBy) {
 		LeaveEntitled subLE = lerepo.findCompensationLeaveByUserId(subid);
 		subLE.setTotalLeave(subLE.getTotalLeave() + increaseBy);
 		lerepo.saveAndFlush(subLE);

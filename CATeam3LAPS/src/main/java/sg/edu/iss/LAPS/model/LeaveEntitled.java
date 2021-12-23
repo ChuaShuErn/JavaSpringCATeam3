@@ -21,7 +21,7 @@ public class LeaveEntitled {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer leaveEntitledId;
-    private Integer totalLeave;
+    private Float totalLeave;
     @ManyToOne
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
