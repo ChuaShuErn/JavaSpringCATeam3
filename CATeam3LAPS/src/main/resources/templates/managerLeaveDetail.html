@@ -47,7 +47,7 @@
 		
 		<tr>
 			<th align="right">Overseas Trip</th>
-			<td th:if="${leaveApplied.isOverseas}" th:text="${leaveApplied.isOverseas} + ${leaveApplied.overseasTrip.country}">isOverSeas</td>
+			<td th:if="${leaveApplied.isOverseas AND leaveApplied.overseasTrip != null}" th:text="${leaveApplied.isOverseas} + ${leaveApplied.overseasTrip.country}">isOverSeas</td>
 			<td th:text="${leaveApplied.isOverseas}">isOverSeas</td>
 		</tr>
 		
