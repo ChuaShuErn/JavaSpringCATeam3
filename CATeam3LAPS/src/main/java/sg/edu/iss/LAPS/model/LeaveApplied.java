@@ -3,9 +3,11 @@ package sg.edu.iss.LAPS.model;
 import java.time.LocalTime;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
@@ -71,7 +74,7 @@ public class LeaveApplied {
 
     private boolean isOverseas;
 
-    @OneToOne
+    @OneToOne(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     private OverseasLeaveDetails overseasTrip;
 
     public boolean getIsOverseas() {

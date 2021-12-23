@@ -71,7 +71,7 @@ public class ExcelExporter {
                 Row row = sheet.createRow(rowCount++);
                 int columnCount = 0;
 
-                createCell(row, columnCount++, user.getId(), style);
+                createCell(row, columnCount++, user.getId().toString(), style);
                 createCell(row, columnCount++, user.getEmail(), style);
                 createCell(row, columnCount++, user.getFirstName() + " " + user.getLastName(), style);
                 createCell(row, columnCount++, leaveApplied.getLeaveStartDate().toString(), style);
