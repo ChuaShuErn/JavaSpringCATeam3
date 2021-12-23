@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<head th:if="${#strings.equals(#session.getAttribute('role'), 'Manager')}" th:replace="fragments/managerGeneral.html :: headerfiles"/>
+<head th:if="${#strings.equals(#session.getAttribute('role'), 'Staff')}" th:replace="fragments/staffGeneral.html :: headerfiles"/>
+ 
 
-<head th:replace="fragments/staffGeneral.html :: headerfiles"/>
 
 <body>
-<div th:replace="fragments/staffGeneral.html :: menu"></div>
+
+<div th:if="${#strings.equals(#session.getAttribute('role'), 'Manager')}">
+   <div th:replace="fragments/managerGeneral.html :: menu"></div>
+</div>
+
+<div th:if="${#strings.equals(#session.getAttribute('role'), 'Staff')}">
+   <div th:replace="fragments/staffGeneral.html :: menu"></div>
+</div>
+
+<div class = "main-div">
 
 	<form action="applyLeave" th:object="${leaveapplication}" th:action="@{/staff/applyleave/submit}" method="POST">
 	    <input type="hidden" th:field="*{leaveAppliedId}" th:attr="name='leaveAppliedId'"/>
@@ -102,7 +113,7 @@
 	    <button class="btn btn-secondary" type="submit">Submit form</button>
 	    <button class="btn btn-secondary" type="reset">Reset</button>
 	</form>
-
+</div >
 <br>
 <br>
 <table class="table table-dark table-striped">
