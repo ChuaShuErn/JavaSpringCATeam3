@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -158,12 +159,21 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	
 	@Override
-	public Float increaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Float increaseBy) {
-		LeaveEntitled subLE = lerepo.findCompensationLeaveByUserId(subid);
+	public Float increaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Float increaseBy, Integer leaveTypeId) {
+		LeaveEntitled subLE = lerepo.findLeaveEntitledByUserId(subid, leaveTypeId);
 		subLE.setTotalLeave(subLE.getTotalLeave() + increaseBy);
 		lerepo.saveAndFlush(subLE);
 		return (subLE.getTotalLeave() + increaseBy);
 	}
+
+	@Override
+	public Float decreaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Float decreaseBy, Integer leaveTypeId) {
+		LeaveEntitled subLE = lerepo.findLeaveEntitledByUserId(subid, leaveTypeId);
+		subLE.setTotalLeave(subLE.getTotalLeave() - decreaseBy);
+		lerepo.saveAndFlush(subLE);
+		return (subLE.getTotalLeave() - decreaseBy);
+	}
+	
 	
 }
 
