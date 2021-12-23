@@ -15,7 +15,7 @@
 		</tr >
 		
 		<tr>
-			<th align="right"><span>Claim/Compensation??? ID</span></th>
+			<th align="right"><span>Claim Compensation ID</span></th>
 			<td colspan="3" th:text="${cc.compensationClaimId}">Id</td>
 		</tr>
 		<tr>
@@ -25,6 +25,11 @@
 		<tr>
 			<th align="right">Claim Date</th>
 			<td colspan="3" th:text="${#dates.format(cc.claimDate,'dd-MMM-yyyy')}">Claim Date</td>
+		</tr>
+		
+		<tr>
+			<th align="right">No Of Days</th>
+			<td colspan="3" th:text="${cc.claimStatus}">Status</td>
 		</tr>
 		<tr>
 			<th align="right">Compensation Reason</th>
@@ -45,15 +50,10 @@
 				<td>
 					<fieldset>
 						<input type="radio" th:field="*{decision}" th:value="APPROVED" />
-							<label th:text="#{caption.approve}"></label> &nbsp;&nbsp;
+						<label th:text="#{caption.approve}"></label> &nbsp;&nbsp;
 						<input type="radio" th:field="*{decision}" th:value="REJECTED" /> 
-							<label th:text="#{caption.reject}"></label>
+						<label th:text="#{caption.reject}"></label>
 						<p th:if="${#fields.hasErrors('decision')}" th:errors="*{decision}"></p>
-						
-						<input type="hidden" th:field="*{comment}" value = "somecomment"/>
-						
-						
-						
 					</fieldset>
 				</td>
 			</tr>
