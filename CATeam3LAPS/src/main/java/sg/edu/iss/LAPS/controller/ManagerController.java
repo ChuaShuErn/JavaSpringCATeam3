@@ -1,6 +1,8 @@
 package sg.edu.iss.LAPS.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -170,6 +172,8 @@ public class ManagerController {
 		List<ClaimCompensation> compList_rejected = (ArrayList) mservice.getSubordinateCompensationsByClaimStatus(
 				manager.getEmail(), ClaimStatus.REJECTED);
 		complist_history.addAll(compList_rejected);
+		Comparator<ClaimCompensation> myComparator = Comparator.comparing(ClaimCompensation::getClaimDate); 
+		Collections.sort(complist_history, myComparator.reversed());
 		model.addAttribute("compLeaves", compList);
 		model.addAttribute("compHist", complist_history);
 		return "managerCompensationList";
@@ -184,7 +188,9 @@ public class ManagerController {
 	public ModelAndView compensationDetailToApprove(@PathVariable Long id) {
 		ClaimCompensation compensation = cService.findByCompensationClaimId(id);// check the service again
 		ModelAndView mav = new ModelAndView("managerCompensationDetail", "cc", compensation);
-		mav.addObject("approve", new Approve());
+		Approve approve = new Approve();
+		approve.setComment("some comment");
+		mav.addObject("approve", approve);
 		return mav;
 	}
 	
