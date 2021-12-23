@@ -17,16 +17,14 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import sg.edu.iss.LAPS.model.LeaveApplied;
-import sg.edu.iss.LAPS.model.LeaveType;
-import sg.edu.iss.LAPS.model.OverseasLeaveDetails;
-import sg.edu.iss.LAPS.model.PublicHoliday;
-import sg.edu.iss.LAPS.model.User;
+import sg.edu.iss.LAPS.model.*;
 import sg.edu.iss.LAPS.services.*;
 import sg.edu.iss.LAPS.utility.DateTools;
 import sg.edu.iss.LAPS.utility.LeaveStatus;
 import sg.edu.iss.LAPS.validators.LeaveAppliedValidator;
 import sg.edu.iss.LAPS.validators.OverseasLeaveDetailValidator;
+
+import static sg.edu.iss.LAPS.utility.LeaveStatus.APPLIED;
 
 @Controller
 public class ApplyLeaveController {
@@ -56,6 +54,9 @@ public class ApplyLeaveController {
     
     @Autowired
     private EmailNotificationService emailservice;
+
+    @Autowired
+    private LeaveEntitledService leaveEntitledService;
     
     
     @InitBinder("leaveapplication")
@@ -162,13 +163,18 @@ public class ApplyLeaveController {
         // minus the public holiday in weekdays.
         daysPeriod = daysPeriod - (WeekdaysPublicHoliday1 + WeekdaysPublicHoliday2 + WeekdaysPublicHoliday3);
         application.setNoOfDays(daysPeriod);
-        application.setApprovalStatus(LeaveStatus.APPLIED);
+        application.setApprovalStatus(APPLIED);
         
 //        if(application.getIsOverseas()) {
 //        	
 //        	OverseasLeaveDetails overseaTrip = overseasLeaveService.findOverseasLeaveDetailsByoverseasLeaveId(application.getOverseasTrip().getOverseasLeaveId());
 //        	application.setOverseasTrip(overseaTrip);
 //        }
+
+        //Subtract from total leave
+        LeaveEntitled leaveEntitled = leaveEntitledService.findLeaveEntitledByUserAndLeaveId(currUser.getId(), leaveType.getLeaveTypeId());
+        leaveEntitled.setTotalLeave(leaveEntitled.getTotalLeave()-daysPeriod);
+        leaveEntitledService.saveLeaveEntitled(leaveEntitled);
 
         applyLeaveService.createLeaveApplication(application);
         

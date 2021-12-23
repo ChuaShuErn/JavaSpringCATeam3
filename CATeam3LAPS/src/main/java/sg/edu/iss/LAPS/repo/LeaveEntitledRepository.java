@@ -15,4 +15,7 @@ public interface LeaveEntitledRepository extends JpaRepository<LeaveEntitled,Int
     
     @Query("SELECT l FROM LeaveEntitled l where l.user.id = :id AND l.leaveType.leaveTypeId = 3")
     public LeaveEntitled findCompensationLeaveByUserId(@Param("id") Long id);
+
+    @Query("SELECT l FROM LeaveEntitled l where l.user.id = :userId AND l.leaveType.leaveTypeId = :leaveId")
+    public LeaveEntitled findLeaveEntitledByUserIdAndLeaveId(@Param("userId") Long userId, @Param("leaveId") Integer leaveId);
 }

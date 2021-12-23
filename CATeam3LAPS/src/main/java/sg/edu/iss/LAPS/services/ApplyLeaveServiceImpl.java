@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.PublicHoliday;
 import sg.edu.iss.LAPS.repo.ApplyLeaveRepository;
+import sg.edu.iss.LAPS.repo.LeaveEntitledRepository;
 import sg.edu.iss.LAPS.utility.DateTools;
 
 @Service
@@ -26,6 +27,9 @@ public class ApplyLeaveServiceImpl implements ApplyLeaveService {
 
     @Autowired
     PublicHolidayService publicHolidayService;
+
+    @Autowired
+    LeaveEntitledRepository leaveEntitledRepository;
 
     @Override
     public LeaveApplied createLeaveApplication(LeaveApplied leaveApplied) {
