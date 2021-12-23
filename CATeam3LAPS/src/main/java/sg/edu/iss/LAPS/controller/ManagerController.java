@@ -65,10 +65,10 @@ public class ManagerController {
 		if (manager == null){
 			return "login";
 		}
-		List<LeaveApplied> subApplied = (ArrayList) mservice.getSubordinateLeavesByPending(
-				manager.getEmail());
+		Integer subPendingCount = mservice.getSubordinateLeavesByPending(
+				manager.getEmail()).size();
 		model.addAttribute("manager", manager);
-		model.addAttribute("pendingLeaves", subApplied);
+		model.addAttribute("pendingLeaveCount", subPendingCount);
 		return "managerlanding";
 	}
 	
@@ -105,16 +105,16 @@ public class ManagerController {
 	
 	//List down the employee leave history of the selected team member, by id
 	@RequestMapping(value="/team/{id}")
-    public ModelAndView teamMemberList(@PathVariable(value="id") Long subid, HttpSession session) {
+    public String teamMemberList(@PathVariable(value="id") Long subid, HttpSession session, Model model) {
 		User manager = urepo.getById((long) session.getAttribute("id"));
 		if (manager == null){
-			return new ModelAndView("login");
+			return "login";
 		}
-		ModelAndView mav = new ModelAndView("managerTeamMemLeaveList");
-		ArrayList<LeaveApplied> thisSubLeave = (ArrayList) mservice.getThisSubordinateLeaves(manager.getEmail(), subid);
+		ArrayList<LeaveApplied> thisSubLeave = (ArrayList) mservice.getThisSubordinateLeavesByHistory(manager.getEmail(), subid);
 		User thisSub = mservice.getThisSubordinate(manager.getEmail(), subid);
-		mav.addObject("thisSubLeave", thisSubLeave);	
-		return mav;
+		model.addAttribute("thisSubLeave", thisSubLeave);	
+		model.addAttribute("thisSub", thisSub);
+		return "managerTeamMemLeaveList";
 	}
 	
 	//Show specific team member's individual leave application details, pending approval
