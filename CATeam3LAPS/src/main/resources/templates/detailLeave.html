@@ -2,10 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 
-<head th:replace="fragments/staffGeneral.html :: headerfiles"/>
+<head th:if="${#strings.equals(#session.getAttribute('role'), 'Manager')}" th:replace="fragments/managerGeneral.html :: headerfiles"/>
+<head th:if="${#strings.equals(#session.getAttribute('role'), 'Staff')}" th:replace="fragments/staffGeneral.html :: headerfiles"/>
+
 
 <body>
-<div th:replace="fragments/staffGeneral.html :: menu"></div>
+<div th:if="${#strings.equals(#session.getAttribute('role'), 'Manager')}">
+   <div th:replace="fragments/managerGeneral.html :: menu"></div>
+</div>
+
+<div th:if="${#strings.equals(#session.getAttribute('role'), 'Staff')}">
+   <div th:replace="fragments/staffGeneral.html :: menu"></div>
+</div>
+
 
 <form th:object="${leaveApplied}">
     <div class="row mb-3">
