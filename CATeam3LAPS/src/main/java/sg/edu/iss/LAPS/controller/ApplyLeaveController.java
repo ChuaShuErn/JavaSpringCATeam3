@@ -167,18 +167,19 @@ public class ApplyLeaveController {
         }
 
         // compute situation 2:
-        for (PublicHoliday day : holidaysAffectLeave2) {
-            WeekdaysPublicHoliday2 = ChronoUnit.DAYS.between(appliedStartDate.toInstant(), day.getHolidayEndDate()
-                    .toInstant()) + 1;
-        }
+		/*
+		 * for (PublicHoliday day : holidaysAffectLeave2) { WeekdaysPublicHoliday2 =
+		 * ChronoUnit.DAYS.between(appliedStartDate.toInstant(), day.getHolidayEndDate()
+		 * .toInstant()) + 1; }
+		 */
 
 
         // compute situation 3:
-        for (PublicHoliday day : holidaysAffectLeave3) {
-            WeekdaysPublicHoliday3 = ChronoUnit.DAYS.between(day.getHolidayStartDate()
-                    .toInstant(), appliedEndDate.toInstant()) + 1;
-        }
-
+		/*
+		 * for (PublicHoliday day : holidaysAffectLeave3) { WeekdaysPublicHoliday3 =
+		 * ChronoUnit.DAYS.between(day.getHolidayStartDate() .toInstant(),
+		 * appliedEndDate.toInstant()) + 1; }
+		 */
 
         if (daysPeriod <= 14) {
             daysPeriod = DateTools.removeWeekends(appliedStartDate, appliedEndDate);
