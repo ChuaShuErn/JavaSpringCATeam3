@@ -5,6 +5,7 @@
 <body>
     <div th:replace="fragments/managerGeneral.html :: menu"></div>
 	<h3 >My Team </h3 >
+	<a class = "button-add" th:href="@{/manager/exportToExcel}">Export To Excel</a>
 	
 	<form th:action="@{/manager/team}" method="GET">
 		Search Employees by Name: 
