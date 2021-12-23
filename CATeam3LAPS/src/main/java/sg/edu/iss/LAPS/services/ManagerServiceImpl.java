@@ -3,15 +3,21 @@ package sg.edu.iss.LAPS.services;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sg.edu.iss.LAPS.model.ClaimCompensation;
 import sg.edu.iss.LAPS.model.LeaveApplied;
+import sg.edu.iss.LAPS.model.LeaveEntitled;
 import sg.edu.iss.LAPS.model.User;
+import sg.edu.iss.LAPS.repo.ClaimCompensationRepository;
 import sg.edu.iss.LAPS.repo.LeaveAppliedRepository;
+import sg.edu.iss.LAPS.repo.LeaveEntitledRepository;
 import sg.edu.iss.LAPS.repo.UserRepository;
+import sg.edu.iss.LAPS.utility.ClaimStatus;
 import sg.edu.iss.LAPS.utility.LeaveStatus;
 
 @Service
@@ -23,6 +29,12 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Autowired
 	LeaveAppliedRepository larepo;
+	
+	@Autowired
+	ClaimCompensationRepository ccrepo;
+	
+	@Autowired
+	LeaveEntitledRepository lerepo;
 	
 	@Override
 	public List<User> getAllSubordinates(String mgrEmail) {
@@ -36,7 +48,8 @@ public class ManagerServiceImpl implements ManagerService {
 		List<LeaveApplied> subUpdated = (ArrayList) this.getSubordinateLeavesByLeaveStatus(
 				mgrEmail, LeaveStatus.UPDATED);
 		subPending.addAll(subUpdated);
-		subPending.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
+		subPending = subPending.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(
+				Collectors.toList());
 		return subPending;
 	}
 
@@ -54,7 +67,8 @@ public class ManagerServiceImpl implements ManagerService {
 		ArrayList<LeaveApplied> subleaves= new ArrayList<LeaveApplied>();
 		for (User u : sublist)
 			subleaves.addAll(larepo.findByUserId(u.getId()));
-		subleaves.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
+		subleaves = (ArrayList) subleaves.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(
+				Collectors.toList());;
 		return subleaves;
 	}
 	
@@ -62,7 +76,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<LeaveApplied> getThisSubordinateLeaves(String mgrEmail, Long subid) {
 		User thisSubordinate = this.getThisSubordinate(mgrEmail, subid); //done to check if the subordinate is actually a valid staff & a subordinate
 		ArrayList<LeaveApplied> thisSubLeaves = (ArrayList) larepo.findByUserId(thisSubordinate.getId());
-		thisSubLeaves.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
+		thisSubLeaves = (ArrayList) thisSubLeaves.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(Collectors.toList());
 		return thisSubLeaves;
 	}
 
@@ -76,6 +90,7 @@ public class ManagerServiceImpl implements ManagerService {
 			if(leave.getApprovalStatus() == status)
 				filtered_subleave.add(leave);
 		}
+		filtered_subleave = (ArrayList) filtered_subleave.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(Collectors.toList());
 		return filtered_subleave;
 	}
 
@@ -88,6 +103,8 @@ public class ManagerServiceImpl implements ManagerService {
 			if(leave.getLeaveType().getLeaveTypeId() == leavetypeid)
 				filtered_subleave.add(leave);
 		}
+		filtered_subleave = (ArrayList) filtered_subleave.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(Collectors.toList());
+
 		//subleaves.stream().filter(x -> x.getLeaveType().getLeaveTypeId() == leavetypeid).
 			//sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
 		return filtered_subleave;
@@ -105,4 +122,33 @@ public class ManagerServiceImpl implements ManagerService {
 		}
 		return filtered_sublist;
 	}
+
+	@Override
+	public List<ClaimCompensation> getAllSubordinatesCompensations(String mgrEmail) {
+		List<User> sublist = this.getAllSubordinates(mgrEmail);
+		ArrayList<ClaimCompensation> subComp= new ArrayList<ClaimCompensation>();
+		for (User u : sublist)
+			subComp.addAll(ccrepo.findByUserId(u.getId()));
+		subComp = (ArrayList) subComp.stream().sorted(Comparator.comparing(ClaimCompensation::getClaimDate)).collect(Collectors.toList());
+		return subComp;
+	}
+
+	@Override
+	public List<ClaimCompensation> getSubordinateCompensationsByClaimStatus(String mgrEmail, ClaimStatus status) {
+		List<ClaimCompensation> subComp = this.getAllSubordinatesCompensations(mgrEmail);
+		List<ClaimCompensation> filtered_subComp = subComp.stream().filter(x -> x.getClaimStatus() == status)
+				.sorted(Comparator.comparing(ClaimCompensation::getClaimDate)).collect(Collectors.toList());
+		return filtered_subComp;
+	}
+	
+	@Override
+	public Integer increaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Integer increaseBy) {
+		LeaveEntitled subLE = lerepo.findCompensationLeaveByUserId(subid);
+		subLE.setTotalLeave(subLE.getTotalLeave() + increaseBy);
+		lerepo.saveAndFlush(subLE);
+		return (subLE.getTotalLeave() + increaseBy);
+	}
+	
 }
+
+
