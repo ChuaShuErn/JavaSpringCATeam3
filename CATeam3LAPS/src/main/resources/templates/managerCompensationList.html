@@ -11,9 +11,10 @@
 	<h5 th:if="${#lists.isEmpty(compLeaves)}" style="text-align: center;"> No Compensation Claims Lodged </h5>
 	</centre>
 
-	<h4> Compensation Claim - Pending Approval </h4>
+	
 
 	<div th:if="${not #lists.isEmpty(compLeaves)}">
+	<h4> Compensation Claim - Pending Approval </h4>
 		<table class="content-table">
 			<tr class="listHeading" >
 			
@@ -41,10 +42,11 @@
 					</td>
 			</tr>
 		</table >
+	</div>
 		
 		
+	<div th:if="${not #lists.isEmpty(compHist)}">
 		<h4> Compensation Claim History </h4>
-		<div th:if="${not #lists.isEmpty(compHist)}">
 		<table class="content-table">
 			<tr class="listHeading">
 			

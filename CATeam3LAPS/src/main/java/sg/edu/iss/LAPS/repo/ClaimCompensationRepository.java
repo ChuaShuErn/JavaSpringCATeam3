@@ -20,5 +20,5 @@ public interface ClaimCompensationRepository extends JpaRepository<ClaimCompensa
 	public ArrayList<ClaimCompensation>findByUserId(Long userId);
 	
 	@Query("Select cc FROM ClaimCompensation cc WHERE cc.compensationClaimId = :id")
-	public ClaimCompensation findByCompensationClaimId(Long id);
+	public ClaimCompensation findByCompensationClaimId(@Param("id") Long id);
 }

@@ -1,8 +1,11 @@
 package sg.edu.iss.LAPS.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -30,6 +33,7 @@ import sg.edu.iss.LAPS.services.LeaveAppliedService;
 import sg.edu.iss.LAPS.services.ManagerService;
 import sg.edu.iss.LAPS.utility.Approve;
 import sg.edu.iss.LAPS.utility.ClaimStatus;
+import sg.edu.iss.LAPS.utility.ExcelExporter;
 import sg.edu.iss.LAPS.utility.LeaveStatus;
 import sg.edu.iss.LAPS.validators.ApproveValidator;
 
@@ -67,8 +71,11 @@ public class ManagerController {
 		}
 		Integer subPendingCount = mservice.getSubordinateLeavesByPending(
 				manager.getEmail()).size();
+		Integer compPendingCount = mservice.getSubordinateCompensationsByClaimStatus(
+				manager.getEmail(), ClaimStatus.PENDING).size();
 		model.addAttribute("manager", manager);
 		model.addAttribute("pendingLeaveCount", subPendingCount);
+		model.addAttribute("pendingCompCount", compPendingCount);
 		return "managerlanding";
 	}
 	
@@ -170,6 +177,8 @@ public class ManagerController {
 		List<ClaimCompensation> compList_rejected = (ArrayList) mservice.getSubordinateCompensationsByClaimStatus(
 				manager.getEmail(), ClaimStatus.REJECTED);
 		complist_history.addAll(compList_rejected);
+		Comparator<ClaimCompensation> myComparator = Comparator.comparing(ClaimCompensation::getClaimDate); 
+		Collections.sort(complist_history, myComparator.reversed());
 		model.addAttribute("compLeaves", compList);
 		model.addAttribute("compHist", complist_history);
 		return "managerCompensationList";
@@ -184,7 +193,9 @@ public class ManagerController {
 	public ModelAndView compensationDetailToApprove(@PathVariable Long id) {
 		ClaimCompensation compensation = cService.findByCompensationClaimId(id);// check the service again
 		ModelAndView mav = new ModelAndView("managerCompensationDetail", "cc", compensation);
-		mav.addObject("approve", new Approve());
+		Approve approve = new Approve();
+		approve.setComment("some comment");
+		mav.addObject("approve", approve);
 		return mav;
 	}
 	
@@ -224,5 +235,21 @@ public class ManagerController {
 		System.out.println(message);
 		return mav;
 	}
+	@RequestMapping("/exportToExcel")
+	public void exportToExcel(HttpServletResponse response , HttpSession session) throws IOException {
+		User manager = urepo.getById((long) session.getAttribute("id"));
+		List<User> myTeamList = (ArrayList) mservice.getAllSubordinatesByKeyword(manager.getEmail(), "");
 
+		response.setContentType("application/octet-stream");
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDateTime = dateFormatter.format(new Date());
+
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+		response.setHeader(headerKey, headerValue);
+
+		ExcelExporter excelExporter = new ExcelExporter(myTeamList);
+
+		excelExporter.export(response);
+	}
 }
