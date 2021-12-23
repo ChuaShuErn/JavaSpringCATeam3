@@ -1,6 +1,5 @@
 package sg.edu.iss.LAPS.model;
 
-import java.time.LocalTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -21,7 +20,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import sg.edu.iss.LAPS.utility.ClaimStatus;
-import sg.edu.iss.LAPS.utility.LeaveStatus;
 
 @Entity
 @Table(name = "ClaimCompensation")
@@ -48,7 +46,12 @@ public class ClaimCompensation {
 	@NotNull
 	private float daysRequested;
 	
-
+	
+	@Override
+	public String toString(){
+	    return  compensationClaimId + "  " + compensationReason;
+	}
+	
 	@Enumerated(EnumType.STRING)
 	private ClaimStatus claimStatus;
 
