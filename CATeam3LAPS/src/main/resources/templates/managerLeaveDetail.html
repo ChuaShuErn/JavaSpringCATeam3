@@ -20,7 +20,7 @@
 		</tr>
 		<tr>
 			<th align="right"><span>Name</span></th>
-			<td  th:text="${leaveApplied.user.Username}">Name</td>
+			<td  th:text="${leaveApplied.user.FirstName}+ ' ' +${leaveApplied.user.LastName}">Name</td>
 		</tr>
 		<tr>
 			<th align="right">Leave Applied Date</th>
@@ -35,6 +35,11 @@
 		<tr>
 			<th align="right">Leave End Date</th>
 			<td th:text="${#dates.format(leaveApplied.leaveEndDate, 'dd-MMM-yyyy')}">To Date</td>
+		</tr>
+		
+		<tr>
+			<th align="right">No. of Days</th>
+			<td th:text="${leaveApplied.noOfDays}">No. Of Days</td>
 		</tr>
 		<tr>
 			<th align="right">Leave Type</th>

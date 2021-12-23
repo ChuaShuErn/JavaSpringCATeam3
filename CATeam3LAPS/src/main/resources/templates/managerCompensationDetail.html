@@ -20,7 +20,7 @@
 		</tr>
 		<tr>
 			<th align="right"><span>Name</span></th>
-			<td th:text="${cc.user.Username}">Name</td>
+			<td th:text="${cc.user.FirstName} +' ' +${cc.user.LastName}">Name</td>
 		</tr>
 		<tr>
 			<th align="right">Claim Date</th>
@@ -29,7 +29,7 @@
 		
 		<tr>
 			<th align="right">No Of Days</th>
-			<td th:text="${cc.claimStatus}">Status</td>
+			<td th:text="${cc.daysRequested}">Status</td>
 		</tr>
 		<tr>
 			<th align="right">Compensation Reason</th>
