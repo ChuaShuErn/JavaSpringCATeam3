@@ -27,6 +27,9 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
     @Autowired
     ApplyLeaveService applyLeaveService;
 
+    @Autowired
+    LeaveAppliedRepository leaveAppliedRepository;
+
     @Override
     public Optional<LeaveApplied> findById(int id) {
         return repository.findById(id);
@@ -81,5 +84,10 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
             leaveApplied.setApprovalStatus(LeaveStatus.DELETED);
             repository.save(leaveApplied);
         }
+    }
+
+    @Override
+    public Integer CalLeavesByStatus(Long userId, Integer leaveId, LeaveStatus status){
+        return leaveAppliedRepository.countLeavesByStatus(userId,leaveId,status);
     }
 }

@@ -120,29 +120,17 @@
     <thead>
     <tr>
         <th scope="col">Type of Leave</th>
-        <th scope="col">Initial Balance</th>
+        <th scope="col">Pending</th>
         <th scope="col">Taken</th>
         <th scope="col">Available</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <th scope="row">Medical Leave</th>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-        <th scope="row">Annual Leave</th>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-    </tr>
-    <tr>
-        <th scope="row">Compensation</th>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
+    <tr  th:each="leaveDetail:${leaveDetails}">
+        <td th:text="${leaveDetail.Name}" ></td>
+		<td th:text="${leaveDetail.Pending}" ></td>
+		<td th:text="${leaveDetail.Taken}" ></td>
+		<td th:text="*{leaveDetail.Available}" ></td>
     </tr>
     </tbody>
 </table>

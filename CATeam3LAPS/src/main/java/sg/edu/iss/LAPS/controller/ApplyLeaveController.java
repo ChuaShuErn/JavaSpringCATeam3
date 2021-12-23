@@ -19,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.LAPS.model.*;
 import sg.edu.iss.LAPS.services.*;
+import sg.edu.iss.LAPS.utility.Constants;
 import sg.edu.iss.LAPS.utility.DateTools;
+import sg.edu.iss.LAPS.utility.LeaveDetails;
 import sg.edu.iss.LAPS.utility.LeaveStatus;
 import sg.edu.iss.LAPS.validators.LeaveAppliedValidator;
 import sg.edu.iss.LAPS.validators.OverseasLeaveDetailValidator;
 
 import static sg.edu.iss.LAPS.utility.LeaveStatus.APPLIED;
+import static sg.edu.iss.LAPS.utility.LeaveStatus.APPROVED;
 
 @Controller
 public class ApplyLeaveController {
@@ -71,12 +74,24 @@ public class ApplyLeaveController {
     
 
     @RequestMapping(value="/staff/applyleave")
-	public String applyForm(Model model) {
+	public String applyForm(Model model, HttpSession session) {
 		model.addAttribute("leaveapplication", new LeaveApplied());
 		List<LeaveType> leaveTypeList = leaveTypeService.getAllLeaveType();
 		model.addAttribute("leaveTypeList", leaveTypeList);
 		model.addAttribute("overseasTrip", new OverseasLeaveDetails());
-		return "applyleave";
+
+        // Code for balances
+        ArrayList<LeaveDetails> leaveDetails = new ArrayList<LeaveDetails>();
+        for(LeaveType leaveType: leaveTypeList){
+            LeaveDetails leaveDetail = new LeaveDetails();
+            leaveDetail.setName(leaveType.getDescription());
+            leaveDetail.setPending(leaveAppliedService.CalLeavesByStatus((Long)session.getAttribute("id"),leaveType.getLeaveTypeId(), APPLIED));
+            leaveDetail.setTaken(leaveAppliedService.CalLeavesByStatus((Long)session.getAttribute("id"),leaveType.getLeaveTypeId(), APPROVED));
+            leaveDetail.setAvailable(leaveEntitledService.totalAvailableLeave((Long)session.getAttribute("id"),leaveType.getLeaveTypeId()));
+            leaveDetails.add(leaveDetail);
+        }
+        model.addAttribute("leaveDetails",leaveDetails);
+		return "applyLeave";
 	}
 
 
@@ -172,9 +187,9 @@ public class ApplyLeaveController {
 //        }
 
         //Subtract from total leave
-        LeaveEntitled leaveEntitled = leaveEntitledService.findLeaveEntitledByUserAndLeaveId(currUser.getId(), leaveType.getLeaveTypeId());
-        leaveEntitled.setTotalLeave(leaveEntitled.getTotalLeave()-daysPeriod);
-        leaveEntitledService.saveLeaveEntitled(leaveEntitled);
+//        LeaveEntitled leaveEntitled = leaveEntitledService.findLeaveEntitledByUserAndLeaveId(currUser.getId(), leaveType.getLeaveTypeId());
+//        leaveEntitled.setTotalLeave(leaveEntitled.getTotalLeave()-daysPeriod);
+//        leaveEntitledService.saveLeaveEntitled(leaveEntitled);
 
         applyLeaveService.createLeaveApplication(application);
         

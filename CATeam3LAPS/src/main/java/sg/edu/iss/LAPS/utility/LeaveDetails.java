@@ -7,5 +7,5 @@ public class LeaveDetails {
     private String Name;
     private Integer Pending;
     private Integer Taken;
-    private Integer Available;
+    private Float Available;
 }

@@ -19,4 +19,6 @@ public interface LeaveAppliedService {
     void update(LeaveApplied leaveApplied);
 
     void delete(int id);
+
+    Integer CalLeavesByStatus(Long userId, Integer leaveId, LeaveStatus status);
 }
