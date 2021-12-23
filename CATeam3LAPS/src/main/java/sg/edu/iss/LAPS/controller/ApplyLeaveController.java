@@ -138,7 +138,7 @@ public class ApplyLeaveController {
 
         // compute situation 1:
         for (PublicHoliday day : holidaysAffectLeave1) {
-            WeekdaysPublicHoliday1 = DateTools.countWeekdaysPublicHoliday(DateTools.dateToCalendar(day.getHolidayStartDate()), DateTools.dateToCalendar(day.getHolidayEndDate()));
+            WeekdaysPublicHoliday1 = DateTools.countWeekdaysPublicHoliday(DateTools.dateToCalendar(day.getHolidayStartDate()), DateTools.dateToCalendar(day.getHolidayEndDate())) - 1;
         }
 
         // compute situation 2:
