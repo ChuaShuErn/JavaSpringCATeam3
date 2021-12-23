@@ -55,6 +55,9 @@
 						<label th:text="#{caption.reject}"></label>
 						<p th:if="${#fields.hasErrors('decision')}" th:errors="*{decision}"></p>
 					</fieldset>
+					
+					<input type="hidden" th:field="*{comment}" value = "somecomment"/>
+					
 				</td>
 			</tr>
 			<tr>
