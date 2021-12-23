@@ -1,8 +1,13 @@
 package sg.edu.iss.LAPS.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -26,6 +31,7 @@ import sg.edu.iss.LAPS.repo.UserRepository;
 import sg.edu.iss.LAPS.services.LeaveAppliedService;
 import sg.edu.iss.LAPS.services.ManagerService;
 import sg.edu.iss.LAPS.utility.Approve;
+import sg.edu.iss.LAPS.utility.ExcelExporter;
 import sg.edu.iss.LAPS.utility.LeaveStatus;
 import sg.edu.iss.LAPS.validators.ApproveValidator;
 
@@ -161,6 +167,24 @@ public class ManagerController {
 			String message = "Leave was successfully updated.";
 			System.out.println(message);
 			return mav;
+		}
+
+		@RequestMapping("/exportToExcel")
+		public void exportToExcel(HttpServletResponse response , HttpSession session) throws IOException{
+			User manager = urepo.getById((long) session.getAttribute("id"));
+			List<User> myTeamList = (ArrayList) mservice.getAllSubordinatesByKeyword(manager.getEmail(), "");
+
+			response.setContentType("application/octet-stream");
+			DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+			String currentDateTime = dateFormatter.format(new Date());
+
+			String headerKey = "Content-Disposition";
+			String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+			response.setHeader(headerKey, headerValue);
+
+			ExcelExporter excelExporter = new ExcelExporter(myTeamList);
+
+			excelExporter.export(response);
 		}
 	
 
