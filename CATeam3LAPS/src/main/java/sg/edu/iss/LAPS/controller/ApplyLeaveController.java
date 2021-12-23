@@ -99,6 +99,17 @@ public class ApplyLeaveController {
     		
     		List<LeaveType> leaveTypeList = leaveTypeService.getAllLeaveType();
     		model.addAttribute("leaveTypeList", leaveTypeList);
+            // Code for balances
+            ArrayList<LeaveDetails> leaveDetails = new ArrayList<LeaveDetails>();
+            for(LeaveType lType: leaveTypeList){
+                LeaveDetails leaveDetail = new LeaveDetails();
+                leaveDetail.setName(lType.getDescription());
+                leaveDetail.setPending(leaveAppliedService.CalLeavesByStatus((Long)session.getAttribute("id"),lType.getLeaveTypeId(), APPLIED));
+                leaveDetail.setTaken(leaveAppliedService.CalLeavesByStatus((Long)session.getAttribute("id"),lType.getLeaveTypeId(), APPROVED));
+                leaveDetail.setAvailable(leaveEntitledService.totalAvailableLeave((Long)session.getAttribute("id"),lType.getLeaveTypeId()));
+                leaveDetails.add(leaveDetail);
+            }
+            model.addAttribute("leaveDetails",leaveDetails);
 
 			return "applyLeave";
 		}//appliedDate,LeaveType,@notnullapplieddate 
