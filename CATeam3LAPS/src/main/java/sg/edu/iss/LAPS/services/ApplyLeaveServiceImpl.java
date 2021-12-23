@@ -1,5 +1,15 @@
 package sg.edu.iss.LAPS.services;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,12 +17,6 @@ import sg.edu.iss.LAPS.model.LeaveApplied;
 import sg.edu.iss.LAPS.model.PublicHoliday;
 import sg.edu.iss.LAPS.repo.ApplyLeaveRepository;
 import sg.edu.iss.LAPS.utility.DateTools;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ApplyLeaveServiceImpl implements ApplyLeaveService {
@@ -24,8 +28,8 @@ public class ApplyLeaveServiceImpl implements ApplyLeaveService {
     PublicHolidayService publicHolidayService;
 
     @Override
-    public void createLeaveApplication(LeaveApplied leaveApplied) {
-        alrepo.save(leaveApplied);
+    public LeaveApplied createLeaveApplication(LeaveApplied leaveApplied) {
+        return alrepo.saveAndFlush(leaveApplied);
     }
 
     @Override

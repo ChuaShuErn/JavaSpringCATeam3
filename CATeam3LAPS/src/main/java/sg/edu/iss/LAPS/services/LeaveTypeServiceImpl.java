@@ -48,5 +48,11 @@ public class LeaveTypeServiceImpl implements LeaveTypeService {
 		Pageable pageable=PageRequest.of(pageNo-1, pageSize);
 		return leaveTypeRepository.findAll(pageable);
 	}
+
+	@Override
+	public LeaveType findLeaveTypeByDescription(String description) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

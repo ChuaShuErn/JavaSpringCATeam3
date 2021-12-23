@@ -14,4 +14,5 @@ public interface LeaveTypeService {
     
     LeaveType findLeaveTypeByleaveTypeId(Integer leaveTypeId);
     Page<LeaveType> findPaginated(int pageNo,int pageSize);
+	LeaveType findLeaveTypeByDescription(String description);
 }

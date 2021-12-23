@@ -34,5 +34,11 @@ public class ClaimCompensationServiceImpl implements ClaimCompensationService{
 		return ccrepo.findByUserId(userId);
 	}
 
+	@Override
+	public ClaimCompensation findByCompensationClaimId(Long id) {
+		
+		return ccrepo.findByCompensationClaimId(id);
+	}
+
 }
 

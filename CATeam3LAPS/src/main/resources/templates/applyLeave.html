@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<head th:if="${#strings.equals(#session.getAttribute('role'), 'Manager')}" th:replace="fragments/managerGeneral.html :: headerfiles"/>
+<head th:if="${#strings.equals(#session.getAttribute('role'), 'Staff')}" th:replace="fragments/staffGeneral.html :: headerfiles"/>
+ 
 
-<head th:replace="fragments/staffGeneral.html :: headerfiles"/>
 
 <body>
-<div th:replace="fragments/staffGeneral.html :: menu"></div>
 
-	<form action="applyLeave" th:object="${leaveapplication}" th:action="@{staff/applyleave/submit}" method="POST">
-	    <input type="hidden" th:field="*{leaveAppliedId}">
-	    <input type="hidden" th:value="${session.id}" th:attr="Username='user.id'">
+<div th:if="${#strings.equals(#session.getAttribute('role'), 'Manager')}">
+   <div th:replace="fragments/managerGeneral.html :: menu"></div>
+</div>
+
+<div th:if="${#strings.equals(#session.getAttribute('role'), 'Staff')}">
+   <div th:replace="fragments/staffGeneral.html :: menu"></div>
+</div>
+
+<div class = "main-div">
+
+	<form action="applyLeave" th:object="${leaveapplication}" th:action="@{/staff/applyleave/submit}" method="POST">
+	    <input type="hidden" th:field="*{leaveAppliedId}" th:attr="name='leaveAppliedId'"/>
+<!-- 	    <input type="hidden" th:value="${session.id}" th:attr="Username='user.id'"/> -->
+	  
+	  
+	    <input type="hidden" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" name = "appliedDate"/>
+	    <input type="hidden" th:field="*{appliedDate}"> 
 	    <div class="row mb-3">
 	        <label for="leaveType" class="col-sm-2 col-form-label">Leave Type</label>
 	        <div class="col-sm-5">
-				<select class="form-select" aria-label="Default select example" th:field="*{leaveType}">
-					<option th:each="type : ${leaveTypeList}" th:value="${type.leaveTypeId}" th:text="${type.description}">
+				<select class="form-select" aria-label="Default select example" th:field="*{leaveType}"> 
+				
+					<option th:each="type : ${leaveTypeList}" th:value="${type.leaveTypeId}" th:text="${type.description}" >
 						type
 					</option>
 				</select>
@@ -28,6 +44,7 @@
 	                   placeholder="yyyy-MM-dd"
 	                   min="2021-12-01" max="2022-12-31"
 	                   required>
+	        	<p th:if="${#fields.hasErrors('leaveStartDate')}" th:error="*{leaveStartDate}"></p>
 	        </div>
 	    </div>
 
@@ -38,6 +55,7 @@
 	                   placeholder="yyyy-MM-dd"
 	                   min="2021-12-01" max="2022-12-31"
 	                   required>
+	       		<p th:if="${#fields.hasErrors('leaveEndDate')}" th:error="*{leaveEndDate}"></p>
 	        </div>
 	    </div>
 
@@ -46,6 +64,7 @@
 	        <label for="ReasonLeave" class="col-sm-2 col-form-label">Reason of Leave</label>
 	        <div class="col-sm-5">
 	            <textarea class="form-control" th:field="*{leaveReason}" rows="4"></textarea>
+	           	<p th:if="${#fields.hasErrors('leaveReason')}" th:error="*{leaveReason}"></p>
 	        </div>
 	    </div>
 
@@ -61,10 +80,8 @@
 
 	        <div class="col-sm-5">
 	            <div class="form-check">
-	                <label class="form-check-label"><input class="form-check-input" type="radio" value="true" checked
-	                                                       th:field="*{isOverseas}">
-	                 Yes
-	                 </label>
+	                 <label class="radio-inline"><input type="radio" checked value="true" th:field="*{isOverseas}">Yes</label>
+	                 <label class="radio-inline"><input type="radio"  value="false" th:field="*{isOverseas}" >No</label>
 	            </div>
 	        </div>
 	    </div>
@@ -74,6 +91,7 @@
 	        <label class="col-sm-2 col-form-label">Country</label>
 	        <div class="col-sm-5">
 	            <input type="text" class="form-control" th:field="*{overseasTrip.country}"/>
+	            <p th:if="${#fields.hasErrors('overseasTrip.country')}" th:errors="*{overseasTrip.country}"></p>
 	        </div>
 	    </div>
 
@@ -81,6 +99,7 @@
 	        <label class="col-sm-2 col-form-label">City</label>
 	        <div class="col-sm-5">
 	            <input type="text" class="form-control" th:field="*{overseasTrip.city}"/>
+	            <p th:if="${#fields.hasErrors('overseasTrip.city')}" th:errors="*{overseasTrip.city}"></p>
 	        </div>
 	    </div>
 
@@ -88,12 +107,13 @@
 	        <label class="col-sm-2 col-form-label">Phone</label>
 	        <div class="col-sm-5">
 	            <input type="text" class="form-control" th:field="*{overseasTrip.phone}"/>
+	            <p th:if="${#fields.hasErrors('overseasTrip.phone')}" th:errors="*{overseasTrip.phone}"></p>
 	        </div>
 	    </div>
 	    <button class="btn btn-secondary" type="submit">Submit form</button>
 	    <button class="btn btn-secondary" type="reset">Reset</button>
 	</form>
-
+</div >
 <br>
 <br>
 <table class="table table-dark table-striped">
@@ -126,6 +146,11 @@
     </tr>
     </tbody>
 </table>
-
 </body>
+
+
+<footer>
+	<div th:insert="fragments/footer.html::footer"></div>
+</footer>
+
 </html>
