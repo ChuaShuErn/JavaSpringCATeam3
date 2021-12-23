@@ -3,7 +3,6 @@ package sg.edu.iss.LAPS.model;
 import java.time.LocalTime;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -35,7 +34,7 @@ public class LeaveApplied {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int leaveAppliedId;
 
-    //@NotNull //leave applied date
+    @NotNull //leave applied date
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date appliedDate;
@@ -61,7 +60,7 @@ public class LeaveApplied {
     private LeaveStatus approvalStatus;
 
     private String managerComments;
-
+    
     @ManyToOne
     private User user;
 
@@ -72,7 +71,7 @@ public class LeaveApplied {
 
     private boolean isOverseas;
 
-    @OneToOne(cascade = CascadeType.ALL )
+    @OneToOne
     private OverseasLeaveDetails overseasTrip;
 
     public boolean getIsOverseas() {
