@@ -4,16 +4,51 @@
 
 <body>
     <div th:replace="fragments/managerGeneral.html :: menu"></div>
-	<h3> Manager's Landing Page </h3 >
+	<h3> Manager Dashboard </h3 >
 	<h4 th:text="${'Welcome, ' + manager.firstName + ' ' + manager.lastName + '!'}"></h4>
 	<br/>
 	
-	<h5> Your Tasks </h5>
-	<p th:if="${pendingLeaveCount == 0}"> No outstanding tasks today! </p>
-	<p th:unless="${pendingLeaveCount == 0}" th:text ="${pendingLeaveCount + ' leave applications pending your approval'}" style></p>
-	
-	
+	<h4 style="text-align: center;"> Your Tasks </h4>
+	<h5 th:if="${pendingLeaveCount + pendingCompCount == 0}" style="color: green; text-align: center;"> No outstanding tasks today! </h5>
+	<h5 th:unless="${pendingLeaveCount + pendingCompCount == 0}" style="color: red; text-align: center;"> Applications requiring your action! </h5>
 
+	<table class="content-table">
+			<tr class="listHeading" >
+					<th>Application Type</th>
+					<th>No. of Pending Applications</th>
+					<th>Action</th>
+			</tr>
+			
+			<tr class="listRecord">
+				<td>Leave Applications</td>
+				<td th:text="${pendingLeaveCount}">Pending Leaves</td>
+				<td>
+				<button th:unless="${pendingLeaveCount == 0}" type="button">
+					<a th:unless="${pendingLeaveCount == 0}" th:href="@{/manager/pending}" class="btn btn-default">Review Pending Leaves</a>
+				</button>
+				
+				<p th:if="${pendingLeaveCount == 0}"> No Action Required </p>
+				
+				</td>
+			</tr>
+			
+			<tr class="listRecord">
+				<td>Compensation Claims</td>
+				<td th:text="${pendingCompCount}">Pending Claims</td>
+				<td>
+				<button th:unless="${pendingCompCount == 0}" type="button">
+					<a th:unless="${pendingCompCount == 0}" th:href="@{/manager/compensation}" class="btn btn-default">Review Compensation Claims</a>
+				</button>
+				
+				<p th:if="${pendingCompCount == 0}"> No Action Required </p>
+				
+				</td>
+			</tr>
+	</table >
+
+
+<br/><br/><br/>
+&nbsp;&nbsp;
 <h5> Manage Team Leave Applications </h5>
 
 
@@ -24,20 +59,21 @@
 </button></td>
 
 &nbsp;&nbsp;
-	
-<button type="button">
-	<a th:href="@{/manager/compensation}" class="btn btn-default">Review Team Compensation Claims</a>
-</button></td>
-
-&nbsp;&nbsp;	
 
 <button type="button">
 	<a th:href="@{/manager/team}" class="btn btn-default">View Team Leave History</a>
 </button></td>		
 
+<br/><br/>&nbsp;&nbsp;
+	
+<button type="button">
+	<a th:href="@{/manager/compensation}" class="btn btn-default">Review Team Compensation Claims</a>
+</button></td>
+
+
 <br/><br/><br/>
 
-
+&nbsp;&nbsp;
 <h5> Manage Personal Leaves </h5>
 
 &nbsp;&nbsp;
@@ -52,13 +88,13 @@
 	<a th:href="@{/staff/claimcompensation}" class="btn btn-default"> Make a Compensation Claim </a>
 </button></td>
 
-&nbsp;&nbsp;
+<br/><br/>&nbsp;&nbsp;
 	
 <button type="button">
 	<a th:href="@{/staff/viewLedger}" class="btn btn-default"> View Compensation Ledger </a>
 </button></td>
 
-&nbsp;&nbsp;	
+&nbsp;&nbsp;
 
 <button type="button">
 	<a th:href="@{/staff/viewHistory}" class="btn btn-default">View Personal Leave History</a>

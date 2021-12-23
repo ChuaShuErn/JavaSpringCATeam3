@@ -69,8 +69,11 @@ public class ManagerController {
 		}
 		Integer subPendingCount = mservice.getSubordinateLeavesByPending(
 				manager.getEmail()).size();
+		Integer compPendingCount = mservice.getSubordinateCompensationsByClaimStatus(
+				manager.getEmail(), ClaimStatus.PENDING).size();
 		model.addAttribute("manager", manager);
 		model.addAttribute("pendingLeaveCount", subPendingCount);
+		model.addAttribute("pendingCompCount", compPendingCount);
 		return "managerlanding";
 	}
 	
