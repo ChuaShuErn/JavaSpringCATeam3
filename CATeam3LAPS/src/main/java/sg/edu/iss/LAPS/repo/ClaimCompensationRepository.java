@@ -17,5 +17,6 @@ public interface ClaimCompensationRepository extends JpaRepository<ClaimCompensa
 	//@Query("Select claim FROM ClaimCompensation claim JOIN claim.user u WHERE u.id=:userId")
 	//public ArrayList<ClaimCompensation>findClaimsListByUserId(Long userId);
 	
+	
 	public ArrayList<ClaimCompensation>findByUserId(Long userId);
 }

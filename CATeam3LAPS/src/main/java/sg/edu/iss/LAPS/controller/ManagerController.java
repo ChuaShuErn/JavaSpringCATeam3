@@ -86,20 +86,6 @@ public class ManagerController {
 		return mav;
 	}
 	
-	//List down all compensation claims
-	@RequestMapping(value="/compensation")
-    public ModelAndView compensationList(HttpSession session) {
-		User manager = urepo.getById((long) session.getAttribute("id"));
-		if (manager == null){
-			return new ModelAndView("login");
-		}
-		ModelAndView mav = new ModelAndView("managerCompensationList");
-		List<LeaveApplied> compList = (ArrayList) mservice.getSubordinateLeavesByLeaveType(
-				manager.getEmail(), 3);
-		mav.addObject("compLeaves", compList);
-		return mav;
-	}
-	
 	//List down all the team members, so can navigate to their employee leave histories
 	@RequestMapping(value="/team")
     public String teamList(HttpSession session, @RequestParam(value = "keyword", required = false) String keyword, Model model) 
@@ -169,6 +155,25 @@ public class ManagerController {
 		return mav;
 	}
 
+	
+	//List down all pending compensation claims for approval
+	@RequestMapping(value="/compensation")
+    public ModelAndView compensationList(HttpSession session) {
+		User manager = urepo.getById((long) session.getAttribute("id"));
+		if (manager == null){
+			return new ModelAndView("login");
+		}
+		ModelAndView mav = new ModelAndView("managerCompensationList");
+		List<ClaimCompensation> compList = (ArrayList) mservice.getSubordinateCompensationsByClaimStatus(
+				manager.getEmail(), ClaimStatus.PENDING);
+		mav.addObject("compLeaves", compList);
+		return mav;
+	}
+	
+	
+	
+	
+	
 	//Show specific Leave Compensation application details, to be approved
 	@RequestMapping(value = "/compensation/display/{id}", method = RequestMethod.GET)
 	public ModelAndView compensationDetailToApprove(@PathVariable long id) {
@@ -177,6 +182,8 @@ public class ManagerController {
 		mav.addObject("approve", new Approve());
 		return mav;
 	}
+	
+	
 	
 	//Approve/reject the Leave compensation application
 //	@RequestMapping(value = "/compensation/edit/{id}", method = RequestMethod.POST)
@@ -191,9 +198,13 @@ public class ManagerController {
 //			
 //		ArrayList<ClaimCompensation> compensation = cService.findByUserId(id);// check the service again
 //
+		//User manager = urepo.getById((long) session.getAttribute("id")); //get the manager
+		//User thisSub = mservice.getThisSubordinate(manager.getEmail(), subid); //get the subordinate
+		
 //		if (approve.getDecision().trim().equalsIgnoreCase(ClaimStatus.APPROVED.toString())) {
 //			compensation.setClaimStatus(ClaimStatus.APPROVED);
 //			cRepo.saveAndFlush(compensation);
+			//mservice.increaseThisSubordinateLeaveEntitled()
 //		} else {
 //			compensation.setClaimStatus(ClaimStatus.REJECTED);
 //			cRepo.saveAndFlush(compensation);
