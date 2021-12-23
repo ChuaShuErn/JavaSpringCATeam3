@@ -21,8 +21,6 @@ public interface ManagerService {
 	//Claim Compensation Retrieval
 	List<ClaimCompensation> getAllSubordinatesCompensations(String mgrEmail);
 	List<ClaimCompensation> getSubordinateCompensationsByClaimStatus(String mgrEmail, ClaimStatus status);
-	Float increaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Float increaseBy);
-
-	
-	
+	Float increaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Float increaseBy, Integer leaveTypeId);
+	Float decreaseThisSubordinateLeaveEntitled(String mgrEmail, Long subid, Float decreaseBy, Integer leaveTypeId);
 }
