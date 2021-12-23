@@ -79,6 +79,22 @@ public class ManagerServiceImpl implements ManagerService {
 		thisSubLeaves = (ArrayList) thisSubLeaves.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(Collectors.toList());
 		return thisSubLeaves;
 	}
+	
+	@Override
+	public List<LeaveApplied> getThisSubordinateLeavesByHistory(String mgrEmail, Long subid) {
+		List<LeaveApplied> thisSubLeaves = this.getThisSubordinateLeaves(mgrEmail, subid);
+		List<LeaveApplied> filtered_subleave = new ArrayList<LeaveApplied>();
+		for (LeaveApplied leave : thisSubLeaves)
+		{
+			if(leave.getApprovalStatus() == LeaveStatus.APPROVED || 
+					leave.getApprovalStatus() == LeaveStatus.REJECTED ||
+					leave.getApprovalStatus() == LeaveStatus.CANCELLED)
+				filtered_subleave.add(leave);
+		}
+		filtered_subleave = (ArrayList) filtered_subleave.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(Collectors.toList());
+
+		return filtered_subleave;
+	}
 
 	@Override
 	public List<LeaveApplied> getSubordinateLeavesByLeaveStatus(String mgrEmail, LeaveStatus status) {

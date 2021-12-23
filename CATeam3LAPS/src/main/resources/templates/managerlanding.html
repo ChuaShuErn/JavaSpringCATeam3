@@ -9,8 +9,8 @@
 	<br/>
 	
 	<h5> Your Tasks </h5>
-	<p th:if="${#lists.isEmpty(pendingLeaves)}"> No outstanding tasks today! </p>
-	<p th:unless="${#lists.isEmpty(pendingLeaves)}" th:text ="${#lists.size(pendingLeaves) + ' leave applications pending your approval'}" style></p>
+	<p th:if="${pendingLeaveCount == 0}"> No outstanding tasks today! </p>
+	<p th:unless="${pendingLeaveCount == 0}" th:text ="${pendingLeaveCount + ' leave applications pending your approval'}" style></p>
 	
 	
 
@@ -20,7 +20,7 @@
 &nbsp;&nbsp;
 
 <button type="button">
-	<a th:href="@{/manager/pending}" class="btn btn-default">Approve Pending Leaves</a>
+	<a th:href="@{/manager/pending}" class="btn btn-default">Review Pending Leaves</a>
 </button></td>
 
 &nbsp;&nbsp;

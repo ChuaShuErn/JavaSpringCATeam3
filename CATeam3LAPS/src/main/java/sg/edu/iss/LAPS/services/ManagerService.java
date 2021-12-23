@@ -17,6 +17,7 @@ public interface ManagerService {
 	List<LeaveApplied> getThisSubordinateLeaves(String mgrEmail, Long subid);
 	List<LeaveApplied> getSubordinateLeavesByPending(String mgrEmail);
 	List<User> getAllSubordinatesByKeyword(String mgrEmail, String keyword);
+	List<LeaveApplied> getThisSubordinateLeavesByHistory(String mgrEmail, Long subid);
 	//Claim Compensation Retrieval
 	List<ClaimCompensation> getAllSubordinatesCompensations(String mgrEmail);
 	List<ClaimCompensation> getSubordinateCompensationsByClaimStatus(String mgrEmail, ClaimStatus status);
