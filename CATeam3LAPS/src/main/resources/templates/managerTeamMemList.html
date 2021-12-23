@@ -21,7 +21,7 @@
 				<th>Staff ID</th>
 				<th>Staff Name</th>
 				<th>Email</th>
-				<th> No. of Entries </th>
+				<!--<th> No. of Entries </th>-->
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -30,7 +30,7 @@
 				<td th:text="${teamMember.id}">Id</td>
 				<td th:text="${teamMember.firstName+ ' '+teamMember.lastName}">Staff Name</td>
 				<td th:text="${teamMember.email}">Email</td>
-				<td th:text="${#lists.size(teamMember.leaveAppliedList)}">No. of Entries</td>
+				<!--<td th:text="${#lists.size(teamMember.leaveAppliedList)}">No. of Entries</td>-->
 				<td>
 				<button type="button">
 					<a href = "subLeaves.html" th:href="@{/manager/team/}+${teamMember.id}"

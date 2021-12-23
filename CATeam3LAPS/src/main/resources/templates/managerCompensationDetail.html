@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/managerGeneral.html :: headerfiles">
+	<meta charset="UTF-8"/>
+</head>
+<body>
+	<!--<div th:replace="fragments/layout.html :: menu"/>
+	<div th:replace="fragments/managerGeneral.html :: manager_head"/> -->
+	<div th:replace="fragments/managerGeneral.html :: menu"/>
+	<h3>Leave Details</h3>
+<!--Detailed table of the leave-->
+<table>
+		<tr align= "Centre">
+			<th align="Center">Claim Compensation Application Details</th>
+		</tr >
+		
+		<tr>
+			<th align="right"><span>Claim/Compensation??? ID</span></th>
+			<td colspan="3" th:text="${cc.compensationClaimId}">Id</td>
+		</tr>
+		<tr>
+			<th align="right"><span>Name</span></th>
+			<td colspan="3" th:text="${cc.user.Username}">Name</td>
+		</tr>
+		<tr>
+			<th align="right">Claim Date</th>
+			<td colspan="3" th:text="${#dates.format(cc.claimDate,'dd-MMM-yyyy')}">Claim Date</td>
+		</tr>
+		<tr>
+			<th align="right">Compensation Reason</th>
+			<td colspan="3" th:text="${cc.compensationReason}">Compensation Reason</td>
+		</tr>
+		
+		<tr>
+			<th align="right">Status</th>
+			<td colspan="3" th:text="${cc.claimStatus}">Status</td>
+		</tr>
+	</table >
+
+
+<!--Radio button and comments-->
+<form action="#" th:action="@{/manager/compensation/edit/}+${cc.compensationClaimId}" th:object="${approve}" method="post">
+		<table>
+			<tr>
+				<td>
+					<fieldset>
+						<input type="radio" th:field="*{decision}" th:value="APPROVED" />
+							<label th:text="#{caption.approve}"></label> &nbsp;&nbsp;
+						<input type="radio" th:field="*{decision}" th:value="REJECTED" /> 
+							<label th:text="#{caption.reject}"></label>
+						<p th:if="${#fields.hasErrors('decision')}" th:errors="*{decision}"></p>
+						
+						<input type="hidden" th:field="*{comment}" value = "somecomment"/>
+						
+						
+						
+					</fieldset>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<fieldset>
+						<input th:type="submit" th:value="Update" class="blcass" />
+					</fieldset>
+				</td>
+
+			</tr>
+		</table>
+
+	</form>
+</body>
+</html>
