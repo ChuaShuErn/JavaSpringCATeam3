@@ -13,6 +13,6 @@ public interface LeaveEntitledRepository extends JpaRepository<LeaveEntitled,Int
     @Query("SELECT l FROM LeaveEntitled l where l.user.id = :id")
     public ArrayList<LeaveEntitled> findLeaveEntitledByUser(@Param("id") Long id);
     
-    @Query("SELECT l FROM LeaveEntitled l where l.user.id = :id AND l.leaveType.leaveTypeId = 3")
-    public LeaveEntitled findCompensationLeaveByUserId(@Param("id") Long id);
+    @Query("SELECT l FROM LeaveEntitled l where l.user.id = :id AND l.leaveType.leaveTypeId = :ltid")
+    public LeaveEntitled findLeaveEntitledByUserId(@Param("id") Long id, @Param("ltid") Integer ltid);
 }

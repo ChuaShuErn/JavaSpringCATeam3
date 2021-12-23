@@ -6,15 +6,15 @@
     <div th:replace="fragments/managerGeneral.html :: menu"></div>
 	<h3> Team Compensation Claims </h3 >
 	<br/>
-
-	<centre>
-	<h5 th:if="${#lists.isEmpty(compLeaves)}" style="text-align: center;"> No Compensation Claims Lodged </h5>
-	</centre>
-
 	
-
+	<h4> Compensation Claim - Pending Approval </h4>	
+	<div th:if="${#lists.isEmpty(compLeaves)}">
+		<h5 style="text-align: center; color: green"> No Compensation Claims Pending Approval </h5>
+	<br/>
+	
+	</div >
+	
 	<div th:if="${not #lists.isEmpty(compLeaves)}">
-	<h4> Compensation Claim - Pending Approval </h4>
 		<table class="content-table">
 			<tr class="listHeading" >
 			
@@ -44,9 +44,8 @@
 		</table >
 	</div>
 		
-		
+	<h4> Compensation Claim - History </h4>	
 	<div th:if="${not #lists.isEmpty(compHist)}">
-		<h4> Compensation Claim History </h4>
 		<table class="content-table">
 			<tr class="listHeading">
 			

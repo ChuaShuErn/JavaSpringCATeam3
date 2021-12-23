@@ -145,11 +145,30 @@ public class ManagerController {
 		}
 			
 		LeaveApplied leave = laService.findById(id).get();
+		Long subid = leave.getUser().getId();
+		User manager = urepo.getById((long) session.getAttribute("id")); //get the manager
+		User thisSub = mservice.getThisSubordinate(manager.getEmail(), subid); //get the subordinate
 
 		if (approve.getDecision().trim().equalsIgnoreCase(LeaveStatus.APPROVED.toString())) {
-			leave.setApprovalStatus(LeaveStatus.APPROVED);
-			laRepo.saveAndFlush(leave);
-		} else {
+			// we check approval status BEFORE we set new status
+			if (leave.getApprovalStatus() == LeaveStatus.APPLIED || leave.getApprovalStatus() == LeaveStatus.UPDATED || 
+					leave.getApprovalStatus() == LeaveStatus.REJECTED) { 
+				//if leave is applied, updated or rejected, when we approve, we subtract the leave days
+				mservice.decreaseThisSubordinateLeaveEntitled(manager.getEmail(),thisSub.getId(),leave.getNoOfDays(), leave.getLeaveType().getLeaveTypeId()); 
+				//leave.getLeaveType().getLeaveTypeId() gives you the leavetypeID of the leave, no need to directly query for the leave type
+			}
+				leave.setApprovalStatus(LeaveStatus.APPROVED);
+				laRepo.saveAndFlush(leave);
+		} 
+		else 
+		{
+			if (leave.getApprovalStatus() == LeaveStatus.APPROVED) 
+			{
+				//ONLY if the leave was already approved, that we add back entitled leave when we reject it
+				mservice.increaseThisSubordinateLeaveEntitled(manager.getEmail(),thisSub.getId(),leave.getNoOfDays(), leave.getLeaveType().getLeaveTypeId()); 
+			}
+			//otherwise, if we reject an applied or updated leave, no change to leave entitled
+			// but regardless of the previous approval status, we set as rejected
 			leave.setApprovalStatus(LeaveStatus.REJECTED);
 			laRepo.saveAndFlush(leave);
 		}
@@ -184,10 +203,7 @@ public class ManagerController {
 		return "managerCompensationList";
 	}
 	
-	
-	
-	
-	
+
 	//Show specific Leave Compensation application details, to be approved
 	@RequestMapping(value = "/compensation/display/{id}", method = RequestMethod.GET)
 	public ModelAndView compensationDetailToApprove(@PathVariable Long id) {
@@ -219,12 +235,19 @@ public class ManagerController {
 		User thisSub = mservice.getThisSubordinate(manager.getEmail(), subid); //get the subordinate
 		
 		
-		if (approve.getDecision().trim().equalsIgnoreCase(ClaimStatus.APPROVED.toString())) {
-			compensation.setClaimStatus(ClaimStatus.APPROVED);
-			cRepo.saveAndFlush(compensation);
-			mservice.increaseThisSubordinateLeaveEntitled(manager.getEmail(),thisSub.getId(),compensation.getDaysRequested());
+		if (approve.getDecision().trim().equalsIgnoreCase(ClaimStatus.APPROVED.toString())) { 
+			//if BEFORE setting new status, it was pending/rejected, increase entitled leave when we approve
+			if (compensation.getClaimStatus() == ClaimStatus.PENDING || compensation.getClaimStatus() == ClaimStatus.REJECTED) {
+				mservice.increaseThisSubordinateLeaveEntitled(manager.getEmail(),thisSub.getId(),compensation.getDaysRequested(), 3); // 3 = compensation leave
+				compensation.setClaimStatus(ClaimStatus.APPROVED);
+				cRepo.saveAndFlush(compensation);
+			}	//if already approved before this, escape if block and no change
 		} else {
-			compensation.setClaimStatus(ClaimStatus.REJECTED);
+			
+			if (compensation.getClaimStatus() == ClaimStatus.APPROVED) { //if BEFORE setting new status, it was approved, now substract entitled when we reject
+				mservice.decreaseThisSubordinateLeaveEntitled(manager.getEmail(),thisSub.getId(),compensation.getDaysRequested(), 3); //3 = compensation leave
+			}
+			compensation.setClaimStatus(ClaimStatus.REJECTED); //set as rejected regardless of past pending
 			cRepo.saveAndFlush(compensation);
 		}
 		//compensation.setManagerComments(approve.getComment());//need comment?
