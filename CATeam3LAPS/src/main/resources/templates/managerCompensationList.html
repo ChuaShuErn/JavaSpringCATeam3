@@ -11,6 +11,8 @@
 	<h5 th:if="${#lists.isEmpty(compLeaves)}" style="text-align: center;"> No Compensation Claims Lodged </h5>
 	</centre>
 
+	<h4> Compensation Claim - Pending Approval </h4>
+
 	<div th:if="${not #lists.isEmpty(compLeaves)}">
 		<table class="content-table">
 			<tr class="listHeading" >
@@ -39,6 +41,38 @@
 					</td>
 			</tr>
 		</table >
+		
+		
+		<h4> Compensation Claim History </h4>
+		<div th:if="${not #lists.isEmpty(compHist)}">
+		<table class="content-table">
+			<tr class="listHeading">
+			
+					<th>Compensation Claim Id</th>
+					<th>Staff Name</th>
+					<th>Claim Date</th>
+					<th>Days Requested</th>
+					<th>Status</th>
+					<th>Action</th>
+			</tr>
+			
+			<tr class="listRecord" th:each="ch: ${compHist}">
+			<!--entry iterated inside pendingLeaves list-->
+					<td th:text="${ch.compensationClaimId}">Id</td>
+					<td th:text="${ch.user.firstName + ' ' + ch.user.lastName}">Staff Name</td>
+					<td th:text="${ch.claimDate}">Claim Date</td>
+					<td th:text="${ch.daysRequested}">Days Requested</td>
+					<td th:text="${ch.claimStatus}">Status</td>
+					<td>
+					<button type="button">
+						<a th:href="@{/manager/compensation/display/}+${ch.compensationClaimId}"
+							class="btn btn-default">View Details</span>
+						</a>
+					</button>
+					</td>
+			</tr>
+		</table >
+		
 	</div>
 
 </body>

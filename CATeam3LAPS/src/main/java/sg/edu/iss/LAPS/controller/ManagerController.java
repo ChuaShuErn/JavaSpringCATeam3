@@ -158,16 +158,21 @@ public class ManagerController {
 	
 	//List down all pending compensation claims for approval
 	@RequestMapping(value="/compensation")
-    public ModelAndView compensationList(HttpSession session) {
+    public String compensationList(HttpSession session, Model model) {
 		User manager = urepo.getById((long) session.getAttribute("id"));
 		if (manager == null){
-			return new ModelAndView("login");
+			return "login";
 		}
-		ModelAndView mav = new ModelAndView("managerCompensationList");
 		List<ClaimCompensation> compList = (ArrayList) mservice.getSubordinateCompensationsByClaimStatus(
 				manager.getEmail(), ClaimStatus.PENDING);
-		mav.addObject("compLeaves", compList);
-		return mav;
+		List<ClaimCompensation> complist_history = (ArrayList) mservice.getSubordinateCompensationsByClaimStatus(
+				manager.getEmail(), ClaimStatus.APPROVED);
+		List<ClaimCompensation> compList_rejected = (ArrayList) mservice.getSubordinateCompensationsByClaimStatus(
+				manager.getEmail(), ClaimStatus.REJECTED);
+		complist_history.addAll(compList_rejected);
+		model.addAttribute("compLeaves", compList);
+		model.addAttribute("compHist", complist_history);
+		return "managerCompensationList";
 	}
 	
 	
