@@ -49,7 +49,7 @@ public class ManagerServiceImpl implements ManagerService {
 		List<LeaveApplied> subUpdated = (ArrayList) this.getSubordinateLeavesByLeaveStatus(
 				mgrEmail, LeaveStatus.UPDATED);
 		subPending.addAll(subUpdated);
-		subPending = subPending.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(
+		subPending = subPending.stream().sorted(Comparator.comparing(LeaveApplied::getLeaveAppliedId).reversed()).collect(
 				Collectors.toList());
 		return subPending;
 	}
@@ -68,7 +68,7 @@ public class ManagerServiceImpl implements ManagerService {
 		ArrayList<LeaveApplied> subleaves= new ArrayList<LeaveApplied>();
 		for (User u : sublist)
 			subleaves.addAll(larepo.findByUserId(u.getId()));
-		subleaves = (ArrayList) subleaves.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(
+		subleaves = (ArrayList) subleaves.stream().sorted(Comparator.comparing(LeaveApplied::getLeaveAppliedId).reversed()).collect(
 				Collectors.toList());;
 		return subleaves;
 	}
@@ -77,7 +77,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<LeaveApplied> getThisSubordinateLeaves(String mgrEmail, Long subid) {
 		User thisSubordinate = this.getThisSubordinate(mgrEmail, subid); //done to check if the subordinate is actually a valid staff & a subordinate
 		ArrayList<LeaveApplied> thisSubLeaves = (ArrayList) larepo.findByUserId(thisSubordinate.getId());
-		thisSubLeaves = (ArrayList) thisSubLeaves.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(Collectors.toList());
+		thisSubLeaves = (ArrayList) thisSubLeaves.stream().sorted(Comparator.comparing(LeaveApplied::getLeaveAppliedId).reversed()).collect(Collectors.toList());
 		return thisSubLeaves;
 	}
 	
@@ -92,7 +92,7 @@ public class ManagerServiceImpl implements ManagerService {
 					leave.getApprovalStatus() == LeaveStatus.CANCELLED)
 				filtered_subleave.add(leave);
 		}
-		filtered_subleave = (ArrayList) filtered_subleave.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(Collectors.toList());
+		filtered_subleave = (ArrayList) filtered_subleave.stream().sorted(Comparator.comparing(LeaveApplied::getLeaveAppliedId).reversed()).collect(Collectors.toList());
 
 		return filtered_subleave;
 	}
@@ -107,7 +107,7 @@ public class ManagerServiceImpl implements ManagerService {
 			if(leave.getApprovalStatus() == status)
 				filtered_subleave.add(leave);
 		}
-		filtered_subleave = (ArrayList) filtered_subleave.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(Collectors.toList());
+		filtered_subleave = (ArrayList) filtered_subleave.stream().sorted(Comparator.comparing(LeaveApplied::getLeaveAppliedId).reversed()).collect(Collectors.toList());
 		return filtered_subleave;
 	}
 
@@ -120,7 +120,7 @@ public class ManagerServiceImpl implements ManagerService {
 			if(leave.getLeaveType().getLeaveTypeId() == leavetypeid)
 				filtered_subleave.add(leave);
 		}
-		filtered_subleave = (ArrayList) filtered_subleave.stream().sorted(Comparator.comparing(LeaveApplied::getAppliedDate)).collect(Collectors.toList());
+		filtered_subleave = (ArrayList) filtered_subleave.stream().sorted(Comparator.comparing(LeaveApplied::getLeaveAppliedId).reversed()).collect(Collectors.toList());
 
 		//subleaves.stream().filter(x -> x.getLeaveType().getLeaveTypeId() == leavetypeid).
 			//sorted(Comparator.comparing(LeaveApplied::getAppliedDate));
@@ -134,7 +134,8 @@ public class ManagerServiceImpl implements ManagerService {
 		ArrayList<User> filtered_sublist = new ArrayList<User>();
 		for (User user : sublist)
 		{
-			if(user.getFirstName().contains(keyword) || user.getLastName().contains(keyword))
+			if(user.getFirstName().toLowerCase().contains(keyword.toLowerCase()) || 
+					user.getLastName().toLowerCase().contains(keyword.toLowerCase()));
 				filtered_sublist.add(user);
 		}
 		return filtered_sublist;
@@ -146,7 +147,7 @@ public class ManagerServiceImpl implements ManagerService {
 		ArrayList<ClaimCompensation> subComp= new ArrayList<ClaimCompensation>();
 		for (User u : sublist)
 			subComp.addAll(ccrepo.findByUserId(u.getId()));
-		subComp = (ArrayList) subComp.stream().sorted(Comparator.comparing(ClaimCompensation::getClaimDate)).collect(Collectors.toList());
+		subComp = (ArrayList) subComp.stream().sorted(Comparator.comparing(ClaimCompensation::getCompensationClaimId).reversed()).collect(Collectors.toList());
 		return subComp;
 	}
 
@@ -154,7 +155,7 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<ClaimCompensation> getSubordinateCompensationsByClaimStatus(String mgrEmail, ClaimStatus status) {
 		List<ClaimCompensation> subComp = this.getAllSubordinatesCompensations(mgrEmail);
 		List<ClaimCompensation> filtered_subComp = subComp.stream().filter(x -> x.getClaimStatus() == status)
-				.sorted(Comparator.comparing(ClaimCompensation::getClaimDate)).collect(Collectors.toList());
+				.sorted(Comparator.comparing(ClaimCompensation::getCompensationClaimId).reversed()).collect(Collectors.toList());
 		return filtered_subComp;
 	}
 	
