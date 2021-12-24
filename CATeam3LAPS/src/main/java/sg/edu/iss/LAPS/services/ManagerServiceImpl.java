@@ -135,8 +135,10 @@ public class ManagerServiceImpl implements ManagerService {
 		for (User user : sublist)
 		{
 			if(user.getFirstName().toLowerCase().contains(keyword.toLowerCase()) || 
-					user.getLastName().toLowerCase().contains(keyword.toLowerCase()));
+					user.getLastName().toLowerCase().contains(keyword.toLowerCase()))
+			{
 				filtered_sublist.add(user);
+			}		
 		}
 		return filtered_sublist;
 	}

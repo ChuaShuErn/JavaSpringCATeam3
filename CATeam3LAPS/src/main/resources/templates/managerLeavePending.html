@@ -16,7 +16,7 @@
 			<tr class="listHeading" >
 			
 					<th th:utext="#{fieldLabel.leaveID}">LeaveID</th>
-					<th th:utext="#{fieldLabel.name}">Name</th>
+					<th th:utext="#{fieldLabel.name}">Staff Name</th>
 					<th th:utext="#{fieldLabel.appliedDate}">AppliedDate</th>
 					<th th:utext="#{fieldLabel.startDate}">LeaveStartDate</th>
 					<th th:utext="#{fieldLabel.endDate}">LeaveEndDate</th>
@@ -27,7 +27,7 @@
 			<tr class="listRecord" th:each="leaveApplied : ${pendingLeaves}">
 			<!--entry iterated inside pendingLeaves list-->
 					<td th:text="${leaveApplied.leaveAppliedId}">Id</td>
-					<td th:text="${leaveApplied.user.Username}">Name</td>
+					<td th:text="${leaveApplied.user.firstName+ ' '+ leaveApplied.user.lastName}">Name</td>
 					<td th:text="${leaveApplied.appliedDate}">Applied Date</td>
 					<td th:text="${leaveApplied.leaveStartDate}">LeaveStartDate</td>
 					<td th:text="${leaveApplied.leaveEndDate}">LeaveEndDate</td>
