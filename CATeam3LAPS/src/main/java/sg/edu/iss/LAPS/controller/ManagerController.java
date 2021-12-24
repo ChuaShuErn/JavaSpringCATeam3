@@ -3,7 +3,11 @@ package sg.edu.iss.LAPS.controller;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -29,6 +33,7 @@ import sg.edu.iss.LAPS.repo.ClaimCompensationRepository;
 import sg.edu.iss.LAPS.repo.LeaveAppliedRepository;
 import sg.edu.iss.LAPS.repo.UserRepository;
 import sg.edu.iss.LAPS.services.ClaimCompensationService;
+import sg.edu.iss.LAPS.services.EmailNotificationService;
 import sg.edu.iss.LAPS.services.LeaveAppliedService;
 import sg.edu.iss.LAPS.services.ManagerService;
 import sg.edu.iss.LAPS.utility.Approve;
@@ -49,6 +54,8 @@ public class ManagerController {
 	ClaimCompensationService cService;
 	@Autowired
 	ApproveValidator aValidator;
+    @Autowired
+    EmailNotificationService emailservice;
 	
 	@InitBinder("approve")
 	private void initBinder(WebDataBinder binder) {
@@ -174,6 +181,8 @@ public class ManagerController {
 		}
 		leave.setManagerComments(approve.getComment());
 		laRepo.saveAndFlush(leave);
+		
+		emailservice.sendLeaveApprovalOutcome(thisSub, leave);
 
 		ModelAndView mav = new ModelAndView("forward:/manager/pending");
 		String message = "Leave was successfully updated.";
@@ -252,6 +261,7 @@ public class ManagerController {
 		}
 		//compensation.setManagerComments(approve.getComment());//need comment?
 		cRepo.saveAndFlush(compensation);
+	
 
 		ModelAndView mav = new ModelAndView("forward:/manager/compensation");
 		String message = "Compensation was successfully updated.";

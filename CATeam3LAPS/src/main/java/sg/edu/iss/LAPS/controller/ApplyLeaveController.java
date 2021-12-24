@@ -225,7 +225,11 @@ public class ApplyLeaveController {
         else {
             applyLeaveService.createLeaveApplication(application);
 
-            //emailservice.sendLeaveCreationSucessful(currUser, application);
+            Long managerId = (long) currUser.getReportsTo(); //get manager Id
+            User manager = userService.findUserById(managerId); //get manager user object
+            emailservice.sendLeaveCreationSucessful(currUser, application); //staff notif send to himself that own application created
+            emailservice.sendLeaveCreationtoManager(currUser, application, manager); //staff notif send to manager, prompt for approval
+            
 
             return "redirect:/staff/viewHistory";
         }
