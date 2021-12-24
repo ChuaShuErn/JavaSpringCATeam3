@@ -47,7 +47,7 @@ public class User{
 	@Column(name="password")
 	private String Password;
 	
-	@Pattern(regexp="[A-Z][a-z]+", message = "Please enter a valid first name. The first character must be uppercase.")
+	@Pattern(regexp="[A-Z][a-z]+[\\sA-Z]*[a-z]*", message = "Please enter a valid first name. The first character must be uppercase.")
 	@Column(name="first_name")
 	private String FirstName;
 	
