@@ -45,60 +45,68 @@
 				</td>
 			</tr>
 	</table >
+	
+	<br/><br/>
 
+	<h4 style="text-align: center;"> What would you like to do? </h4>
+	<table class="content-table">
+			<tr class="listHeading" >
+					<th>Manage Team Leave Applications</th>
+					<th>Manage Personal Leaves</th>
+			</tr>
+			
+			<tr class="listRecord">
+				<td>
+					<button type="button">
+						<a th:href="@{/manager/pending}" class="btn btn-default">Review Pending Leaves</a>
+					</button></td>
+				</td>
 
-<br/><br/><br/>
-&nbsp;&nbsp;
-<h5> Manage Team Leave Applications </h5>
+				<td>
+				
+				<button type="button">
+					<a th:href="@{/staff/applyleave}" class="btn btn-default"> Apply for Leave </a>
+				</button></td>
+	
+				</td>
+			</tr>
+			
+			<tr class="listRecord">
+				<td>
+					<button type="button">
+						<a th:href="@{/manager/compensation}" class="btn btn-default">Review Team Compensation Claims</a>
+					</button></td>
 
+				</td>
 
-&nbsp;&nbsp;
-
-<button type="button">
-	<a th:href="@{/manager/pending}" class="btn btn-default">Review Pending Leaves</a>
-</button></td>
-
-&nbsp;&nbsp;
-
+				<td>
+				
+					<button type="button">
+						<a th:href="@{/staff/claimcompensation}" class="btn btn-default"> Make a Compensation Claim </a>
+					</button></td>
+	
+				</td>
+			</tr>
+			
+						<tr class="listRecord">
+				<td>
 <button type="button">
 	<a th:href="@{/manager/team}" class="btn btn-default">View Team Leave History</a>
-</button></td>		
+</button></td>
+				</td>
 
-<br/><br/>&nbsp;&nbsp;
+				<td>
+					
+					<button type="button">
+						<a th:href="@{/staff/viewHistory}" class="btn btn-default">View Personal Leave History</a>
+					</button></td>	
+					
+					<br/>
 	
-<button type="button">
-	<a th:href="@{/manager/compensation}" class="btn btn-default">Review Team Compensation Claims</a>
-</button></td>
+				</td>
+			</tr>
+	</table >
 
-
-<br/><br/><br/>
-
-&nbsp;&nbsp;
-<h5> Manage Personal Leaves </h5>
-
-&nbsp;&nbsp;
-
-<button type="button">
-	<a th:href="@{/staff/applyleave}" class="btn btn-default"> Apply for Leave </a>
-</button></td>
-
-&nbsp;&nbsp;
-	
-<button type="button">
-	<a th:href="@{/staff/claimcompensation}" class="btn btn-default"> Make a Compensation Claim </a>
-</button></td>
-
-<br/><br/>&nbsp;&nbsp;
-	
-<button type="button">
-	<a th:href="@{/staff/viewLedger}" class="btn btn-default"> View Compensation Ledger </a>
-</button></td>
-
-&nbsp;&nbsp;
-
-<button type="button">
-	<a th:href="@{/staff/viewHistory}" class="btn btn-default">View Personal Leave History</a>
-</button></td>	
 
 </body>
 
